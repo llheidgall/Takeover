@@ -8,7 +8,7 @@
  5. 去除广告SDK
 ***** #TODO
  1. 规定联机接口规范
- 2. 黑暗的帝国
+ 2. 黑暗的帝国 -- let's do this first
  3. 本地自定义开局
  4. 联机模式
 ***** #Dream
@@ -6593,10 +6593,10 @@ GameBattle.prototype = $extend(iriysoft_states_State.prototype,{
 			enemy = this.m_level.seekCombotantByRace(battle_CombotantRace.TheEmpire);
 			this.m_level.removeAllKeyNodeStat(enemy);
 			enemy.__setMana(0);
-			enemy.__setGold(battle_ArmyStat.UNDYING_WARRIORS_T1_E.cost + battle_ArmyStat.UNDYING_WARRIORS_T1_E.cost);
+			enemy.__setGold(battle_ArmyStat.WARRIORS_T1_D.cost + battle_ArmyStat.WARRIORS_T1_D.cost);
 			hud_WindowContentManager.LOCK_UNIT_ABOVE = 0;
 			enemyForts = this.m_level.findCombotantKeyNodes(enemy.description);
-			battle_ArmyStat.UNDYING_WARRIORS_T1_E.upkeep = 0;
+			battle_ArmyStat.WARRIORS_T1_D.upkeep = 0;
 			var _g = 0;
 			var _g1 = enemyForts.length;
 			while(_g < _g1) {
@@ -6604,13 +6604,13 @@ GameBattle.prototype = $extend(iriysoft_states_State.prototype,{
 				keyNode = enemyForts[i];
 				keyNode.supplyPower = 1;
 				if(keyNode.getNodeType() == level_KeyNodeType.Town) {
-					this.ref_tutor1EnemySquad = this.m_level.buyUnit(battle_ArmyStat.UNDYING_WARRIORS_T1_E,keyNode);
+					this.ref_tutor1EnemySquad = this.m_level.buyUnit(battle_ArmyStat.WARRIORS_T1_D,keyNode);
 					this.ref_tutor1EnemyTown = keyNode;
 				} else {
-					this.m_level.buyUnit(battle_ArmyStat.UNDYING_WARRIORS_T1_E,keyNode);
+					this.m_level.buyUnit(battle_ArmyStat.WARRIORS_T1_D,keyNode);
 				}
 			}
-			battle_ArmyStat.UNDYING_WARRIORS_T1_E.upkeep = 1;
+			battle_ArmyStat.WARRIORS_T1_D.upkeep = 1;
 		} else if(this.m_def.levelUID == 2) {
 			this.m_level.signalBuildSupply().connect($bind(this,this.onBuildSupply_Tutorial2));
 			this.m_level.signalBuySquad().connect($bind(this,this.onBuySquad_Tutorial2));
@@ -6706,7 +6706,7 @@ GameBattle.prototype = $extend(iriysoft_states_State.prototype,{
 		}
 	}
 	,onBuySquad_Tutorial1: function(_squad) {
-		if(_squad.getRace() == battle_CombotantRace.Westaria) {
+		if(_squad.getRace() == battle_CombotantRace.TheEmpire) {
 			this.signalTutorialEvent_.emit("evnt1_guardsPurchasingStarted");
 			this.signalTutorialEvent_.emit("evnt1_guardsPurchasingFinished");
 			this.m_level.signalBuySquad().disconnect($bind(this,this.onBuySquad_Tutorial1));
@@ -6721,8 +6721,8 @@ GameBattle.prototype = $extend(iriysoft_states_State.prototype,{
 			this.m_level.signalKillSquad().disconnect($bind(this,this.onKillSquad_Tutorial1));
 			hud_WindowContentManager.LOCK_UNIT_ABOVE = 1;
 			var enemy = this.m_level.seekCombotantByRace(battle_CombotantRace.TheEmpire);
-			enemy.addGold(battle_ArmyStat.UNDYING_WARRIORS_T1_E.cost);
-			this.m_level.buyUnit(battle_ArmyStat.UNDYING_WARRIORS_T1_E,this.ref_tutor1EnemyTown);
+			enemy.addGold(battle_ArmyStat.armyStatBD.h[0].h[0].h[1]);
+			this.m_level.buyUnit(battle_ArmyStat.armyStatBD.h[0].h[0].h[1],this.ref_tutor1EnemyTown);
 			this.m_level.lockAI = false;
 		}
 	}
@@ -8346,6 +8346,18 @@ Hlp.playHitSound = function(_unitArmyStat) {
 Hlp.playDeadSound = function(_unitArmyStat) {
 	switch(_unitArmyStat) {
 	case battle_ArmyStat.ANCIENT_RAIDERS_T3_D:
+	case battle_ArmyStat.armyStatBD.h[1].h[0].h[1]:
+	case battle_ArmyStat.armyStatBD.h[1].h[1].h[1]:
+	case battle_ArmyStat.armyStatBD.h[1].h[2].h[1]:
+	case battle_ArmyStat.armyStatBD.h[1].h[3].h[1]:
+	case battle_ArmyStat.armyStatBD.h[1].h[4].h[1]:
+	case battle_ArmyStat.armyStatBD.h[1].h[0].h[2]:
+	case battle_ArmyStat.armyStatBD.h[1].h[1].h[2]:
+	case battle_ArmyStat.armyStatBD.h[1].h[2].h[2]:
+	case battle_ArmyStat.armyStatBD.h[1].h[3].h[2]:
+	case battle_ArmyStat.armyStatBD.h[1].h[4].h[2]:
+	case battle_ArmyStat.armyStatBD.h[1].h[0].h[3]:
+	case battle_ArmyStat.UNDYING_ASSASSINS_T1_E:
 		return Hlp.playRandomSound([127,128]);
 	case battle_ArmyStat.DARK_KNIGHTS_T2_E:
 		break;
@@ -8408,7 +8420,28 @@ Hlp.playSendSound = function(_unitArmyStat) {
 };
 Hlp.playBeginBattleSound = function(_unitArmyStat) {
 	switch(_unitArmyStat) {
-	case battle_ArmyStat.ANCIENT_RAIDERS_T3_D:case battle_ArmyStat.DARK_KNIGHTS_T2_E:case battle_ArmyStat.IMMORTALS_T2_D:case battle_ArmyStat.SKELETON_ARCHERS_T2_E:case battle_ArmyStat.UNDYING_ARCHERS_T1_E:case battle_ArmyStat.UNDYING_ASSASSINS_T1_E:case battle_ArmyStat.UNDYING_HORSEMEN_T1_E:case battle_ArmyStat.UNDYING_WARRIORS_T1_E:case battle_ArmyStat.ZOMBIE_WARRIORS_T2_E:
+	case battle_ArmyStat.ANCIENT_RAIDERS_T3_D:
+	case battle_ArmyStat.DARK_KNIGHTS_T2_E:
+	case battle_ArmyStat.IMMORTALS_T2_D:
+	case battle_ArmyStat.SKELETON_ARCHERS_T2_E:
+	case battle_ArmyStat.UNDYING_ARCHERS_T1_E:
+	case battle_ArmyStat.UNDYING_ASSASSINS_T1_E:
+	case battle_ArmyStat.UNDYING_HORSEMEN_T1_E:
+	case battle_ArmyStat.armyStatBD.h[1].h[0].h[1]:
+	case battle_ArmyStat.armyStatBD.h[1].h[1].h[1]:
+	case battle_ArmyStat.armyStatBD.h[1].h[2].h[1]:
+	case battle_ArmyStat.armyStatBD.h[1].h[3].h[1]:
+	case battle_ArmyStat.armyStatBD.h[1].h[4].h[1]:
+	case battle_ArmyStat.armyStatBD.h[1].h[0].h[2]:
+	case battle_ArmyStat.armyStatBD.h[1].h[1].h[2]:
+	case battle_ArmyStat.armyStatBD.h[1].h[2].h[2]:
+	case battle_ArmyStat.armyStatBD.h[1].h[3].h[2]:
+	case battle_ArmyStat.armyStatBD.h[1].h[4].h[2]:
+	case battle_ArmyStat.armyStatBD.h[1].h[0].h[3]:
+	case battle_ArmyStat.armyStatBD.h[1].h[1].h[3]:
+	case battle_ArmyStat.armyStatBD.h[1].h[2].h[3]:
+	case battle_ArmyStat.armyStatBD.h[1].h[3].h[3]:
+	case battle_ArmyStat.armyStatBD.h[1].h[4].h[3]:
 		return Hlp.playSoundID(140);
 	case battle_ArmyStat.GIANTBOTS_T3_B:case battle_ArmyStat.GUNBOTS_T2_B:
 		return Hlp.playSoundID(142);
@@ -13959,11 +13992,12 @@ WindowController.prototype = $extend(iriysoft_core_templates_BaseObject.prototyp
 	,getPanelColorFrame: function(_nodeDescription) {
 		var frameColor = 1;
 		switch(this.ref_level.seekNodeContentOwner(_nodeDescription).getRace()._hx_index) {
+		//// 点看城邦之后的框架， 顺序亡灵绿红冰
 		case 1:
 			frameColor = 4;
 			break;
 		case 2:
-			frameColor = 1;
+			frameColor = 4;
 			break;
 		case 3:
 			frameColor = 2;
@@ -15852,10 +15886,8 @@ battle_CombotantData.getCombotantName = function(_race) {
 };
 battle_CombotantData.getLocationVeiwIndex = function(_race) {
 	switch(_race._hx_index) {
-	case 0:
-		throw new js__$Boot_HaxeError("Incompatible type");
 	case 1:
-		return 3;
+		return 0;
 	case 2:
 		return 1;
 	case 3:
@@ -16338,10 +16370,27 @@ battle_CombotantData.prototype = {
 		return spell;
 	}
 	,checkAllySquad: function(_squad) {
+		//// Allow Westaria（绿） to treat Empire units as allies (for database override)
+		if(this.m_race == battle_CombotantRace.Westaria && _squad.getRace() == battle_CombotantRace.TheEmpire) {
+			return true;
+		}
 		return this.m_race == _squad.getRace();
 	}
-	,checkAllyKeyNode: function(_keyNode) {
-		return _keyNode.owner == this.description;
+	,checkAllyKeyNode: function(_keyNode,_level) {
+		//// If this key node is owned by this combotant, it's an ally
+		if(_keyNode.owner == this.description) {
+			return true;
+		}
+		//// Allow Empire units controlled by Westaria to treat Westaria structures as allies 
+		if(_level != null && this.m_race == battle_CombotantRace.TheEmpire) {
+			var ownerCombotant = _level.getCombotants().getObject(_keyNode.owner);
+			if(ownerCombotant != null && ownerCombotant.getRace() == battle_CombotantRace.Westaria) {
+				if(_level.player().getRace() == battle_CombotantRace.Westaria) {
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 	,useSpellCooldown: null
 	,__class__: battle_CombotantData
@@ -18602,11 +18651,12 @@ battle_squad_SquadIcon.getIconColorFrame = function(_race) {
 	switch(_race._hx_index) {
 	case 0:
 		throw new js__$Boot_HaxeError("Incompatible type");
+	//// 很难搞，目前唯一方法先把电脑亡灵改成火国， case 1 是亡灵
 	case 1:
-		frameColor = 4;
+		frameColor = 4; //// 改了这， 把所有电脑亡灵城邦全换成火
 		break;
 	case 2:
-		frameColor = 1;
+		frameColor = 4; 
 		break;
 	case 3:
 		frameColor = 2;
@@ -19052,7 +19102,22 @@ battle_unit_Creature.prototype = $extend(battle_unit_CollisionObject.prototype,{
 		this.m_unitProps.addProperty(new battle_unit_param_UnitPropertyAdd(this.getObjectID(),"SPEED_BONUS",battle_unit_param_UnitParams.PRP_SPEED,Math.floor(base_speed * _factor),Math.round(_time * 1000)));
 	}
 	,getSpeed: function() {
-		return this.m_unitProps.getUnitParams().getParamCurValue(battle_unit_param_UnitParams.PRP_SPEED) / 2;
+		var baseSpeed = this.m_unitProps.getUnitParams().getParamCurValue(battle_unit_param_UnitParams.PRP_SPEED) / 2;
+		// Increase speed for infantry units when they are charging/approaching enemies
+		if(this.isStateGotoXY()) {
+			var squad = js_Boot.__cast(base_BObject.getObjectPtr(this.getSquadID()) , battle_squad_UnitSet);
+			if(squad != null) {
+				var unitType = squad.getUnitType();
+				if(unitType == battle_unit_CombatUnitType.Infantry) {
+					var enemies = squad.getEnemies();
+					if(enemies != null && enemies.length > 0) {
+						// Increase break foramtion speed by 1.5x when infantry units are approaching enemies
+						return baseSpeed * 1.5;
+					}
+				}
+			}
+		}
+		return baseSpeed;
 	}
 	,getSpeedDistance: function(_time) {
 		return this.getSpeed() * _time;
@@ -19544,6 +19609,7 @@ battle_unit_CombatUnit.prototype = $extend(battle_unit_Creature.prototype,{
 	}
 	,update_ST_DEAD: function(_timeElapsed) {
 		this.m_deathTimer += _timeElapsed;
+		// 尸体无限留存
 		if(this.m_deathTimer > 3) {
 			this.setEventNewFSM(16384);
 			this.m_deathTimer = -4000000;
@@ -20302,6 +20368,10 @@ battle_unit_STAttackTarget.prototype = $extend(base_BObject.prototype,{
 		} else if(this.ref_unit.hasHorrificDash()) {
 			this.ref_unit.increaseSpeed(50,0.5);
 			this.ref_unit.changeAnimTo_Special();
+		} else {
+			// infantry will gain 15% charging speed
+			this.ref_unit.increaseSpeed(1.15,1.5);
+
 		}
 	}
 	,m_lastTargetType: null
@@ -36750,7 +36820,7 @@ level_FKeyNodeContent.prototype = $extend(level_KeyNodeContent.prototype,{
 	,__locationType: null
 	,changeView: function(_locationType) {
 		this.m_view.changeView(_locationType);
-		this.mcColor.gotoFrame(_locationType + 1);
+		this.mcColor.gotoFrame(_locationType + 3);
 		this.__locationType = _locationType;
 		this.updateHealthBar(this.m_hp,this.getMaxHP());
 	}
@@ -37540,10 +37610,15 @@ level_LevelData.prototype = $extend(base_BObject.prototype,{
 		var upkeep = 0;
 		var cmbtn = this.m_combotants.getObject(_combotantDescription);
 		if(cmbtn != null) {
+			var cmbOwner = cmbtn.description;
 			var sq = this.m_squads.getStorageIterator();
 			while(sq.hasNext()) {
 				var sq1 = sq.next();
-				if(sq1.getRace() == cmbtn.getRace() && sq1.getCurHealth() > 0) {
+				if(sq1.getCurHealth() <= 0) {
+					continue;
+				}
+				var squadOwner = sq1.getOwner();
+				if(squadOwner != null && squadOwner.compare(cmbOwner)) {
 					upkeep += sq1.getArmyStat().upkeep;
 				}
 			}
@@ -38111,7 +38186,7 @@ level_LevelData.prototype = $extend(base_BObject.prototype,{
 		}
 		return enemies;
 	}
-	,getEnemyKeyNodeAtScaner: function(_squad) {
+		,getEnemyKeyNodeAtScaner: function(_squad) {
 		if(_squad == null || _squad.isAllUnitDead()) {
 			return null;
 		}
@@ -38133,6 +38208,17 @@ level_LevelData.prototype = $extend(base_BObject.prototype,{
 			var kn1 = kn.next();
 			if(kn1.isDie() || plrDesr.compare(kn1.owner)) {
 				continue;
+			}
+			// Prevent Empire units controlled by Westaria player from attacking Westaria structures (for database override)
+			// But allow Empire NPCs (enemy) to attack Westaria strongholds
+			if(plr != null && plr.getRace() == battle_CombotantRace.TheEmpire && this.player().getRace() == battle_CombotantRace.Westaria) {
+				var keyNodeOwner = this.m_combotants.getObject(kn1.owner);
+				if(keyNodeOwner != null && keyNodeOwner.getRace() == battle_CombotantRace.Westaria) {
+					// Only skip if the Empire units are controlled by the player (Westaria), not by enemy NPCs
+					if(plr.description.compare(this.m_playerDescription)) {
+						continue;
+					}
+				}
 			}
 			dist2 = p.getDistanceTo(kn1.getPosition(),true) + kn1.getRadius() * kn1.getRadius();
 			if(dist2 <= maxDist2) {
@@ -38363,10 +38449,23 @@ level_LevelLogic.prototype = $extend(level_LevelData.prototype,{
 	,seekNearestEnemyKeyNode: function(_keyNode) {
 		var minDist = 4000000;
 		var pKN = null;
+		//// 跟上面那个差不多， 亡灵的兵不能打绿城堡
+		var sourceOwner = this.m_combotants.getObject(_keyNode.owner);
 		var pdat = _keyNode.getNeighborhood().getStorageIterator();
 		while(pdat.hasNext()) {
 			var pdat1 = pdat.next();
 			if(pdat1.keyNode.owner.compare(_keyNode.owner) == false || pdat1.keyNode.isRized()) {
+				// Prevent Empire units controlled by Westaria player from attacking Westaria structures (for database override)
+				// But allow Empire NPCs (enemy) to attack Westaria strongholds
+				if(sourceOwner != null && sourceOwner.getRace() == battle_CombotantRace.TheEmpire && this.player().getRace() == battle_CombotantRace.Westaria) {
+					var targetOwner = this.m_combotants.getObject(pdat1.keyNode.owner);
+					if(targetOwner != null && targetOwner.getRace() == battle_CombotantRace.Westaria) {
+						// Only skip if the Empire units are controlled by the player (Westaria), not by enemy NPCs
+						if(sourceOwner.description.compare(this.m_playerDescription)) {
+							continue;
+						}
+					}
+				}
 				if(pdat1.dist < minDist) {
 					pKN = pdat1.keyNode;
 					minDist = pdat1.dist;
@@ -38705,7 +38804,7 @@ level_LevelLogic.prototype = $extend(level_LevelData.prototype,{
 			var knPathData = pathSet.getStorageIterator();
 			while(knPathData.hasNext()) {
 				var knPathData1 = knPathData.next();
-				if(_cmb.checkAllyKeyNode(knPathData1.keyNode) == false) {
+				if(_cmb.checkAllyKeyNode(knPathData1.keyNode,this) == false) {
 					danger += 100000 / knPathData1.dist;
 					danger += this.calcDefendersHealth(knPathData1.keyNode);
 				}
@@ -39156,6 +39255,10 @@ level_LevelVisual.prototype = $extend(level_LevelLogic.prototype,{
 	}
 	,buildSupplyBuilding: function(_node,_type) {
 		var owner = this.seekNodeContentOwner(_node.nodeDescription);
+		//// 自从把电脑亡灵改成火国，一旦火国造个农场直接死机， bypass
+		if(owner == null) {
+			return;
+		}
 		owner.buySomething(owner.getSupplyCost(_type));
 		Hlp.playSupplyBuildSound(_type,owner.getRace());
 		this.signalBuildSupply_.emit(owner,_type);
@@ -39240,8 +39343,19 @@ level_LevelVisual.prototype = $extend(level_LevelLogic.prototype,{
 		this.signalNodeChangeActiveState_ = null;
 	}
 	,buyUnit: function(_armyStat,_keyNode) {
-		var cmb = this.seekCombotantByRace(_armyStat.side);
-		if(cmb == null || _keyNode == null) {
+		if(_keyNode == null) {
+			return null;
+		}
+		//// !!! 重要修复
+		// Use the key node's owner to determine which combotant pays for the unit
+		// This ensures that when Westaria buys Empire units (via database override),
+		// Westaria's gold is used, not Empire's
+		var cmb = this.m_combotants.getObject(_keyNode.owner);
+		// Fallback to unit's side if key node owner is not found
+		if(cmb == null) {
+			cmb = this.seekCombotantByRace(_armyStat.side);
+		}
+		if(cmb == null) {
 			return null;
 		}
 		var fsq = this.buyFSquad(_armyStat,cmb);
@@ -39326,6 +39440,10 @@ level_LevelVisual.prototype = $extend(level_LevelLogic.prototype,{
 	}
 	,checkPlayerControllByRace: function(_race) {
 		if(level_LevelVisual.mode.checkState(4)) {
+			return true;
+		}
+		//// 上帝视角，直接控制所有电脑派的亡灵兵， 可以加控制其他的
+		if(this.player().getRace() == battle_CombotantRace.Westaria && _race == battle_CombotantRace.TheEmpire) {
 			return true;
 		}
 		return _race == this.player().getRace();
@@ -39516,14 +39634,15 @@ level_Level.prototype = $extend(level_LevelVisual.prototype,{
 		this.addVisualEffect(animEff,3);
 	}
 	,castSpell: function(_spell,_combotant) {
+		//// 所有小技能， 前3个绿国的已经换成亡灵的了
 		level_LevelVisual.prototype.castSpell.call(this,_spell,_combotant);
 		this.m_guiMustUpdate = true;
 		if(_spell.id == battle_spell_SpellInfo.LORDS_JUDGEMENT.id) {
-			this.createSpellLightning(_spell);
+			this.createSpellTerror(_spell,_combotant);
 		} else if(_spell.id == battle_spell_SpellInfo.BANNER_OF_CONSECRATION.id) {
-			this.createSpellHealing(_spell,_combotant);
+			this.createSpellDesecration(_spell,_combotant);
 		} else if(_spell.id == battle_spell_SpellInfo.BANNER_OF_HEROISM.id) {
-			this.createSpellHeroism(_spell,_combotant);
+			this.createSpellRaiseDead(_spell,_combotant);
 		} else if(_spell.id == battle_spell_SpellInfo.SIGN_OF_THE_ADVENT.id) {
 			this.manualCreateSquad(_spell.position,_combotant,battle_ArmyStat.AVATAR_T3_W);
 		} else if(_spell.id == battle_spell_SpellInfo.BANNER_OF_DESECRATION.id) {
@@ -39549,11 +39668,12 @@ level_Level.prototype = $extend(level_LevelVisual.prototype,{
 	,castUltimateSpell: function(_combotant) {
 		var messageClass;
 		switch(_combotant.getRace()._hx_index) {
+		//// 点图标后的大招动画： 顺序：亡灵， 绿， 红， 冰
 		case 1:
-			messageClass = "UltimateMessage3Class";
+			messageClass = "UltimateMessage2Class";
 			break;
-		case 2:
-			messageClass = "UltimateMessage1Class";
+		case 2: 
+			messageClass = "UltimateMessage3Class";////
 			break;
 		case 3:
 			messageClass = "UltimateMessage2Class";
@@ -39580,8 +39700,12 @@ level_Level.prototype = $extend(level_LevelVisual.prototype,{
 	,_realCastUltimateSpell: function(_combotant) {
 		var info;
 		switch(_combotant.getRace()._hx_index) {
+		////大招顺序： 亡灵， 绿， 红， 冰
 		case 1:
-			info = this.createCallToTheGrave(_combotant);
+			info = this.createGrandTransforamation(_combotant);
+			break;
+		case 2:
+			info = this.createCallToTheGrave(_combotant);////
 			break;
 		case 3:
 			info = this.createSpellCataclysm(_combotant);
@@ -39613,7 +39737,9 @@ level_Level.prototype = $extend(level_LevelVisual.prototype,{
 				var iter = this.getSquadsIterator();
 				while(iter.hasNext()) {
 					var sqd = iter.next();
-					if(sqd.isEnemyOutFromKeyNode(race) && sqd.isMechanism() == false) {
+					var sqdRace = sqd.getRace();
+					var isPurple = XMLData.getColorID(sqdRace) == "Purple";
+					if(sqd.isEnemyOutFromKeyNode(race) && !isPurple) {
 						--randomCounter;
 						if(randomCounter <= 0) {
 							unitType = sqd.getUnitType();
@@ -39644,10 +39770,15 @@ level_Level.prototype = $extend(level_LevelVisual.prototype,{
 		var u;
 		while(iter.hasNext()) {
 			var sqd1 = iter.next();
-			if(sqd1.getRace() != race && sqd1.getRace() != battle_CombotantRace.Bandits) {
-				var uIter = sqd1.getUnits().iterator();
-				while(uIter.hasNext()) {
-					u = uIter.next();
+			var uIter = sqd1.getUnits().iterator();
+			var hasAffectedUnits = false;
+			while(uIter.hasNext()) {
+				u = uIter.next();
+				var unitRace = u.getArmyStat().side;
+				var isBlue = XMLData.getColorID(unitRace) == "Blue";
+				// Check unit race instead of squad owner race - hit all units except those matching caster's race
+				if(unitRace != race && unitRace != battle_CombotantRace.Bandits && !isBlue) {
+					hasAffectedUnits = true;
 					if(killUnit) {
 						u.forceKill();
 						if(Math.random() > 0.5) {
@@ -39691,7 +39822,7 @@ level_Level.prototype = $extend(level_LevelVisual.prototype,{
 		return sq;
 	}
 	,createSpellRaiseDead: function(_spell,_combotant) {
-		var armyStat = Math.random() > 0.5 ? battle_ArmyStat.UNDYING_ARCHERS_T1_E : battle_ArmyStat.UNDYING_WARRIORS_T1_E;
+		var armyStat = Math.random() > 0.5 ? battle_ArmyStat.UNDYING_ASSASSINS_T1_E : battle_ArmyStat.SHADES_T2_E;
 		var sq = null;
 		var pos = _spell.position;
 		if(_combotant.description == this.player().description) {
@@ -40506,7 +40637,12 @@ level_Level.prototype = $extend(level_LevelVisual.prototype,{
 		selectFrame.height = Math.abs(_rect.height);
 		while(iter.hasNext()) {
 			sq = iter.next();
-			if(sq.getRace() == this.player().getRace()) {
+			var isPlayerSquad = sq.getRace() == this.player().getRace();
+			//// 可以选择电脑亡灵兵 Allow Westaria to select Empire units (for database override)
+			if(!isPlayerSquad && this.player().getRace() == battle_CombotantRace.Westaria && sq.getRace() == battle_CombotantRace.TheEmpire) {
+				isPlayerSquad = true;
+			}
+			if(isPlayerSquad) {
 				if(selectFrame.contains(sq.icon().get_x(),sq.icon().get_y())) {
 					sq.select2SquadIcon(true,this.m_multiSelectedFilters);
 				} else {
@@ -40520,7 +40656,12 @@ level_Level.prototype = $extend(level_LevelVisual.prototype,{
 		var iter = this.m_squads.getStorageIterator();
 		while(iter.hasNext()) {
 			sq = iter.next();
-			if(sq.getRace() == this.player().getRace()) {
+			var isPlayerSquad = sq.getRace() == this.player().getRace();
+			//// 可以选择电脑亡灵兵 Allow Westaria to deselect Empire units (for database override)
+			if(!isPlayerSquad && this.player().getRace() == battle_CombotantRace.Westaria && sq.getRace() == battle_CombotantRace.TheEmpire) {
+				isPlayerSquad = true;
+			}
+			if(isPlayerSquad) {
 				sq.select2SquadIcon(false,null);
 			}
 		}
@@ -40532,7 +40673,12 @@ level_Level.prototype = $extend(level_LevelVisual.prototype,{
 		var iter = this.m_squads.getStorageIterator();
 		while(iter.hasNext()) {
 			sq = iter.next();
-			if(sq.getRace() == this.player().getRace() && sq.isSelected2() && sq != _squad) {
+			var isPlayerSquad = sq.getRace() == this.player().getRace();
+			//// 允许派 Allow Westaria to command Empire units 
+			if(!isPlayerSquad && this.player().getRace() == battle_CombotantRace.Westaria && sq.getRace() == battle_CombotantRace.TheEmpire) {
+				isPlayerSquad = true;
+			}
+			if(isPlayerSquad && sq.isSelected2() && sq != _squad) {
 				selectedSquads.push(sq);
 			}
 		}
@@ -40581,7 +40727,12 @@ level_Level.prototype = $extend(level_LevelVisual.prototype,{
 		var iter = this.m_squads.getStorageIterator();
 		while(iter.hasNext()) {
 			sq = iter.next();
-			if(sq.getRace() == this.player().getRace() && sq.isSelected2() && sq != _squad) {
+			var isPlayerSquad = sq.getRace() == this.player().getRace();
+			////所有动作都加，是上面延续 Allow Westaria to draw arrows for Empire units
+			if(!isPlayerSquad && this.player().getRace() == battle_CombotantRace.Westaria && sq.getRace() == battle_CombotantRace.TheEmpire) {
+				isPlayerSquad = true;
+			}
+			if(isPlayerSquad && sq.isSelected2() && sq != _squad) {
 				this.drawTargetArrow(_graphics,new base_Position(sq.icon().get_x(),sq.icon().get_y()),_aimPosition);
 			}
 		}
@@ -40726,7 +40877,12 @@ level_Level.prototype = $extend(level_LevelVisual.prototype,{
 			var iter = this.m_squads.getStorageIterator();
 			while(iter.hasNext()) {
 				sq = iter.next();
-				if(sq.getRace() == this.player().getRace() && sq.isSelected2() && sq != _squad) {
+				var isPlayerSquad = sq.getRace() == this.player().getRace();
+				//// Allow Westaria to draw paths for Empire units (for database override)
+				if(!isPlayerSquad && this.player().getRace() == battle_CombotantRace.Westaria && sq.getRace() == battle_CombotantRace.TheEmpire) {
+					isPlayerSquad = true;
+				}
+				if(isPlayerSquad && sq.isSelected2() && sq != _squad) {
 					var pp = this.getPathSuperAdv(sq.getMainUnit().getPosition(),_target,3600);
 					pp = level_LevelVisual.normalizeDistanceInArray(pp,50);
 					var _g2 = 0;
@@ -41651,7 +41807,8 @@ level_item_BannerHeal.prototype = $extend(level_item_AnimationEffect.prototype,{
 		var power = this.m_def_stone.spellData.power | 0;
 		while(iter.hasNext()) {
 			sqd = iter.next();
-			if(sqd.getRace() == race && sqd.isMechanism() == false) {
+			//// 得改一下要不然自己派的亡灵兵不被旗帜加血
+			if((sqd.getRace() == race || sqd.getRace() == battle_CombotantRace.TheEmpire)) {
 				if(sqd.checkUnitAtRadius(pos,rad)) {
 					sqd.repair(power);
 				}
@@ -42561,7 +42718,7 @@ lime__$internal_backend_html5_HTML5Window.prototype = {
 	,getMouseLock: function() {
 		return false;
 	}
-	,getTextInputEnabled: function() {
+	,getTextInputEnabled: function() {isPlayerSquad
 		return this.textInputEnabled;
 	}
 	,handleContextEvent: function(event) {
@@ -113897,58 +114054,103 @@ battle_CombotantData.SPELL_LEVEL_COUNT = 4;
 battle_CombotantData.ULTIMATE_MAX_TIME = 200;
 battle_CombotantData.START_GOLD = 0;
 battle_CombotantData.START_MANA = 0;
-battle_ArmyStat.GUARDS_T1_W = new battle_ArmyStat("Guards",26,battle_CombotantRace.Westaria,9,2,3,15,0,0,50,40,100,1,"",1,battle_unit_CombatUnitType.Infantry,0.1,0,0,11,5);
-battle_ArmyStat.WARRIORS_T1_D = new battle_ArmyStat("Warriors",18,battle_CombotantRace.TheKhaganate,9,3,4,15,0,0,50,40,100,1,"",1,battle_unit_CombatUnitType.Infantry,0.1,0,0,11,5);
-battle_ArmyStat.REBELS_T1_B = new battle_ArmyStat("Rebels",22,battle_CombotantRace.TheCult,9,1,5,16,0,0,50,40,100,1,"LongSpear 50",1,battle_unit_CombatUnitType.Infantry,0.1,0,0,11,5);
-battle_ArmyStat.UNDYING_WARRIORS_T1_E = new battle_ArmyStat("Undying Warriors",18,battle_CombotantRace.TheEmpire,9,2,4,17,0,0,50,40,100,1,"Undead",1,battle_unit_CombatUnitType.Infantry,0.1,0,0,11,5);
-battle_ArmyStat.SWORDSMEN_T2_W = new battle_ArmyStat("Swordsmen",36,battle_CombotantRace.Westaria,9,3,4,15,0,0,50,40,100,1,"ShieldWall 15",2,battle_unit_CombatUnitType.Infantry,0.1,0,0,11,5);
-battle_ArmyStat.IMMORTALS_T2_D = new battle_ArmyStat("Immortals",25,battle_CombotantRace.TheKhaganate,9,4,6,15,0,0,50,40,100,1,"Undead",2,battle_unit_CombatUnitType.Infantry,0.1,0,0,11,5);
-battle_ArmyStat.MYRMIDONS_T2_B = new battle_ArmyStat("Myrmidons",28,battle_CombotantRace.TheCult,9,2,7,16,0,0,50,40,100,1,"LongSpear 50",2,battle_unit_CombatUnitType.Infantry,0.1,0,0,11,5);
-battle_ArmyStat.ZOMBIE_WARRIORS_T2_E = new battle_ArmyStat("Zombie Warriors",25,battle_CombotantRace.TheEmpire,9,3,5,17,0,0,50,40,100,1,"Undead",2,battle_unit_CombatUnitType.Infantry,0.1,0,0,11,5);
-battle_ArmyStat.LEGIONARIES_T3_W = new battle_ArmyStat("Legionaries",40,battle_CombotantRace.Westaria,9,4,5,15,0,0,50,40,100,1,"ShieldWall 20;Discipline",3,battle_unit_CombatUnitType.Infantry,0.1,0,0,11,5);
-battle_ArmyStat.ARCHERS_T1_W = new battle_ArmyStat("Archers",16,battle_CombotantRace.Westaria,9,4,8,30,100,70,50,40,120,1,"",1,battle_unit_CombatUnitType.Archers,0.1,0,0,11,10);
+//// override the units here, 电脑的好像可以直接改battle_CombotantRace， 但是玩家的只能改数据库, 改了一堆这里
+battle_ArmyStat.UNDYING_WARRIORS_T1_E = new battle_ArmyStat("Undying Warriors",27,battle_CombotantRace.TheEmpire,9,4,8,17,0,0,50,40,100,1,"Undead",1,battle_unit_CombatUnitType.Infantry,0.1,0,0,11,5);
+battle_ArmyStat.armyStatBD.h[1].h[0].h[1] = battle_ArmyStat.UNDYING_WARRIORS_T1_E;
+battle_ArmyStat.WARRIORS_T1_D = new battle_ArmyStat("Warriors",18,battle_CombotantRace.TheKhaganate,9,3,4,15,0,0,50,50,100,1,"",1,battle_unit_CombatUnitType.Infantry,0.1,0,0,11,5);
+battle_ArmyStat.WARRIORS_T1_D = new battle_ArmyStat("Warriors",18,battle_CombotantRace.TheKhaganate,9,3,4,15,0,0,50,50,100,1,"",1,battle_unit_CombatUnitType.Infantry,0.1,0,0,11,5);
+battle_ArmyStat.armyStatBD.h[3].h[0].h[1] = battle_ArmyStat.WARRIORS_T1_D;
+
+battle_ArmyStat.REBELS_T1_B = new battle_ArmyStat("Rebels",22,battle_CombotantRace.TheCult,9,1,5,16,0,0,50,50,100,1,"LongSpear 50",1,battle_unit_CombatUnitType.Infantry,0.1,0,0,11,5);
+battle_ArmyStat.UNDYING_WARRIORS_T1_E = new battle_ArmyStat("Undying Warriors",20,battle_CombotantRace.TheEmpire,9,2,4,17,0,0,50,50,100,1,"Undead",1,battle_unit_CombatUnitType.Infantry,0.1,0,0,11,5);
+battle_ArmyStat.WARRIORS_T1_D = new battle_ArmyStat("Warriors",18,battle_CombotantRace.TheKhaganate,9,3,4,15,0,0,50,50,100,1,"",1,battle_unit_CombatUnitType.Infantry,0.1,0,0,11,5);
+battle_ArmyStat.armyStatBD.h[0].h[0].h[1] = battle_ArmyStat.WARRIORS_T1_D;
+battle_ArmyStat.SWORDSMEN_T2_W = new battle_ArmyStat("Swordsmen",36,battle_CombotantRace.Westaria,9,3,4,15,0,0,50,50,100,1,"ShieldWall 15",2,battle_unit_CombatUnitType.Infantry,0.1,0,0,11,5);
+battle_ArmyStat.UNDYING_WARRIORS_T1_E = new battle_ArmyStat("Undying Warriors",24,battle_CombotantRace.TheEmpire,9,3,6,17,0,0,50,40,100,1,"Undead",1,battle_unit_CombatUnitType.Infantry,0.1,0,0,11,5);
+battle_ArmyStat.armyStatBD.h[1].h[0].h[2] = battle_ArmyStat.UNDYING_WARRIORS_T1_E;
+battle_ArmyStat.IMMORTALS_T2_D = new battle_ArmyStat("Immortals",28,battle_CombotantRace.TheKhaganate,9,4,6,15,0,0,50,50,100,1,"Undead",2,battle_unit_CombatUnitType.Infantry,0.1,0,0,11,5);
+battle_ArmyStat.MYRMIDONS_T2_B = new battle_ArmyStat("Myrmidons",30,battle_CombotantRace.TheCult,9,2,7,16,0,0,50,50,100,1,"LongSpear 50",2,battle_unit_CombatUnitType.Infantry,0.1,0,0,11,5);
+battle_ArmyStat.ZOMBIE_WARRIORS_T2_E = new battle_ArmyStat("Zombie Warriors",26,battle_CombotantRace.TheEmpire,9,3,5,17,0,0,50,50,100,1,"Undead",2,battle_unit_CombatUnitType.Infantry,0.1,0,0,11,5)
+battle_ArmyStat.IMMORTALS_T2_D = new battle_ArmyStat("Immortals",28,battle_CombotantRace.TheKhaganate,9,4,6,15,0,0,50,50,100,1,"Undead",2,battle_unit_CombatUnitType.Infantry,0.1,0,0,11,5);
+battle_ArmyStat.armyStatBD.h[0].h[0].h[2] = battle_ArmyStat.IMMORTALS_T2_D;
+battle_ArmyStat.LEGIONARIES_T3_W = new battle_ArmyStat("Legionaries",40,battle_CombotantRace.Westaria,9,4,5,15,0,0,50,50,100,1,"ShieldWall 20;Discipline",3,battle_unit_CombatUnitType.Infantry,0.1,0,0,11,5);
+battle_ArmyStat.UNDYING_WARRIORS_T1_E = new battle_ArmyStat("Undying Warriors",24,battle_CombotantRace.TheEmpire,9,3,6,17,0,0,50,40,100,1,"Undead",1,battle_unit_CombatUnitType.Infantry,0.1,0,0,11,5);
+battle_ArmyStat.armyStatBD.h[1].h[0].h[3] = battle_ArmyStat.UNDYING_WARRIORS_T1_E;
+battle_ArmyStat.UNDYING_ARCHERS_T1_E = new battle_ArmyStat("Archers",18,battle_CombotantRace.TheEmpire,9,6,9,30,100,70,50,40,120,1,"Undead",1,battle_unit_CombatUnitType.Archers,0.1,0,0,11,10);
+battle_ArmyStat.armyStatBD.h[1].h[1].h[1] = battle_ArmyStat.UNDYING_ARCHERS_T1_E;
 battle_ArmyStat.HUNTERS_T1_D = new battle_ArmyStat("Hunters",15,battle_CombotantRace.TheKhaganate,9,4,10,30,100,70,50,40,120,1,"Poisonous 1",1,battle_unit_CombatUnitType.Archers,0.1,0,0,11,10);
 battle_ArmyStat.GUNSMITHS_T1_B = new battle_ArmyStat("Gunsmiths",14,battle_CombotantRace.TheCult,9,2,8,20,115,70,50,40,120,1,"",1,battle_unit_CombatUnitType.Archers,0.05,25,25,11,3);
 battle_ArmyStat.UNDYING_ARCHERS_T1_E = new battle_ArmyStat("Undying Archers",12,battle_CombotantRace.TheEmpire,9,4,8,30,100,70,50,40,120,1,"Undead",1,battle_unit_CombatUnitType.Archers,0.1,0,0,11,10);
+battle_ArmyStat.HUNTERS_T1_D = new battle_ArmyStat("Hunters",15,battle_CombotantRace.TheKhaganate,9,4,10,30,100,70,50,40,120,1,"Poisonous 1",1,battle_unit_CombatUnitType.Archers,0.1,0,0,11,10);
+battle_ArmyStat.armyStatBD.h[0].h[1].h[1] = battle_ArmyStat.HUNTERS_T1_D;
 battle_ArmyStat.CROSSBOWMEN_T2_W = new battle_ArmyStat("Crossbowmen",22,battle_CombotantRace.Westaria,9,8,10,30,100,70,50,40,120,1,"",2,battle_unit_CombatUnitType.Archers,0.1,0,0,11,10);
+battle_ArmyStat.SKELETON_ARCHERS_T2_E = new battle_ArmyStat("Skeleton Archers",20,battle_CombotantRace.TheEmpire,9,10,15,30,100,70,50,40,120,1,"Undead",2,battle_unit_CombatUnitType.Archers,0.1,0,0,11,10);
+battle_ArmyStat.armyStatBD.h[1].h[1].h[2] = battle_ArmyStat.SKELETON_ARCHERS_T2_E;
 battle_ArmyStat.SERPENT_ARCHERS_T2_D = new battle_ArmyStat("Serpent Archers",18,battle_CombotantRace.TheKhaganate,9,7,14,30,100,70,50,40,120,1,"Poisonous 2",2,battle_unit_CombatUnitType.Archers,0.1,0,0,11,10);
 battle_ArmyStat.GUNBOTS_T2_B = new battle_ArmyStat("Gunbots",27,battle_CombotantRace.TheCult,6,8,14,20,115,70,50,40,120,1,"Mechanism",2,battle_unit_CombatUnitType.Archers,0.15,25,10,11,3);
 battle_ArmyStat.SKELETON_ARCHERS_T2_E = new battle_ArmyStat("Skeleton Archers",16,battle_CombotantRace.TheEmpire,9,8,10,30,100,70,50,40,120,1,"Undead",2,battle_unit_CombatUnitType.Archers,0.1,0,0,11,10);
+battle_ArmyStat.SERPENT_ARCHERS_T2_D = new battle_ArmyStat("Serpent Archers",18,battle_CombotantRace.TheKhaganate,9,7,14,30,100,70,50,40,120,1,"Poisonous 2",2,battle_unit_CombatUnitType.Archers,0.1,0,0,11,10);
+battle_ArmyStat.armyStatBD.h[0].h[1].h[2] = battle_ArmyStat.SERPENT_ARCHERS_T2_D;
 battle_ArmyStat.GIANTBOTS_T3_B = new battle_ArmyStat("Giantbots",200,battle_CombotantRace.TheCult,1,30,50,10,115,0,50,40,120,1,"Mechanism;MartialArtists",3,battle_unit_CombatUnitType.Archers,0.15,55,15,11,3);
 battle_ArmyStat.KNIGHTS_T1_W = new battle_ArmyStat("Knights",58,battle_CombotantRace.Westaria,5,5,8,15,0,0,50,60,180,1,"Charge 2",1,battle_unit_CombatUnitType.Cavalry,0.01,0,0,15.5,5);
+battle_ArmyStat.UNDYING_HORSEMEN_T1_E = new battle_ArmyStat("Undying Horsemen",60,battle_CombotantRace.TheEmpire,5,6,10,17,0,0,50,60,180,1,"Charge 2;Undead",1,battle_unit_CombatUnitType.Cavalry,0.01,0,0,15.5,5);
+battle_ArmyStat.armyStatBD.h[1].h[2].h[1] = battle_ArmyStat.UNDYING_HORSEMEN_T1_E;
 battle_ArmyStat.NOMADS_T1_D = new battle_ArmyStat("Nomads",40,battle_CombotantRace.TheKhaganate,7,4,7,15,0,0,50,60,180,1,"Charge 2",1,battle_unit_CombatUnitType.Cavalry,0.01,0,0,15.5,5);
 battle_ArmyStat.LANCERS_T1_B = new battle_ArmyStat("Lancers",54,battle_CombotantRace.TheCult,5,4,10,17,0,0,50,60,180,1,"Charge 2",1,battle_unit_CombatUnitType.Cavalry,0.01,0,0,15.5,5);
 battle_ArmyStat.UNDYING_HORSEMEN_T1_E = new battle_ArmyStat("Undying Horsemen",54,battle_CombotantRace.TheEmpire,5,5,8,17,0,0,50,60,180,1,"Charge 2;Undead",1,battle_unit_CombatUnitType.Cavalry,0.01,0,0,15.5,5);
+battle_ArmyStat.NOMADS_T1_D = new battle_ArmyStat("Nomads",40,battle_CombotantRace.TheKhaganate,7,4,7,15,0,0,50,60,180,1,"Charge 2",1,battle_unit_CombatUnitType.Cavalry,0.01,0,0,15.5,5);
+battle_ArmyStat.armyStatBD.h[0].h[2].h[1] = battle_ArmyStat.NOMADS_T1_D;
 battle_ArmyStat.CHAMPIONS_T2_W = new battle_ArmyStat("Champions",72,battle_CombotantRace.Westaria,5,6,9,15,0,0,50,60,180,1,"Charge 2",2,battle_unit_CombatUnitType.Cavalry,0.01,0,0,15.5,5);
+battle_ArmyStat.DARK_KNIGHTS_T2_E = new battle_ArmyStat("Dark Knights",75,battle_CombotantRace.TheEmpire,5,9,12,17,0,0,50,60,180,1,"Charge 2;Undead",2,battle_unit_CombatUnitType.Cavalry,0.01,0,0,15.5,5);
+battle_ArmyStat.armyStatBD.h[1].h[2].h[2] = battle_ArmyStat.DARK_KNIGHTS_T2_E;
 battle_ArmyStat.RAIDERS_T2_D = new battle_ArmyStat("Raiders",48,battle_CombotantRace.TheKhaganate,7,5,8,15,0,0,50,60,180,1,"Charge 2;Intimidiation 20",2,battle_unit_CombatUnitType.Cavalry,0.01,0,0,15.5,5);
 battle_ArmyStat.DRAGON_LANCERS_T2_B = new battle_ArmyStat("Dragon Lancers",67,battle_CombotantRace.TheCult,5,6,11,17,0,0,50,60,180,1,"Charge 2",2,battle_unit_CombatUnitType.Cavalry,0.01,0,0,15.5,5);
 battle_ArmyStat.DARK_KNIGHTS_T2_E = new battle_ArmyStat("Dark Knights",67,battle_CombotantRace.TheEmpire,5,6,10,17,0,0,50,60,180,1,"Charge 2;Undead",2,battle_unit_CombatUnitType.Cavalry,0.01,0,0,15.5,5);
+battle_ArmyStat.RAIDERS_T2_D = new battle_ArmyStat("Raiders",48,battle_CombotantRace.TheKhaganate,7,5,8,15,0,0,50,60,180,1,"Charge 2;Intimidiation 20",2,battle_unit_CombatUnitType.Cavalry,0.01,0,0,15.5,5);
+battle_ArmyStat.armyStatBD.h[0].h[2].h[2] = battle_ArmyStat.RAIDERS_T2_D;
 battle_ArmyStat.ANCIENT_RAIDERS_T3_D = new battle_ArmyStat("Ancient Raiders",75,battle_CombotantRace.TheKhaganate,5,7,12,15,0,0,50,60,180,1,"Charge 2;Intimidiation 20;Undead",3,battle_unit_CombatUnitType.Cavalry,0.001,0,0,15.5,5);
 battle_ArmyStat.TREBUCHET_T1_W = new battle_ArmyStat("Trebuchet",400,battle_CombotantRace.Westaria,1,15,25,50,200,100,50,20,200,2,"Mechanism;SplashDamage 25;SiegeWeapon 50",1,battle_unit_CombatUnitType.Siege,0.01,100,0,11,10);
 battle_ArmyStat.TREBUCHET_T1_D = new battle_ArmyStat("Trebuchet",400,battle_CombotantRace.TheKhaganate,1,15,25,50,200,100,50,20,200,2,"Mechanism;SplashDamage 25;SiegeWeapon 50",1,battle_unit_CombatUnitType.Siege,0.01,100,0,11,10);
 battle_ArmyStat.TREBUCHET_T1_B = new battle_ArmyStat("Trebuchet",400,battle_CombotantRace.TheCult,1,15,25,50,200,100,50,20,200,2,"Mechanism;SplashDamage 25;SiegeWeapon 50",1,battle_unit_CombatUnitType.Siege,0.01,100,0,11,10);
 battle_ArmyStat.TREBUCHET_T1_E = new battle_ArmyStat("Trebuchet",400,battle_CombotantRace.TheEmpire,1,15,25,50,200,100,50,20,200,2,"Mechanism;SplashDamage 25;SiegeWeapon 50",1,battle_unit_CombatUnitType.Siege,0.01,100,0,11,10);
+battle_ArmyStat.TREBUCHET_T1_D = new battle_ArmyStat("Trebuchet",400,battle_CombotantRace.TheKhaganate,1,15,25,50,200,100,50,20,200,2,"Mechanism;SplashDamage 25;SiegeWeapon 50",1,battle_unit_CombatUnitType.Siege,0.01,100,0,11,10);
+battle_ArmyStat.armyStatBD.h[0].h[3].h[1] = battle_ArmyStat.TREBUCHET_T1_D;
 battle_ArmyStat.POISON_CATAPULT_T2_D = new battle_ArmyStat("Poison Catapult",600,battle_CombotantRace.TheKhaganate,1,20,35,50,200,100,50,20,200,2,"Mechanism;SplashDamage 25;SiegeWeapon 50;Poisonous 2",2,battle_unit_CombatUnitType.Siege,0.3,50,0,11,10);
 battle_ArmyStat.POISON_CATAPULT_T2_E = new battle_ArmyStat("Poison Catapult",600,battle_CombotantRace.TheEmpire,1,20,35,50,200,100,50,20,200,1,"Mechanism;SplashDamage 25;SiegeWeapon 50;Poisonous 2",2,battle_unit_CombatUnitType.Siege,0.3,50,0,11,10);
+battle_ArmyStat.POISON_CATAPULT_T2_D = new battle_ArmyStat("Poison Catapult",600,battle_CombotantRace.TheKhaganate,1,20,35,50,200,100,50,20,200,2,"Mechanism;SplashDamage 25;SiegeWeapon 50;Poisonous 2",2,battle_unit_CombatUnitType.Siege,0.3,50,0,11,10);
+battle_ArmyStat.armyStatBD.h[0].h[3].h[2] = battle_ArmyStat.POISON_CATAPULT_T2_D;
+battle_ArmyStat.POISON_CATAPULT_T2_E = new battle_ArmyStat("Poison Catapult",600,battle_CombotantRace.TheEmpire,1,20,35,50,200,100,50,20,200,1,"Mechanism;SplashDamage 25;SiegeWeapon 50;Poisonous 2",2,battle_unit_CombatUnitType.Siege,0.3,50,0,11,10);
+battle_ArmyStat.armyStatBD.h[1].h[3].h[1] = battle_ArmyStat.POISON_CATAPULT_T2_E;
 battle_ArmyStat.MONKS_T1_W = new battle_ArmyStat("Monks",65,battle_CombotantRace.Westaria,6,5,6,15,0,0,50,40,150,1,"DivinePresence 10",1,battle_unit_CombatUnitType.Magic,0.1,0,0,11,5);
+battle_ArmyStat.UNDYING_ASSASSINS_T1_E = new battle_ArmyStat("Undying Assassins",130,battle_CombotantRace.TheEmpire,3,6,12,15,0,0,50,40,150,1,"Undead;HorrificDash 8;Intimidiation 10",1,battle_unit_CombatUnitType.Magic,0.1,0,0,11,5);
+battle_ArmyStat.armyStatBD.h[1].h[4].h[1] = battle_ArmyStat.UNDYING_ASSASSINS_T1_E;
 battle_ArmyStat.ASSASSINS_T1_D = new battle_ArmyStat("Assassins",120,battle_CombotantRace.TheKhaganate,3,8,16,15,0,0,50,40,150,1,"HorrificDash 5;PoisonImmunity;Discipline",1,battle_unit_CombatUnitType.Magic,0.1,0,0,11,5);
 battle_ArmyStat.ACOLYTES_T1_B = new battle_ArmyStat("Acolytes",55,battle_CombotantRace.TheCult,6,8,12,25,100,50,50,40,150,1,"FreezeArrow 50",1,battle_unit_CombatUnitType.Magic,0.1,44,0,11,5);
-battle_ArmyStat.UNDYING_ASSASSINS_T1_E = new battle_ArmyStat("Undying Assassins",120,battle_CombotantRace.TheEmpire,3,6,12,15,0,0,50,40,150,1,"Undead;HorrificDash 3;Intimidiation 10",1,battle_unit_CombatUnitType.Magic,0.1,0,0,11,5);
+battle_ArmyStat.UNDYING_ASSASSINS_T1_E = new battle_ArmyStat("Undying Assassins",130,battle_CombotantRace.TheEmpire,3,6,12,15,0,0,50,40,150,1,"Undead;HorrificDash 8;Intimidiation 10",1,battle_unit_CombatUnitType.Magic,0.1,0,0,11,5);
+battle_ArmyStat.ASSASSINS_T1_D = new battle_ArmyStat("Assassins",120,battle_CombotantRace.TheKhaganate,3,8,16,15,0,0,50,40,150,1,"HorrificDash 5;PoisonImmunity;Discipline",1,battle_unit_CombatUnitType.Magic,0.1,0,0,11,5);
+battle_ArmyStat.armyStatBD.h[0].h[4].h[1] = battle_ArmyStat.ASSASSINS_T1_D;
 battle_ArmyStat.ZEALOTS_T2_W = new battle_ArmyStat("Zealots",75,battle_CombotantRace.Westaria,6,6,9,15,50,0,50,40,150,1,"DivinePresence 10;MartialArtists",2,battle_unit_CombatUnitType.Magic,0.33,50,0,11,5);
+battle_ArmyStat.SHADES_T2_E = new battle_ArmyStat("Shades",135,battle_CombotantRace.TheEmpire,3,12,20,15,0,0,50,40,150,1,"Undead;HorrificDash 4;Intimidiation 15",2,battle_unit_CombatUnitType.Magic,0.1,0,0,11,5);
+battle_ArmyStat.armyStatBD.h[1].h[4].h[2] = battle_ArmyStat.SHADES_T2_E;
 battle_ArmyStat.WIZARDS_T2_B = new battle_ArmyStat("Wizards",65,battle_CombotantRace.TheCult,6,12,18,25,100,50,50,40,150,1,"FreezeBlast 40",2,battle_unit_CombatUnitType.Magic,0.1,55,0,11,5);
 battle_ArmyStat.SHADES_T2_E = new battle_ArmyStat("Shades",135,battle_CombotantRace.TheEmpire,3,12,20,15,0,0,50,40,150,1,"Undead;HorrificDash 4;Intimidiation 15",2,battle_unit_CombatUnitType.Magic,0.1,0,0,11,5);
+battle_ArmyStat.ASSASSINS_T1_D = new battle_ArmyStat("Assassins",120,battle_CombotantRace.TheKhaganate,3,8,16,15,0,0,50,40,150,1,"HorrificDash 5;PoisonImmunity;Discipline",1,battle_unit_CombatUnitType.Magic,0.1,0,0,11,5);
+battle_ArmyStat.armyStatBD.h[0].h[4].h[1] = battle_ArmyStat.ASSASSINS_T1_D;
+// Fix, idk why this one got overriden
+battle_ArmyStat.WARRIORS_T1_D = new battle_ArmyStat("Warriors",18,battle_CombotantRace.TheKhaganate,9,3,4,15,0,0,50,50,100,1,"",1,battle_unit_CombatUnitType.Infantry,0.1,0,0,11,5);
+battle_ArmyStat.armyStatBD.h[3].h[0].h[1] = battle_ArmyStat.WARRIORS_T1_D;
 battle_ArmyStat.OGRE_T1_N = new battle_ArmyStat("Ogre",400,battle_CombotantRace.Bandits,1,8,12,30,0,0,50,30,0,0,"SplashDamage 25",1,battle_unit_CombatUnitType.Magic,0.1,0,0,20,5);
 battle_ArmyStat.AVATAR_T3_W = new battle_ArmyStat("Avatar",1000,battle_CombotantRace.Westaria,1,10,15,30,0,0,50,30,0,0,"SplashDamage 25;Undead;SiegeWeapon 50",3,battle_unit_CombatUnitType.Magic,0.1,0,0,20,5);
 battle_ArmyStat.WOLVES_T1_N = new battle_ArmyStat("Wolves",40,battle_CombotantRace.Bandits,6,4,10,17,0,0,50,60,0,0,"Charge 2",1,battle_unit_CombatUnitType.Cavalry,0.01,0,0,11,5);
-battle_ArmyStat.BRIGAND_WARRIORS_T1_N = new battle_ArmyStat("Brigand Warriors",20,battle_CombotantRace.Bandits,9,1,5,16,0,0,50,40,0,0,"",1,battle_unit_CombatUnitType.Infantry,0.1,0,0,11,5);
+battle_ArmyStat.BRIGAND_WARRIORS_T1_N = new battle_ArmyStat("Brigand Warriors",21,battle_CombotantRace.Bandits,9,1,5,16,0,0,50,50,0,0,"",1,battle_unit_CombatUnitType.Infantry,0.1,0,0,11,5);
 battle_ArmyStat.BRIGAND_ARCHERS_T1_N = new battle_ArmyStat("Brigand Archers",16,battle_CombotantRace.Bandits,9,4,8,30,100,50,50,40,0,0,"",1,battle_unit_CombatUnitType.Archers,0.1,0,0,11,5);
 battle_spell_SpellInfo.TYPE_SPELL = 0;
 battle_spell_SpellInfo.TYPE_BANNER = 1;
 battle_spell_SpellInfo.TYPE_ULTIMATE = 2;
 battle_spell_SpellInfo.m_allSpells = [];
-battle_spell_SpellInfo.LORDS_JUDGEMENT = new battle_spell_SpellInfo(0,1,"LORD'S JUDGEMENT",battle_CombotantRace.Westaria,0,150,75,60,30,"Damages enemy units in a selected area");
-battle_spell_SpellInfo.BANNER_OF_CONSECRATION = new battle_spell_SpellInfo(1,2,"BANNER OF CONSECRATION",battle_CombotantRace.Westaria,1,50,75,10,12,"Heals and ressurects your units");
-battle_spell_SpellInfo.BANNER_OF_HEROISM = new battle_spell_SpellInfo(2,3,"BANNER OF HEROISM",battle_CombotantRace.Westaria,1,70,75,2,12,"All your nearby squads enter into Heroic state (a squad causes 1.5x damage in Heroic state)");
+battle_spell_SpellInfo.LORDS_JUDGEMENT = new battle_spell_SpellInfo(0,1,"LORD'S JUDGEMENT",battle_CombotantRace.Westaria,0,50,75,60,30,"Damages enemy units in a selected area");
+battle_spell_SpellInfo.BANNER_OF_CONSECRATION = new battle_spell_SpellInfo(1,2,"BANNER OF CONSECRATION",battle_CombotantRace.Westaria,1,50,75,20,12,"Heals and ressurects your units");
+battle_spell_SpellInfo.BANNER_OF_HEROISM = new battle_spell_SpellInfo(2,3,"BANNER OF HEROISM",battle_CombotantRace.Westaria,1,75,75,2,12,"All your nearby squads enter into Heroic state (a squad causes 1.5x damage in Heroic state)");
 battle_spell_SpellInfo.SIGN_OF_THE_ADVENT = new battle_spell_SpellInfo(3,4,"SIGN OF THE ADVENT",battle_CombotantRace.Westaria,2,1,0,0,0,"Temporarily summons Lord's Avatar into the battlefield");
 battle_spell_SpellInfo.SUMMON_STONEWORMS = new battle_spell_SpellInfo(4,1,"SUMMON STONEWORMS",battle_CombotantRace.TheKhaganate,0,100,75,8,10,"Stoneworms damage the enemy units in a selected area");
 battle_spell_SpellInfo.DISENTOMB = new battle_spell_SpellInfo(5,2,"DISENTOMB",battle_CombotantRace.TheKhaganate,0,250,75,3,0,"Summons Immortals squad");
@@ -114265,14 +114467,16 @@ iriysoft_ui_UiSideType.LEFT = new iriysoft_ui_UiSideType();
 iriysoft_ui_UiSideType.RIGHT = new iriysoft_ui_UiSideType();
 iriysoft_ui_UiSideType.TOP = new iriysoft_ui_UiSideType();
 iriysoft_ui_UiSideType.BOTTOM = new iriysoft_ui_UiSideType();
-level_BuildPlace.RESOURCE_NAMES = [[["BuildHereTopClass",null,0],["BuildHereTopClass",null,0],["BuildHereTopClass",null,0],["BuildHereTopClass",null,0]],[["VillageRedClass","VillageRedAnimClass",0],["VillageGreenClass","VillageGreenAnimClass",1],["VillageBlueClass","VillageBlueAnimClass",0],["VillagePurpleClass","VillagePurpleAnimClass",2.5]],[["MineRedClass","MineRedAnimClass",0],["MineGreenClass","MineGreenAnimClass",0.5],["MineBlueClass","MineBlueAnimClass",0],["MinePurpleClass","MinePurpleAnimClass",0]],[["ObeliskRedClass","ObeliskRedAnimClass",1],["ObeliskGreenClass","ObeliskGreenAnimClass",1],["ObeliskBlueClass","ObeliskBlueAnimClass",1],["ObeliskPurpleClass","ObeliskPurpleAnimClass",1]]];
+//// 就下面这行，把绿国所有建筑（农场金矿之类）改成亡灵的
+level_BuildPlace.RESOURCE_NAMES = [[["BuildHereTopClass",null,0],["BuildHereTopClass",null,0],["BuildHereTopClass",null,0],["BuildHereTopClass",null,0]],[["VillageRedClass","VillageRedAnimClass",0],["VillagePurpleClass","VillagePurpleAnimClass",1],["VillageBlueClass","VillageBlueAnimClass",0],["VillagePurpleClass","VillagePurpleAnimClass",2.5]],[["MineRedClass","MineRedAnimClass",0],["MinePurpleClass","MinePurpleAnimClass",0],["MineBlueClass","MineBlueAnimClass",0],["MinePurpleClass","MinePurpleAnimClass",0]],[["ObeliskRedClass","ObeliskRedAnimClass",1],["ObeliskPurpleClass","ObeliskPurpleAnimClass",1],["ObeliskBlueClass","ObeliskBlueAnimClass",1],["ObeliskPurpleClass","ObeliskPurpleAnimClass",1]]];
 level_ItemContent.TREASURE_REVARD = 500;
 level_KeyNodeContent.m_eventActivate = new level_knodelogic_KnodeEvent(1000);
 level_KeyNodeContent.m_eventDeactivate = new level_knodelogic_KnodeEvent(1000);
 level_KeyNodeContent.m_eventGotoActiveState = new level_knodelogic_KnodeEvent(9999);
 level_KeyNodeContent.m_eventGotoRizeState = new level_knodelogic_KnodeEvent(9999);
 level_KeyNodeContent.EMPTY_ACTION = new base_fsm_EmptyFSMAction();
-level_FKeyNodeContentView.RESOURCE_NAMES = [[[["CastleRedClass","CastleRedAnimClass",6],["CastleRedRazeClass","CastleRedRazeAnimClass",0]],[["CastleGreenClass","CastleGreenAnimClass",0],["CastleGreenRazeClass","CastleGreenRazeAnimClass",0]],[["CastleBlueClass","CastleBlueAnimClass",6],["CastleBlueRazeClass","CastleBlueRazeAnimClass",0]],[["CastlePurpleClass","CastlePurpleAnimClass",6],["CastlePurpleRazeClass","CastlePurpleRazeAnimClass",0]]],[[["MageTowerRedClass",null,0],["MageTowerRedRazedClass",null,0]],[["MageTowerGreenClass",null,0],["MageTowerGreenRazedClass",null,0]],[["MageTowerBlueClass",null,0],["MageTowerBlueRazedClass",null,0]],[["MageTowerPurpleClass",null,0],["MageTowerPurpleRazedClass",null,0]]],[[["TownRedClass","TownRedAnimClass",4],["TownRedRazeClass","TownRedRazeAnimClass",0]],[["TownGreenClass","TownGreenAnimClass",0],["TownGreenRazeClass","TownGreenRazeAnimClass",0]],[["TownBlueClass","TownBlueAnimClass",6],["TownBlueRazeClass","TownBlueRazeAnimClass",0]],[["TownPurpleClass","TownPurpleAnimClass",6],["TownPurpleRazeClass",null,0]]],[[["WarcampRedClass",null,0],["WarcampRedRazeClass",null,0]],[["WarcampGreenClass",null,0],["WarcampGreenRazeClass",null,0]],[["WarcampBlueClass",null,0],["WarcampBlueRazeClass",null,0]],[["WarcampPurpleClass",null,0],["WarcampPurpleRazeClass",null,0]]]];
+//// 这行改所有绿国城堡， （greenclass -> purple class)
+level_FKeyNodeContentView.RESOURCE_NAMES = [[[["CastleRedClass","CastleRedAnimClass",6],["CastleRedRazeClass","CastleRedRazeAnimClass",0]],[["CastlePurpleClass","CastlePurpleAnimClass",6],["CastlePurpleRazeClass","CastlePurpleRazeAnimClass",0]],[["CastleBlueClass","CastleBlueAnimClass",6],["CastleBlueRazeClass","CastleBlueRazeAnimClass",0]],[["CastlePurpleClass","CastlePurpleAnimClass",6],["CastlePurpleRazeClass","CastlePurpleRazeAnimClass",0]]],[[["MageTowerRedClass",null,0],["MageTowerRedRazedClass",null,0]],[["MageTowerPurpleClass",null,0],["MageTowerPurpleRazedClass",null,0]],[["MageTowerBlueClass",null,0],["MageTowerBlueRazedClass",null,0]],[["MageTowerPurpleClass",null,0],["MageTowerPurpleRazedClass",null,0]]],[[["TownRedClass","TownRedAnimClass",4],["TownRedRazeClass","TownRedRazeAnimClass",0]],[["TownPurpleClass","TownPurpleAnimClass",6],["TownPurpleRazeClass",null,0]],[["TownBlueClass","TownBlueAnimClass",6],["TownBlueRazeClass","TownBlueRazeAnimClass",0]],[["TownPurpleClass","TownPurpleAnimClass",6],["TownPurpleRazeClass",null,0]]],[[["WarcampRedClass",null,0],["WarcampRedRazeClass",null,0]],[["WarcampPurpleClass",null,0],["WarcampPurpleRazeClass",null,0]],[["WarcampBlueClass",null,0],["WarcampBlueRazeClass",null,0]],[["WarcampPurpleClass",null,0],["WarcampPurpleRazeClass",null,0]]]];
 level_FKeyNodeContentView.INNER_RAD = 40;
 level_FKeyNodeContentView.INNER_RAD2 = 1600.;
 level_LevelVisual.ST_CHEAT_MODE = 2;
