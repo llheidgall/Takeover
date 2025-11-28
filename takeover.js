@@ -14390,7 +14390,7 @@ WindowController.prototype = $extend(iriysoft_core_templates_BaseObject.prototyp
 		case 1:
 			return "<FONT SIZE='+1'>+50% 据点生命值 <br>这个据点将会训练精锐部队</FONT>";
 		case 2:
-			return "<FONT SIZE='+1'>+50% 据点生命值 <br>T这个据点将会训练精英部队</FONT>";
+			return "<FONT SIZE='+1'>+50% 据点生命值 <br>这个据点将会训练精英部队</FONT>";
 		}
 		return "<FONT SIZE='+1' COLOR='#FF3300'>达到据点最大等级</FONT>";
 	}
