@@ -22442,42 +22442,44 @@ data_LevelInfo.prototype = {
 			break;
 		case 1:
 			switch(this.m_levelNum) {
-			case 0:
-				return "It's Not Over Yet!";
-			case 1:
-				return "Revenge";
-			case 2:
-				return "To the East";
-			case 3:
-				return "Tame The Undead";
-			case 4:
-				return "Divide And Conquer";
-			case 5:
-				return "The Rich North";
-			case 6:
-				return "Dark Secrets";
-			case 7:
-				return "Revival";
+				case 0:
+					return "还没结束！";
+				case 1:
+					return "复仇";
+				case 2:
+					return "向东进发";
+				case 3:
+					return "驯服亡灵";
+				case 4:
+					return "分而治之";
+				case 5:
+					return "富饶的北境";
+				case 6:
+					return "黑暗秘密";
+				case 7:
+					return "复兴";
+				
 			}
 			break;
 		case 2:
 			switch(this.m_levelNum) {
-			case 0:
-				return "The World's Edge";
-			case 1:
-				return "The Empire's End";
-			case 2:
-				return "Friend Or Foe?";
-			case 3:
-				return "New Plague";
-			case 4:
-				return "Light And Magic";
-			case 5:
-				return "Remedy";
-			case 6:
-				return "Close The Circle";
-			case 7:
-				return "The Final Battle";
+				case 0:
+					return "世界尽头";
+				case 1:
+					return "帝国终焉";
+				case 2:
+					return "敌人还是朋友？";
+				case 3:
+					return "新瘟疫";
+				case 4:
+					return "光与魔法";
+				case 5:
+					return "解药";
+				case 6:
+					return "闭合循环";
+				case 7:
+					return "最终之战";
+						
 			}
 			break;
 		}
@@ -22514,42 +22516,57 @@ data_LevelInfo.prototype = {
 			break;
 		case 1:
 			switch(this.m_levelNum) {
-			case 0:
-				return "   The Horde was defeated and fled in disgrace. But the new khan will lead our warriors to the new victories. We shall requite and our rivals will shed their blood. If they have blood...";
-			case 1:
-				return "   The prophets foresee a great victory. Westarian cowards won't hide behind the thick walls. We'll pillage their towns and temples and enslave their wives.";
-			case 2:
-				return "   Once the lands on the east were our forefathers' homeland. We can't let the Empire possess it any longer. We'll get it back as we are stronger!";
-			case 3:
-				return "   The necromancers built their magical laboratories on the eastern cape. We must seize them all before the northern wizards do that.";
-			case 4:
-				return "   The remnants of Undead flee from The Horde to the lands of these silly wizards. Let's strike the weakened northerners with what our shamans have created.";
-			case 5:
-				return "   These lands are famous for the riches hidden here. We will seize the mines of The Cult and force the wizards to mine gold and gems for us.";
-			case 6:
-				return "   Our shamans conceived the secrets of the Empire's necromancers and our forefathers are now fighting on our side. The Empire must take these secrets to the grave – these secrets now belong to us!";
-			case 7:
-				return "   The Capital of The Empire. The very Empire which have been killing us for ages. This is the time for the Great Khan to rule over all the lands and all the creatures, both alive and dead.";
+				case 0:
+					return "   部族被击败，耻辱地逃走了。但新的大汗将带领我们的勇士取得新的胜利。我们必将复仇，而敌人将流尽他们的血——如果他们还有血的话……";
+				
+				case 1:
+					return "   先知预见了一场伟大的胜利。那些西塔里亚的懦夫别想再藏在厚墙后面。我们会劫掠他们的城镇和神庙，将他们的女人变成奴隶。";
+				
+				case 2:
+					return "   东方的土地曾是我们先祖的家园。帝国绝不能继续占据那里。我们会夺回它，因为我们比他们更强！";
+				
+				case 3:
+					return "   死灵术士在东部海角建立了他们的魔法实验室。必须在北方的巫师们赶到之前把它们全部夺下来。";
+				
+				case 4:
+					return "   亡灵的残余从部族逃亡，躲入那些愚蠢法师的领地。就让我们用萨满们创造的力量，打击这些已被削弱的北方人吧。";
+				
+				case 5:
+					return "   这些土地因隐藏的财富而闻名。我们要夺取教团的矿场，让法师们替我们挖金子和宝石。";
+				
+				case 6:
+					return "   我们的萨满已洞悉帝国死灵术士的秘密，先祖如今也为我们而战。帝国必须将这些秘密带进坟墓——因为它们现在属于我们！";
+				
+				case 7:
+					return "   帝国的首都——那个无数年来屠杀我们部族的帝国。现在正是大汗统治这片土地上所有生灵与亡者的时刻！";
+				
 			}
 			break;
 		case 2:
 			switch(this.m_levelNum) {
-			case 0:
-				return "   The Empire enslaved us, the church persecuted our wizards, the steppe barbarians plundered our towns. And when the time came to fight for our freedom we were defeated. We hadn't enough experience, but the Cult evolves.";
-			case 1:
-				return "   Alarming reports came from our spies in the Capital: Khan and his shamans are corrupted by necromancy. They sacrifice their enemies and resurrect them. We have to get rid of the Imperial forces' remnants in our homelands.";
-			case 2:
-				return "   Westaria could be our ally but the fanatic templars don't let our envoy reach the Duke, who is now the Emperor. They hate us even more than they hate the undeads. Let's fight for a free life!";
-			case 3:
-				return "   Dreadful news comes from The Capital. Undeads crawl from the city. Resurrected Horde warriors rose against their masters. We must stop the undead invasion on our borders.";
-			case 4:
-				return "   We have finally allied with the Westarians. Now we can send all the forces to the east and the Westarian army will strike from the south. We'd better hurry up – our forces on the Capital outskirts are exhausted.";
-			case 5:
-				return "   No one should play with the dark forces. The shamans of Horde believed that these forces obeyed them but they didn't have enough strength. The plague devours the Horde from within. We'll bring the remedy to them.";
-			case 6:
-				return "   The lands which are not controlled by the Alliance are abundant in undeads. We will strike together with the Westarians and encircle The Capital.";
-			case 7:
-				return "   We'll meet the Westarians in the battlefield again but now we'll fight shoulder to shoulder. Let the combined light of The Lord and Northern Magic wipe the undeads out from our world forever!";
+				case 0:
+					return "   帝国奴役我们，教会迫害我们的法师，草原蛮族掠夺我们的城镇。而当我们为自由而战的时刻到来时，我们却被击败了。我们经验不足，但教团正在进化。";
+				
+				case 1:
+					return "   来自首都的情报令人震惊：大汗和他的萨满已被死灵术腐化。他们献祭敌人并将其复活。我们必须清除帝国军队在家园中残存的势力。";
+				
+				case 2:
+					return "   西塔里亚本可以成为我们的盟友，但狂热的圣殿骑士不允许我们的使者见到如今成为皇帝的公爵。他们恨我们，比恨亡灵还深。为了自由的生活，让我们战斗吧！";
+				
+				case 3:
+					return "   可怕的消息从首都传来：亡灵正在从城中爬出，被复活的部族战士反叛了他们的主人。我们必须阻止亡灵在边境的入侵。";
+				
+				case 4:
+					return "   我们终于与西塔里亚结成了联盟。现在我们可以将全部力量投入东线，而西塔里亚军队将从南方发动攻击。但必须抓紧——我们在首都外沿的部队已经精疲力尽。";
+				
+				case 5:
+					return "   没有人应该玩弄黑暗之力。部族的萨满以为这些力量会听命于他们，但他们的力量远远不够。瘟疫正在从内部吞噬整个部族。我们会将解药带给他们。";
+				
+				case 6:
+					return "   未受联盟控制的土地上充斥着亡灵。我们将与西塔里亚人协同作战，包围首都。";
+				
+				case 7:
+					return "   我们将在战场上再次遇见西塔里亚人，但这一次我们将肩并肩战斗。愿主的光辉与北方魔法的力量共同将亡灵永远驱逐出我们的世界！";				
 			}
 			break;
 		}
@@ -110583,7 +110600,7 @@ progress_Badges.prototype = {
 		var tempMetricCond = new achievements_MetricCondition(tempMetric,achievements_ComparisionOperator.GREATER_OR_EQUAL,8);
 		var tempUnlockCond = new achievements_UnlockCondition(tempMetricCond);
 		var this1 = this.m_badges;
-		var v = new progress_Badge("Valor of the West",1,tempUnlockCond,"Complete the Duchy of Westaria campaign");
+		var v = new progress_Badge("亡灵的复仇",1,tempUnlockCond,"完成瑞瓦迪斯帝国战役");
 		var _this = this1;
 		if(__map_reserved["BADGE_WESTARIA_CAMPAIGN_COMPLETE"] != null) {
 			_this.setReserved("BADGE_WESTARIA_CAMPAIGN_COMPLETE",v);
@@ -110595,7 +110612,7 @@ progress_Badges.prototype = {
 		tempMetricCond = new achievements_MetricCondition(tempMetric,achievements_ComparisionOperator.GREATER_OR_EQUAL,8);
 		tempUnlockCond = new achievements_UnlockCondition(tempMetricCond);
 		var this2 = this.m_badges;
-		var v1 = new progress_Badge("Rampage of the South",2,tempUnlockCond,"Complete the Crimson Horde campaign");
+		var v1 = new progress_Badge("南境横扫", 2, tempUnlockCond, "完成深红部族战役");
 		var _this1 = this2;
 		if(__map_reserved["BADGE_HORDE_CAMPAIGN_COMPLETE"] != null) {
 			_this1.setReserved("BADGE_HORDE_CAMPAIGN_COMPLETE",v1);
@@ -110607,7 +110624,7 @@ progress_Badges.prototype = {
 		tempMetricCond = new achievements_MetricCondition(tempMetric,achievements_ComparisionOperator.GREATER_OR_EQUAL,8);
 		tempUnlockCond = new achievements_UnlockCondition(tempMetricCond);
 		var this3 = this.m_badges;
-		var v2 = new progress_Badge("Freedom of the North",3,tempUnlockCond,"Complete the Icedales Cult campaign");
+		var v2 = new progress_Badge("北境解放", 3, tempUnlockCond, "完成霜境教团战役");
 		var _this2 = this3;
 		if(__map_reserved["BADGE_CULT_CAMPAIGN_COMPLETE"] != null) {
 			_this2.setReserved("BADGE_CULT_CAMPAIGN_COMPLETE",v2);
@@ -110619,7 +110636,7 @@ progress_Badges.prototype = {
 		tempMetricCond = new achievements_MetricCondition(tempMetric,achievements_ComparisionOperator.GREATER_OR_EQUAL,8);
 		tempUnlockCond = new achievements_UnlockCondition(tempMetricCond);
 		var this4 = this.m_badges;
-		var v3 = new progress_Badge("The Holy King",4,tempUnlockCond,"Complete all the Duchy of Westaria missions with Perfect rating");
+		var v3 = new progress_Badge("亡灵之皇", 4, tempUnlockCond, "以完美评价完成全部不死帝国任务");
 		var _this3 = this4;
 		if(__map_reserved["BADGE_WESTARIA_ALL_PERFECT"] != null) {
 			_this3.setReserved("BADGE_WESTARIA_ALL_PERFECT",v3);
@@ -110631,7 +110648,7 @@ progress_Badges.prototype = {
 		tempMetricCond = new achievements_MetricCondition(tempMetric,achievements_ComparisionOperator.GREATER_OR_EQUAL,8);
 		tempUnlockCond = new achievements_UnlockCondition(tempMetricCond);
 		var this5 = this.m_badges;
-		var v4 = new progress_Badge("The Great Khan",5,tempUnlockCond,"Complete all the Crimson Horde missions with Perfect rating");
+		var v4 = new progress_Badge("大汗", 5, tempUnlockCond, "以完美评价完成全部深红部族任务");
 		var _this4 = this5;
 		if(__map_reserved["BADGE_HORDE_ALL_PERFECT"] != null) {
 			_this4.setReserved("BADGE_HORDE_ALL_PERFECT",v4);
@@ -110643,7 +110660,7 @@ progress_Badges.prototype = {
 		tempMetricCond = new achievements_MetricCondition(tempMetric,achievements_ComparisionOperator.GREATER_OR_EQUAL,8);
 		tempUnlockCond = new achievements_UnlockCondition(tempMetricCond);
 		var this6 = this.m_badges;
-		var v5 = new progress_Badge("The Prophet",6,tempUnlockCond,"Complete all the Icedales Cult missions with Perfect rating");
+		var v5 = new progress_Badge("先知", 6, tempUnlockCond, "以完美评价完成全部霜境教团任务");
 		var _this5 = this6;
 		if(__map_reserved["BADGE_CULT_ALL_PERFECT"] != null) {
 			_this5.setReserved("BADGE_CULT_ALL_PERFECT",v5);
@@ -110655,7 +110672,7 @@ progress_Badges.prototype = {
 		tempMetricCond = new achievements_MetricCondition(tempMetric,achievements_ComparisionOperator.GREATER_OR_EQUAL,9);
 		tempUnlockCond = new achievements_UnlockCondition(tempMetricCond);
 		var this7 = this.m_badges;
-		var v6 = new progress_Badge("Justice of the Lord",7,tempUnlockCond,"Issue all the basic edicts of the Duchy of Westaria");
+		var v6 = new progress_Badge("亡灵之主的裁决", 7, tempUnlockCond, "颁布全部不死帝国的基础法令");
 		var _this6 = this7;
 		if(__map_reserved["BADGE_WESTARIA_ALL_BASE_EDICTS"] != null) {
 			_this6.setReserved("BADGE_WESTARIA_ALL_BASE_EDICTS",v6);
@@ -110667,7 +110684,7 @@ progress_Badges.prototype = {
 		tempMetricCond = new achievements_MetricCondition(tempMetric,achievements_ComparisionOperator.GREATER_OR_EQUAL,9);
 		tempUnlockCond = new achievements_UnlockCondition(tempMetricCond);
 		var this8 = this.m_badges;
-		var v7 = new progress_Badge("The Law of the Steppe",8,tempUnlockCond,"Issue all the basic edicts of the Crimson Horde");
+		var v7 = new progress_Badge("草原之律", 8, tempUnlockCond, "颁布全部深红部族的基础法令");
 		var _this7 = this8;
 		if(__map_reserved["BADGE_HORDE_ALL_BASE_EDICTS"] != null) {
 			_this7.setReserved("BADGE_HORDE_ALL_BASE_EDICTS",v7);
@@ -110679,7 +110696,7 @@ progress_Badges.prototype = {
 		tempMetricCond = new achievements_MetricCondition(tempMetric,achievements_ComparisionOperator.GREATER_OR_EQUAL,9);
 		tempUnlockCond = new achievements_UnlockCondition(tempMetricCond);
 		var this9 = this.m_badges;
-		var v8 = new progress_Badge("Patronage of the Cult",9,tempUnlockCond,"Issue all the basic edicts of the Icedales Cult");
+		var v8 = new progress_Badge("教团庇护", 9, tempUnlockCond, "颁布全部霜境教团的基础法令");
 		var _this8 = this9;
 		if(__map_reserved["BADGE_CULT_ALL_BASE_EDICTS"] != null) {
 			_this8.setReserved("BADGE_CULT_ALL_BASE_EDICTS",v8);
@@ -110691,7 +110708,7 @@ progress_Badges.prototype = {
 		tempMetricCond = new achievements_MetricCondition(tempMetric,achievements_ComparisionOperator.GREATER_OR_EQUAL,1);
 		tempUnlockCond = new achievements_UnlockCondition(tempMetricCond);
 		var this10 = this.m_badges;
-		var v9 = new progress_Badge("Veni, Vidi, Vici",10,tempUnlockCond,"Complete a mission with the Perfect rating");
+		var v9 = new progress_Badge("我来，我见，我征服", 10, tempUnlockCond, "以完美评价完成任意任务");
 		var _this9 = this10;
 		if(__map_reserved["BADGE_ANY_MISSION_PERFECT"] != null) {
 			_this9.setReserved("BADGE_ANY_MISSION_PERFECT",v9);
@@ -110703,7 +110720,7 @@ progress_Badges.prototype = {
 		tempMetricCond = new achievements_MetricCondition(tempMetric,achievements_ComparisionOperator.GREATER_OR_EQUAL,7);
 		tempUnlockCond = new achievements_UnlockCondition(tempMetricCond);
 		var this11 = this.m_badges;
-		var v10 = new progress_Badge("Peaceful Place",11,tempUnlockCond,"Control 7 farms at the same time");
+		var v10 = new progress_Badge("宁静之地", 11, tempUnlockCond, "同时控制 7 座农场");
 		var _this10 = this11;
 		if(__map_reserved["BADGE_VILLAGES_OWNED"] != null) {
 			_this10.setReserved("BADGE_VILLAGES_OWNED",v10);
@@ -110715,7 +110732,7 @@ progress_Badges.prototype = {
 		tempMetricCond = new achievements_MetricCondition(tempMetric,achievements_ComparisionOperator.GREATER_OR_EQUAL,7);
 		tempUnlockCond = new achievements_UnlockCondition(tempMetricCond);
 		var this12 = this.m_badges;
-		var v11 = new progress_Badge("Land of Artisians",12,tempUnlockCond,"Control 7 mines at the same time");
+		var v11 = new progress_Badge("工匠之地", 12, tempUnlockCond, "同时控制 7 座矿场");
 		var _this11 = this12;
 		if(__map_reserved["BADGE_MINES_OWNED"] != null) {
 			_this11.setReserved("BADGE_MINES_OWNED",v11);
@@ -110727,7 +110744,7 @@ progress_Badges.prototype = {
 		tempMetricCond = new achievements_MetricCondition(tempMetric,achievements_ComparisionOperator.GREATER_OR_EQUAL,7);
 		tempUnlockCond = new achievements_UnlockCondition(tempMetricCond);
 		var this13 = this.m_badges;
-		var v12 = new progress_Badge("Enchanted Kingdom",13,tempUnlockCond,"Control 7 obelisks at the same time");
+		var v12 = new progress_Badge("魔法之国", 13, tempUnlockCond, "同时控制 7 座方尖碑");
 		var _this12 = this13;
 		if(__map_reserved["BADGE_OBELISKS_OWNED"] != null) {
 			_this12.setReserved("BADGE_OBELISKS_OWNED",v12);
@@ -110739,7 +110756,7 @@ progress_Badges.prototype = {
 		tempMetricCond = new achievements_MetricCondition(tempMetric,achievements_ComparisionOperator.GREATER_OR_EQUAL,10);
 		tempUnlockCond = new achievements_UnlockCondition(tempMetricCond);
 		var this14 = this.m_badges;
-		var v13 = new progress_Badge("General Mobilization",14,tempUnlockCond,"Purchase 10 squads in a mission");
+		var v13 = new progress_Badge("总动员", 14, tempUnlockCond, "在同一战斗中招募 10 支小队");
 		var _this13 = this14;
 		if(__map_reserved["BADGE_SQUADS_PURCHASED"] != null) {
 			_this13.setReserved("BADGE_SQUADS_PURCHASED",v13);
@@ -110751,7 +110768,7 @@ progress_Badges.prototype = {
 		tempMetricCond = new achievements_MetricCondition(tempMetric,achievements_ComparisionOperator.GREATER_OR_EQUAL,5);
 		tempUnlockCond = new achievements_UnlockCondition(tempMetricCond);
 		var this15 = this.m_badges;
-		var v14 = new progress_Badge("Banner Time",15,tempUnlockCond,"Set 5 banners in a battlefield in a mission");
+		var v14 = new progress_Badge("旗帜时刻", 15, tempUnlockCond, "在同一任务的战场上竖立 5 面旗帜");
 		var _this14 = this15;
 		if(__map_reserved["BADGE_BANNERS_SET"] != null) {
 			_this14.setReserved("BADGE_BANNERS_SET",v14);
@@ -110763,7 +110780,7 @@ progress_Badges.prototype = {
 		tempMetricCond = new achievements_MetricCondition(tempMetric,achievements_ComparisionOperator.GREATER_OR_EQUAL,5);
 		tempUnlockCond = new achievements_UnlockCondition(tempMetricCond);
 		var this16 = this.m_badges;
-		var v15 = new progress_Badge("Test of Faith",16,tempUnlockCond,"Use an ultimate spell 5 times in a mission");
+		var v15 = new progress_Badge("信仰试炼", 16, tempUnlockCond, "在同一任务中施放 5 次终极法术");
 		var _this15 = this16;
 		if(__map_reserved["BADGE_ULTIMATES_USED"] != null) {
 			_this15.setReserved("BADGE_ULTIMATES_USED",v15);
@@ -110775,7 +110792,7 @@ progress_Badges.prototype = {
 		tempMetricCond = new achievements_MetricCondition(tempMetric,achievements_ComparisionOperator.GREATER_OR_EQUAL,1);
 		tempUnlockCond = new achievements_UnlockCondition(tempMetricCond);
 		var this17 = this.m_badges;
-		var v16 = new progress_Badge("My Precious!",17,tempUnlockCond,"Open a treasure chest");
+		var v16 = new progress_Badge("我的宝贝！", 17, tempUnlockCond, "打开一个宝箱");
 		var _this16 = this17;
 		if(__map_reserved["BADGE_CHESTS_OPENED"] != null) {
 			_this16.setReserved("BADGE_CHESTS_OPENED",v16);
@@ -110787,7 +110804,7 @@ progress_Badges.prototype = {
 		tempMetricCond = new achievements_MetricCondition(tempMetric,achievements_ComparisionOperator.GREATER_OR_EQUAL,30);
 		tempUnlockCond = new achievements_UnlockCondition(tempMetricCond);
 		var this18 = this.m_badges;
-		var v17 = new progress_Badge("Onslaught",18,tempUnlockCond,"Destroy 30 enemy squads in a mission");
+		var v17 = new progress_Badge("屠杀模式", 18, tempUnlockCond, "在同一任务中摧毁 30 支敌方小队");
 		var _this17 = this18;
 		if(__map_reserved["BADGE_ENEMY_SQUADS_DESTROYED"] != null) {
 			_this17.setReserved("BADGE_ENEMY_SQUADS_DESTROYED",v17);
@@ -110799,7 +110816,7 @@ progress_Badges.prototype = {
 		tempMetricCond = new achievements_MetricCondition(tempMetric,achievements_ComparisionOperator.GREATER_OR_EQUAL,20);
 		tempUnlockCond = new achievements_UnlockCondition(tempMetricCond);
 		var this19 = this.m_badges;
-		var v18 = new progress_Badge("Epic Battle",19,tempUnlockCond,"You squads must enter in the heroic state 20 times during a mission");
+		var v18 = new progress_Badge("史诗之战", 19, tempUnlockCond, "在同一任务中让你的部队进入英勇状态 20 次");
 		var _this18 = this19;
 		if(__map_reserved["BADGE_HEROIC_MODE_ENGAGED"] != null) {
 			_this18.setReserved("BADGE_HEROIC_MODE_ENGAGED",v18);
@@ -110811,7 +110828,7 @@ progress_Badges.prototype = {
 		tempMetricCond = new achievements_MetricCondition(tempMetric,achievements_ComparisionOperator.GREATER_OR_EQUAL,3000);
 		tempUnlockCond = new achievements_UnlockCondition(tempMetricCond);
 		var this20 = this.m_badges;
-		var v19 = new progress_Badge("Put It Into Treasury",20,tempUnlockCond,"Collect 3000 gold in a mission");
+		var v19 = new progress_Badge("收入国库", 20, tempUnlockCond, "在同一任务中收集 3000 金币");
 		var _this19 = this20;
 		if(__map_reserved["BADGE_GOLD_COLLECTED"] != null) {
 			_this19.setReserved("BADGE_GOLD_COLLECTED",v19);
@@ -110823,7 +110840,7 @@ progress_Badges.prototype = {
 		tempMetricCond = new achievements_MetricCondition(tempMetric,achievements_ComparisionOperator.GREATER_OR_EQUAL,20);
 		tempUnlockCond = new achievements_UnlockCondition(tempMetricCond);
 		var this21 = this.m_badges;
-		var v20 = new progress_Badge("Great Army",21,tempUnlockCond,"Control 20 squads at the same time");
+		var v20 = new progress_Badge("强大战军", 21, tempUnlockCond, "同时控制 20 支小队");
 		var _this20 = this21;
 		if(__map_reserved["BADGE_SQUADS_OWNED"] != null) {
 			_this20.setReserved("BADGE_SQUADS_OWNED",v20);
@@ -110835,7 +110852,7 @@ progress_Badges.prototype = {
 		tempMetricCond = new achievements_MetricCondition(tempMetric,achievements_ComparisionOperator.GREATER_OR_EQUAL,10);
 		tempUnlockCond = new achievements_UnlockCondition(tempMetricCond);
 		var this22 = this.m_badges;
-		var v21 = new progress_Badge("From Hand to Hand",22,tempUnlockCond,"Seize strongholds 10 times in a mission");
+		var v21 = new progress_Badge("反复争夺", 22, tempUnlockCond, "在同一任务中夺取要塞 10 次");
 		var _this21 = this22;
 		if(__map_reserved["BADGE_STRONGHOLDS_SIEZED"] != null) {
 			_this21.setReserved("BADGE_STRONGHOLDS_SIEZED",v21);
