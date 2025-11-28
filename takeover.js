@@ -13829,7 +13829,7 @@ WindowController.initUnitHint = function(_armyStat,_armyStatBonus,hintUnitWindow
 	}
 	iriysoft_helper_Fwh.GetChildT(hintImage,["textUnitName"]).set_htmlText(name);
 	iriysoft_helper_Fwh.GetChildT(hintImage,["textSupplyPts"]).set_htmlText("-" + _armyStat.upkeep);
-	iriysoft_helper_Fwh.GetChildT(hintImage,["textUnitsNum"]).set_htmlText(unitsCount + " UNITS");
+	iriysoft_helper_Fwh.GetChildT(hintImage,["textUnitsNum"]).set_htmlText(unitsCount + "单位");
 	iriysoft_helper_Fwh.ChildGotoAndStop(hintImage,["mcUnitNumber"],unitsCount);
 	iriysoft_helper_Fwh.GetChildT(hintImage,["textHp"]).set_htmlText(WindowController.squadLevelColor(_level,hp == null ? "null" : "" + hp));
 	iriysoft_helper_Fwh.GetChildT(hintImage,["textTotalHp"]).set_htmlText(Std.string(hp * unitsCount));
@@ -22415,23 +22415,30 @@ data_LevelInfo.prototype = {
 		switch(this.m_companyId) {
 		case 0:
 			switch(this.m_levelNum) {
-			case 0:
-				return "Enemy At The Gate";
-			case 1:
-				return "Havoc";
-			case 2:
-				return "A Swift Thrust";
-			case 3:
-				return "A New Rival";
-			case 4:
-				return "Storm Of Westport";
-			case 5:
-				return "It's Our Land";
-			case 6:
-				return "Chaos of Battle";
-			case 7:
-				return "Hail the Empire!";
-			}
+				case 0:
+					return "帝国再临"; // Enemy At The Gate
+			
+				case 1:
+					return "复仇"; // Havoc
+				
+				case 2:
+					return "进军大陆"; // A Swift Thrust
+				
+				case 3:
+					return "清除叛徒"; // A New Rival
+				
+				case 4:
+					return "西港风暴"; // Storm Of Westport
+				
+				case 5:
+					return "帝国之域"; // It's Our Land
+				
+				case 6:
+					return "血战到底"; // Chaos of Battle
+				
+				case 7:
+					return "亡灵帝国的重生！"; // Hail the Empire!		
+			}		
 			break;
 		case 1:
 			switch(this.m_levelNum) {
@@ -22480,23 +22487,30 @@ data_LevelInfo.prototype = {
 		switch(this.m_companyId) {
 		case 0:
 			switch(this.m_levelNum) {
-			case 0:
-				return "   The Duchy of Westaria is located on the western islands. It was always safe from the troubles of the continent. But here they come.";
-			case 1:
-				return "   The Crimson Horde was conquered by the Empire ages ago but they never were fully bent. Havoc reigns in Rivadis. And these barbarians are trying to seize our land.";
-			case 2:
-				return "   We wage a crusade against the filth in the name of The Lord. City of Westport is well fortified against a direct attack. But we can use limited forces to create a springboard for our advancement on the continent.";
-			case 3:
-				return "   We must cut Wesport off from the Capital. But the recons report that the rebels from the North were seen there and they are practicing forbidden magic. Our duty is to destroy them along with the necromancers!";
-			case 4:
-				return "   Our forces on the continent have to fight on two fronts these days. Moreover we have to deal with the Horde too! The only way out is to attack Westport and seize it to secure the transfer of the reinforcement.";
-			case 5:
-				return "   The Horde still threatens us from the west coast. Let's wipe them out from the lands granted to us by The Lord!";
-			case 6:
-				return "   Before we attack the Capital we have to complete the outflanking of the left wing. Necromancers are fighting against the northern Cult in these snowy lands. Let's annihilate both of them with one strike!";
-			case 7:
-				return "   The Empire of Rivadis must get rid of necromancers and regenerate. Hail to the new Empire, hail to the new Emperor! For the Lord's sake!";
-			}
+				case 0:
+					return "   不死帝国再次起兵北方荒原，势要夺回所有曾经属于自己的领土，可敌人就在门前， 帝国必须摧毁他们";
+				
+				case 1:
+					return "   深红部族曾在古代被帝国镇压，但他们从未真正屈服。如今他们掀起混乱，是时候收拾他们了。";
+				
+				case 2:
+					return "   我们奉亡灵之主之名对逆贼发动讨伐。西港城防御坚固，难以正面攻破，但我们可用少量部队抢占桥头堡，为帝国进军大陆铺路。";
+				
+				case 3:
+					return "   必须切断西港与首都之间的联系。但侦察兵报告，来自北方的叛军出现在此，并使用禁忌魔法。他们必须被一并清除！";
+				
+				case 4:
+					return "   帝国军在大陆上已被迫分兵两线迎敌，如今又必须面对部族的侵袭！唯一的出路就是攻下西港，确保增援能够顺利抵达前线。";
+				
+				case 5:
+					return "   深红部族仍在西岸威胁帝国。此地承载着亡灵之主赐予我们的权柄——我们必须将他们彻底驱逐！";
+				
+				case 6:
+					return "   在袭击首都前，我们必须完成左翼包抄。在这片冰雪之地，深红部落正与北方教团交战。是时候一举歼灭这两个异端势力了！";
+				
+				case 7:
+					return "   里瓦迪斯帝国必须清除所有逆贼的残余并再次崛起。向新帝国致敬，向新皇帝致敬！为了亡灵之主！";	
+			}			
 			break;
 		case 1:
 			switch(this.m_levelNum) {
@@ -113133,7 +113147,7 @@ ui_MissionOverScr.prototype = $extend(GameScreen.prototype,{
 		var company_index = this.gm_ctx_.profile.selectedCompany().info().number();
 		iriysoft_helper_Fwh.ChildGotoAndStop(this.main_l_,["back_"],company_index + 1);
 		iriysoft_helper_Fwh.ButtonInitByName(this.scr_,"button_done_",$bind(this,this.OnDone),this.gm_ctx_.gui_snd,"好的");
-		iriysoft_helper_Fwh.GetChildT(this.main_l_,["mcTimeMessage","txtResultMessage"]).set_htmlText("PLAYTIME <FONT COLOR='#00CBFF'>" + this.makeTimeText(this.stats_.missionTime) + "</FONT>");
+		iriysoft_helper_Fwh.GetChildT(this.main_l_,["mcTimeMessage","txtResultMessage"]).set_htmlText("游戏时间 <FONT COLOR='#00CBFF'>" + this.makeTimeText(this.stats_.missionTime) + "</FONT>");
 		iriysoft_helper_Fwh.GetChildT(this.main_l_,["mcTimeMessage","txtTaskMessage"]).set_text("");
 		iriysoft_helper_Fwh.GetChildT(this.main_l_,["mcTimeMessage","txtTaskMessage"]).set_text("");
 		if(this.stats_.missionOverStatus == battle_stat_MissionStats.MISSION_COMPLETE) {
