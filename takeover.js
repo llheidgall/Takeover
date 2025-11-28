@@ -18210,15 +18210,15 @@ battle_squad_FSquad.getMoraleText = function(_morale,_moraleNone) {
 	if(_moraleNone) {
 		return "N/A";
 	} else if(_morale < 25) {
-		return "VERY LOW";
+		return "非常低";
 	} else if(_morale < 40) {
-		return "LOW";
+		return "低";
 	} else if(_morale < 60) {
-		return "NORMAL";
+		return "中等";
 	} else if(_morale < 75) {
-		return "HIGH";
+		return "高";
 	} else {
-		return "VERY HIGH";
+		return "非常高";
 	}
 };
 battle_squad_FSquad.createUnitDef = function(_resManager,_armyStat,_armyStatBonus) {
