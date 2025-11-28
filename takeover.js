@@ -14350,11 +14350,11 @@ WindowController.prototype = $extend(iriysoft_core_templates_BaseObject.prototyp
 	,createUpgradeHintText: function(_toLevel) {
 		switch(_toLevel) {
 		case 1:
-			return "<FONT SIZE='+1'>+50% stronghold's HP<br>The stronghold will train VETERAN units</FONT>";
+			return "<FONT SIZE='+1'>+50% 据点生命值 <br>这个据点将会训练精锐部队</FONT>";
 		case 2:
-			return "<FONT SIZE='+1'>+50% stronghold's HP<br>The stronghold will train ELITE units</FONT>";
+			return "<FONT SIZE='+1'>+50% 据点生命值 <br>T这个据点将会训练精英部队</FONT>";
 		}
-		return "<FONT SIZE='+1' COLOR='#FF3300'>Reached MAX level of the stronghold</FONT>";
+		return "<FONT SIZE='+1' COLOR='#FF3300'>达到据点最大等级</FONT>";
 	}
 	,createSupplyHintText: function(_cmb,_type) {
 		var hintText = "";
@@ -14363,15 +14363,15 @@ WindowController.prototype = $extend(iriysoft_core_templates_BaseObject.prototyp
 		hintText += "<FONT COLOR='#999999'>" + node.name.toUpperCase() + ": </FONT>";
 		var br = "";
 		if(node.goldSpeed > 0) {
-			hintText += "+" + node.goldSpeed + " <FONT COLOR='#FFFF00'>GOLD</FONT> income";
+			hintText += "+" + node.goldSpeed + " <FONT COLOR='#FFFF00'>黄金</FONT>收入";
 			br = "<br>";
 		}
 		if(node.supplyPower > 0) {
-			hintText += br + "+" + node.supplyPower + " <FONT COLOR='#65FF00'>SUPPLY POINT</FONT>";
+			hintText += br + "+" + node.supplyPower + " <FONT COLOR='#65FF00'>军队上限</FONT>";
 			br = "<br>";
 		}
 		if(node.manaSpeed > 0) {
-			hintText += br + "+" + node.manaSpeed + " <FONT COLOR='#00CBFF'>MANA</FONT> generation";
+			hintText += br + "+" + node.manaSpeed + " <FONT COLOR='#00CBFF'>魔法</FONT>生产";
 		}
 		return hintText;
 	}
@@ -18135,38 +18135,38 @@ $hxClasses["battle.squad.FSquad"] = battle_squad_FSquad;
 battle_squad_FSquad.__name__ = "battle.squad.FSquad";
 battle_squad_FSquad.getAttackSpeedText = function(_attackSpeed) {
 	if(_attackSpeed <= 10) {
-		return "v.fast";
+		return "非常快";
 	} else if(_attackSpeed < 15.) {
-		return "fast";
+		return "快";
 	} else if(_attackSpeed < 20) {
 		return "";
 	} else if(_attackSpeed <= 30) {
-		return "slow";
+		return "慢";
 	} else {
-		return "v.slow";
+		return "非常慢";
 	}
 };
 battle_squad_FSquad.getRangeText = function(_range) {
 	if(_range < 70) {
-		return "SHORT";
+		return "短";
 	} else if(_range >= 200) {
-		return "VERY WIDE";
+		return "很远";
 	} else if(_range >= 130) {
-		return "WIDE";
+		return "远";
 	}
-	return "AVERAGE";
+	return "中等";
 };
 battle_squad_FSquad.getSpeedText = function(_speed) {
 	if(_speed < 25) {
-		return "VERY SLOW";
+		return "非常慢";
 	} else if(_speed < 35) {
-		return "SLOW";
+		return "慢";
 	} else if(_speed < 45) {
-		return "AVERAGE";
+		return "中等";
 	} else if(_speed < 65) {
-		return "HIGH";
+		return "快";
 	}
-	return "VERY HIGH";
+	return "非常快";
 };
 battle_squad_FSquad.getMoraleText = function(_morale,_moraleNone) {
 	if(_moraleNone) {
@@ -21776,43 +21776,44 @@ battle_unit_param_UnitProperty.getNameStatic = function(_abilID,_abilVal,_armySt
 battle_unit_param_UnitProperty.getDescription = function(_abilID,_abilVal,_armyStatBonus) {
 	switch(_abilID) {
 	case "Charge":
-		return "Speeds up and causes " + (parseFloat(_abilVal) - 1 + _armyStatBonus.chargeFactor) * 100 + "% damage during the first attack";
+		return "加速并在第一次攻击时造成 " + (parseFloat(_abilVal) - 1 + _armyStatBonus.chargeFactor) * 100 + "% 伤害";
 	case "Discipline":
-		return "Can't be frightened";
+		return "不会被惊吓";
 	case "DivinePresence":
-		return "Improves morale of the nearby allied units";
+		return "提升附近友军的士气";
 	case "Explosive":
-		return "Explodes after death damaging the nearby enemies";
+		return "死亡后爆炸，对附近敌人造成伤害";
 	case "FreezeArrow":
-		return "Freezes enemies";
+		return "冻结敌人";
 	case "FreezeBlast":
-		return "Freezes enemies at close range";
+		return "近距离冻结敌人";
 	case "HorrificDash":
-		return "Teleports to the enemy from short distance";
+		return "从短距离瞬移至敌人面前";
 	case "Intimidiation":
-		return "Demoralizes the enemies greatly";
+		return "大幅度削弱敌人士气";
 	case "LongSpear":
-		return "Causes " + (100 + parseFloat(_abilVal)) + "% damage to cavalry";
+		return "对骑兵造成 " + (100 + parseFloat(_abilVal)) + "% 伤害";
 	case "MartialArtists":
-		return "Have no melee penalty";
+		return "无近战惩罚";
 	case "Mechanism":
-		return "Not affected by morale. Can't be poisoned or healed";
+		return "不受士气影响，无法被中毒或治疗";
 	case "PoisonImmunity":
-		return "Can't be poisoned";
+		return "不能被中毒";
 	case "Poisonous":
-		return "Poisoned enemies get additional continuous damage";
+		return "使敌人受到持续毒伤害";
 	case "ShieldWall":
-		return "Gets less damage by the ranged attacks";
+		return "受到的远程伤害减少";
 	case "SiegeWeapon":
-		return "Causes " + parseFloat(_abilVal) * 10 + "% damage to strongholds";
+		return "对要塞造成 " + parseFloat(_abilVal) * 10 + "% 伤害";
 	case "SplashDamage":
-		return "Damages all the enemies at close range";
+		return "对近距离所有敌人造成伤害";
 	case "Undead":
-		return "Not affected by morale and poison";
+		return "不受士气与毒素影响";
 	default:
 		return "";
 	}
 };
+
 battle_unit_param_UnitProperty.__super__ = base_param_Property;
 battle_unit_param_UnitProperty.prototype = $extend(base_param_Property.prototype,{
 	m_unitCreatorID: null
@@ -26894,11 +26895,11 @@ hud_WindowBase.prototype = $extend(iriysoft_core_templates_BaseObject.prototype,
 		} else {
 			iriysoft_helper_Fwh.ChildSetVisible(this.cur_panel_,["txtCaption","text"],false);
 		}
-		iriysoft_helper_Fwh.ChildSetHtmlText(this.cur_panel_,["txtUnits","text"],"UNITS");
-		iriysoft_helper_Fwh.ChildSetHtmlText(this.cur_panel_,["txtUpgrade","text"],"UPGRADE");
-		iriysoft_helper_Fwh.ChildSetHtmlText(this.cur_panel_,["txtMagic","text"],"MAGIC");
-		iriysoft_helper_Fwh.ChildSetHtmlText(this.cur_panel_,["txtBuild","text"],"BUILD");
-		iriysoft_helper_Fwh.ChildSetHtmlText(this.cur_panel_,["txtDestroy","text"],"DESTROY");
+		iriysoft_helper_Fwh.ChildSetHtmlText(this.cur_panel_,["txtUnits","text"],"单位");
+		iriysoft_helper_Fwh.ChildSetHtmlText(this.cur_panel_,["txtUpgrade","text"],"升级");
+		iriysoft_helper_Fwh.ChildSetHtmlText(this.cur_panel_,["txtMagic","text"],"终极法术");
+		iriysoft_helper_Fwh.ChildSetHtmlText(this.cur_panel_,["txtBuild","text"],"建造");
+		iriysoft_helper_Fwh.ChildSetHtmlText(this.cur_panel_,["txtDestroy","text"],"摧毁");
 	}
 	,m_buttons: null
 	,getAllButtons: function() {
@@ -36040,18 +36041,18 @@ level_NodeContent.prototype = $extend(base_BObject.prototype,{
 		case 1:
 			this.goldSpeed = 0;
 			this.supplyPower = 1;
-			this.name = _owner.getRace() == battle_CombotantRace.TheEmpire ? "Graveyard" : "Farm";
+			this.name = _owner.getRace() == battle_CombotantRace.TheEmpire ? "坟地" : "农场";
 			break;
 		case 2:
 			this.goldSpeed = 2;
 			this.supplyPower = 0;
-			this.name = "Mine";
+			this.name = "矿场";
 			break;
 		case 3:
 			this.goldSpeed = 0;
 			this.manaSpeed = 1;
 			this.supplyPower = 0;
-			this.name = "Obelisk";
+			this.name = "方尖碑";
 			break;
 		}
 		if(_owner != null) {
@@ -36455,7 +36456,7 @@ level_KeyNodeContent.prototype = $extend(level_NodeContent.prototype,{
 			this.manaSpeed = 0;
 			this.supplyPower = 1;
 			this.m_maxHP = 500;
-			this.name = "TOWN";
+			this.name = "城镇";
 			this.unitTypeForBy = [0,1];
 			break;
 		case 1:
@@ -36463,7 +36464,7 @@ level_KeyNodeContent.prototype = $extend(level_NodeContent.prototype,{
 			this.manaSpeed = 1;
 			this.supplyPower = 2;
 			this.m_maxHP = 1000;
-			this.name = "CASTLE";
+			this.name = "城堡";
 			this.unitTypeForBy = [0,1,2,3];
 			break;
 		case 2:
@@ -36471,7 +36472,7 @@ level_KeyNodeContent.prototype = $extend(level_NodeContent.prototype,{
 			this.manaSpeed = 0;
 			this.supplyPower = 0;
 			this.m_maxHP = 500;
-			this.name = "CAMP";
+			this.name = "营地";
 			this.unitTypeForBy = [0,1];
 			break;
 		case 3:
@@ -36479,7 +36480,7 @@ level_KeyNodeContent.prototype = $extend(level_NodeContent.prototype,{
 			this.manaSpeed = 2 + towerAdditionalPoints;
 			this.supplyPower = 1 + towerAdditionalPoints;
 			this.m_maxHP = 500;
-			this.name = "MAGIC TOWER";
+			this.name = "魔法塔";
 			this.ultimateTimeSpeed = 1;
 			this.unitTypeForBy = [0,4];
 			break;
@@ -111678,7 +111679,7 @@ ui_BadgesScr.prototype = $extend(GameScreen.prototype,{
 		this.main_l_ = iriysoft_helper_Fwh.GetChildC(this.scr_,["center_layout_"]);
 		this.renderLayer.addChild(this.scr_);
 		this.main_l_.SetTextRoot();
-		iriysoft_helper_Fwh.ButtonInitByName(this.scr_,"button_done_",$bind(this,this.OnDone),this.gm_ctx_.gui_snd,"OK");
+		iriysoft_helper_Fwh.ButtonInitByName(this.scr_,"button_done_",$bind(this,this.OnDone),this.gm_ctx_.gui_snd,"好的");
 		this.left_ = iriysoft_helper_Fwh.ButtonInitByName(this.scr_,"button_ScrollLeft",$bind(this,this.OnLeft),this.gm_ctx_.gui_snd);
 		this.right_ = iriysoft_helper_Fwh.ButtonInitByName(this.scr_,"button_ScrollRight",$bind(this,this.OnRight),this.gm_ctx_.gui_snd);
 		var back = iriysoft_helper_Fwh.GetChildA(this.main_l_,["back_"]);
@@ -112034,8 +112035,8 @@ ui_CongratsScr.prototype = $extend(GameScreen.prototype,{
 		this.main_l_ = iriysoft_helper_Fwh.GetChildC(this.scr_,["center_layout_"]);
 		this.renderLayer.addChild(this.scr_);
 		this.main_l_.SetTextRoot();
-		iriysoft_helper_Fwh.ButtonInitByName(this.scr_,"button_another_",$bind(this,this.OnAnother),this.gm_ctx_.gui_snd,"Another");
-		iriysoft_helper_Fwh.ButtonInitByName(this.scr_,"button_continue_",$bind(this,this.OnContinue),this.gm_ctx_.gui_snd,"Continue");
+		iriysoft_helper_Fwh.ButtonInitByName(this.scr_,"button_another_",$bind(this,this.OnAnother),this.gm_ctx_.gui_snd,"另一个");
+		iriysoft_helper_Fwh.ButtonInitByName(this.scr_,"button_continue_",$bind(this,this.OnContinue),this.gm_ctx_.gui_snd,"继续");
 		var company_index = this.gm_ctx_.profile.selectedCompany().info().number();
 		iriysoft_helper_Fwh.ChildGotoAndStop(this.main_l_,["back_"],company_index + 1);
 		var _g = 0;
@@ -112120,8 +112121,8 @@ ui_EdictsScr.prototype = $extend(GameScreen.prototype,{
 		this.scr_ = UiCreator.Create(scr_data,this.gm_ctx_.vs_mgr);
 		this.main_l_ = iriysoft_helper_Fwh.GetChildC(this.scr_,["center_layout_"]);
 		this.renderLayer.addChild(this.scr_);
-		iriysoft_helper_Fwh.ButtonInitByName(this.scr_,"button_done_",$bind(this,this.OnDone),this.gm_ctx_.gui_snd,"OK");
-		this.reset_b_ = iriysoft_helper_Fwh.ButtonInitByName(this.scr_,"button_reset_",$bind(this,this.OnReset),this.gm_ctx_.gui_snd,"Reset");
+		iriysoft_helper_Fwh.ButtonInitByName(this.scr_,"button_done_",$bind(this,this.OnDone),this.gm_ctx_.gui_snd,"好的");
+		this.reset_b_ = iriysoft_helper_Fwh.ButtonInitByName(this.scr_,"button_reset_",$bind(this,this.OnReset),this.gm_ctx_.gui_snd,"重选");
 		var back = iriysoft_helper_Fwh.GetChildA(this.main_l_,["back_"]);
 		back.gotoFrame(this.gm_ctx_.profile.selectedCompany().info().number() + 1);
 		back.stop();
@@ -112778,8 +112779,8 @@ ui_MapScr.prototype = $extend(GameScreen.prototype,{
 			break;
 		}
 		this.InitTerrirtories();
-		iriysoft_helper_Fwh.ButtonInitByName(this.scr_,"button_edicts_",$bind(this,this.OnEdicts),this.gm_ctx_.gui_snd,"EDICTS");
-		iriysoft_helper_Fwh.ButtonInitByName(this.scr_,"button_back_",$bind(this,this.OnBack),this.gm_ctx_.gui_snd,"QUIT");
+		iriysoft_helper_Fwh.ButtonInitByName(this.scr_,"button_edicts_",$bind(this,this.OnEdicts),this.gm_ctx_.gui_snd,"条令");
+		iriysoft_helper_Fwh.ButtonInitByName(this.scr_,"button_back_",$bind(this,this.OnBack),this.gm_ctx_.gui_snd,"退出");
 		var back = iriysoft_helper_Fwh.GetChildA(this.main_l_,["back_"]);
 		back.gotoFrame(this.gm_ctx_.profile.selectedCompany().info().number() + 1);
 		back.stop();
@@ -112812,7 +112813,7 @@ ui_MapScr.prototype = $extend(GameScreen.prototype,{
 		this.badges_scr_sg_.emit();
 	}
 	,InitBadgesButton: function() {
-		var btn = iriysoft_helper_Fwh.ButtonInitByName(this.main_l_,"button_badges_",$bind(this,this.OnBadges),this.gm_ctx_.gui_snd,"BADGES");
+		var btn = iriysoft_helper_Fwh.ButtonInitByName(this.main_l_,"button_badges_",$bind(this,this.OnBadges),this.gm_ctx_.gui_snd,"徽章");
 		var unlockedBadgesCount = 0;
 		var _g = 0;
 		var _g1 = progress_Badges.BADGES_IDS.length;
@@ -112879,7 +112880,7 @@ ui_MapScr.prototype = $extend(GameScreen.prototype,{
 		var btn = iriysoft_helper_Fwh.GetChildB(this.cur_level_info_panel_,["button_ToBattle"]);
 		btn.userData._level_num = _levelNum;
 		btn.activate_sg().disconnectAll();
-		iriysoft_helper_Fwh.ButtonInit(btn,$bind(this,this.OnBattle),this.gm_ctx_.gui_snd,"BATTLE");
+		iriysoft_helper_Fwh.ButtonInit(btn,$bind(this,this.OnBattle),this.gm_ctx_.gui_snd,"开始战斗");
 		this.main_l_.addChild(this.level_info_panel_);
 	}
 	,OnBack: function(_) {
@@ -113092,7 +113093,7 @@ ui_MissionOverScr.prototype = $extend(GameScreen.prototype,{
 		this.main_l_.SetTextRoot();
 		var company_index = this.gm_ctx_.profile.selectedCompany().info().number();
 		iriysoft_helper_Fwh.ChildGotoAndStop(this.main_l_,["back_"],company_index + 1);
-		iriysoft_helper_Fwh.ButtonInitByName(this.scr_,"button_done_",$bind(this,this.OnDone),this.gm_ctx_.gui_snd,"OK");
+		iriysoft_helper_Fwh.ButtonInitByName(this.scr_,"button_done_",$bind(this,this.OnDone),this.gm_ctx_.gui_snd,"好的");
 		iriysoft_helper_Fwh.GetChildT(this.main_l_,["mcTimeMessage","txtResultMessage"]).set_htmlText("PLAYTIME <FONT COLOR='#00CBFF'>" + this.makeTimeText(this.stats_.missionTime) + "</FONT>");
 		iriysoft_helper_Fwh.GetChildT(this.main_l_,["mcTimeMessage","txtTaskMessage"]).set_text("");
 		iriysoft_helper_Fwh.GetChildT(this.main_l_,["mcTimeMessage","txtTaskMessage"]).set_text("");
@@ -113247,9 +113248,9 @@ ui_PauseScr.prototype = $extend(GameScreen.prototype,{
 		this.renderLayer.addChild(this.scr_);
 		iriysoft_helper_Fwh.GetChildC(this.main_l_,["back_alpha_"]).touchable = true;
 		this.main_l_.SetTextRoot();
-		iriysoft_helper_Fwh.ButtonInitByName(this.scr_,"button_resume_",$bind(this,this.OnResume),this.gm_ctx_.gui_snd,"Resume");
-		iriysoft_helper_Fwh.ButtonInitByName(this.scr_,"button_restart_",$bind(this,this.OnRestart),this.gm_ctx_.gui_snd,"Restart");
-		iriysoft_helper_Fwh.ButtonInitByName(this.scr_,"button_quit_",$bind(this,this.OnQuit),this.gm_ctx_.gui_snd,"Quit");
+		iriysoft_helper_Fwh.ButtonInitByName(this.scr_,"button_resume_",$bind(this,this.OnResume),this.gm_ctx_.gui_snd,"继续游戏");
+		iriysoft_helper_Fwh.ButtonInitByName(this.scr_,"button_restart_",$bind(this,this.OnRestart),this.gm_ctx_.gui_snd,"重新开始");
+		iriysoft_helper_Fwh.ButtonInitByName(this.scr_,"button_quit_",$bind(this,this.OnQuit),this.gm_ctx_.gui_snd,"退出游戏");
 		this.InitLayout();
 		this.gm_ctx_.InitSoundPanel(iriysoft_helper_Fwh.GetChildC(this.scr_,["mcSoundBlock"]),0.02,0.02);
 		Const.InitLogos(this.main_l_);
@@ -113338,7 +113339,7 @@ ui_StartScr.prototype = $extend(GameScreen.prototype,{
 		this.scr_ = UiCreator.Create(scr_data,this.gm_ctx_.vs_mgr);
 		this.main_l_ = iriysoft_helper_Fwh.GetChildC(this.scr_,["center_layout_"]);
 		this.renderLayer.addChild(this.scr_);
-		this.start_ = iriysoft_helper_Fwh.ButtonInitByName(this.scr_,"button_start_",$bind(this,this.OnShowChooseWindow),this.gm_ctx_.gui_snd,"START");
+		this.start_ = iriysoft_helper_Fwh.ButtonInitByName(this.scr_,"button_start_",$bind(this,this.OnShowChooseWindow),this.gm_ctx_.gui_snd,"开始游戏");
 		this.choose_ = iriysoft_helper_Fwh.GetChildC(this.main_l_,["choose_c_"]);
 		this.choose_.set_visible(false);
 		this.back_alpha_ = iriysoft_helper_Fwh.GetChildV(this.main_l_,["back_alpha_"]);
@@ -115883,33 +115884,36 @@ metagame_CombotantBonuses.UNLOCK_TERROR = 41;
 metagame_CombotantBonuses.UNLOCK_RAISE_DEAD = 42;
 metagame_CombotantBonuses.UNLOCK_BANNER_OF_DESECRATION = 43;
 metagame_CombotantBonuses.BONUSES_COUNT = 44;
-metagame_Edict.W_THE_LORDS_CHURCH = new metagame_Edict("THE LORD'S CHURCH",[new metagame_EdictContent(5,1,"Unlocks Banner of Consecration"),new metagame_EdictContent(6,25,"+25% banners` duration"),new metagame_EdictContent(6,50,"+50% banners` duration")],0,0);
-metagame_Edict.W_DUCAL_SOVEREIGNITY = new metagame_Edict("DUCAL SOVEREIGNITY",[new metagame_EdictContent(0,0,"Unlocks basic troops"),new metagame_EdictContent(8,75,"+75 gold in the beginning of the mission"),new metagame_EdictContent(8,150,"+150 gold in the beginning of the mission")],0,0);
-metagame_Edict.W_CALL_FOR_THE_CRUSADE = new metagame_Edict("CALL FOR THE CRUSADE",[new metagame_EdictContent(9,1,"Unlocks Lord`s Judgement"),new metagame_EdictContent(10,15,"+15% Lord`s Judgement damage"),new metagame_EdictContent(10,30,"+30% Lord`s Judgement damage")],4);
-metagame_Edict.W_TOWN_GUILDS = new metagame_Edict("TOWN GUILDS",[new metagame_EdictContent(0,1,"Upgrades Guards to Swordsmen"),new metagame_EdictContent(11,15,"+15% strongholds' HP"),new metagame_EdictContent(11,30,"+30% strongholds' HP")],4);
-metagame_Edict.W_THE_ZEALOTS_ORDER = new metagame_Edict("THE ZEALOTS ORDER",[new metagame_EdictContent(4,1,"Upgrades Monks to Zealots"),new metagame_EdictContent(12,-10,"-10% ultimate power cooldown"),new metagame_EdictContent(12,-20,"-20% ultimate power cooldown")],7);
-metagame_Edict.W_MECHANICS_RESEARCH = new metagame_Edict("MECHANICS RESEARCH",[new metagame_EdictContent(2,1,"Upgrades Archers to Crossbowmen"),new metagame_EdictContent(13,10,"+10% bows / seige weapons damage"),new metagame_EdictContent(13,20,"+20% bows / seige weapons damage")],7);
-metagame_Edict.W_HEROIC_EPOS = new metagame_Edict("HEROIC EPOS",[new metagame_EdictContent(14,1,"Unlocks Banner of Heroism"),new metagame_EdictContent(15,7,"+7% troops base morale"),new metagame_EdictContent(15,15,"15% troops base morale")],11);
-metagame_Edict.W_REGULAR_TOURNAMENTS = new metagame_Edict("REGULAR TOURNAMENTS",[new metagame_EdictContent(1,1,"Upgrades Knights to Champions"),new metagame_EdictContent(7,50,"Cavalry charge causes 2.5x damage"),new metagame_EdictContent(7,100,"Cavalry charge causes 3x damage")],11);
-metagame_Edict.W_LEGION = new metagame_Edict("LEGION",[new metagame_EdictContent(0,2,"Upgrades infantry to Legionaries"),new metagame_EdictContent(16,15,"+15% infantry HP"),new metagame_EdictContent(16,30,"+30% infantry HP")],15);
-metagame_Edict.H_BLOODLUST = new metagame_Edict("BLOODLUST",[new metagame_EdictContent(17,1,"Unlocks Banner of Bloodlust"),new metagame_EdictContent(18,25,"+25% damage vs strongholds"),new metagame_EdictContent(18,50,"+50% damage vs strongholds")],0,0);
-metagame_Edict.H_DECLARATION_OF_WAR = new metagame_Edict("DECLARATION OF WAR",[new metagame_EdictContent(0,0,"Unlocks basic troops"),new metagame_EdictContent(19,10,"+10% troops moving speed"),new metagame_EdictContent(19,20,"+20% troops moving speed")],0,0);
-metagame_Edict.H_SPEEKING_WHIT_ANIMALS = new metagame_Edict("SPEAKING TO ANIMALS",[new metagame_EdictContent(20,1,"Unlock Lure Stoneworms spell"),new metagame_EdictContent(21,1,"+1 worm (longer Lure Stoneworms)"),new metagame_EdictContent(21,2,"+2 worm (longer Lure Stoneworms)")],4);
-metagame_Edict.H_3_DAYS_TO_PLUNDER = new metagame_Edict("3 DAYS TO PLUNDER",[new metagame_EdictContent(1,1,"Upgrades Nomads to Riders"),new metagame_EdictContent(22,75,"+75 gold when capture a stronghold"),new metagame_EdictContent(22,150,"+150 gold when capture a stronghold")],4);
-metagame_Edict.H_RAID_THE_TOMBS = new metagame_Edict("RAID THE TOMBS",[new metagame_EdictContent(0,1,"Upgrades Warriors to Immortals"),new metagame_EdictContent(23,1,"+1 unit in an Immortals squad"),new metagame_EdictContent(23,2,"+2 unit in an Immortals squad")],7);
-metagame_Edict.H_POISONS_RESEARCH = new metagame_Edict("POISONS RESEARCH",[new metagame_EdictContent(2,1,"Upgrades Hunters to Serpent Archers"),new metagame_EdictContent(24,1,"+1 poison damage"),new metagame_EdictContent(24,2,"+2 poison damage")],7);
-metagame_Edict.H_DARK_TEACHING = new metagame_Edict("DARK TEACHING",[new metagame_EdictContent(25,1,"Unlocks Disentomb"),new metagame_EdictContent(26,3,"+3% ultimate charge if your squad dies"),new metagame_EdictContent(26,6,"+6% ultimate charge if your squad dies")],11);
-metagame_Edict.H_DREADFUL_MACHINERY = new metagame_Edict("DREADFUL MACHINERY",[new metagame_EdictContent(3,1,"Upgrades Trebouchet to Poison Catapult"),new metagame_EdictContent(27,50,"+50% siege weapons moving speed"),new metagame_EdictContent(27,100,"+100% siege weapons moving speed")],11);
-metagame_Edict.H_NECROPOLIS_EXCAVATIONS = new metagame_Edict("NECROPOLIS EXCAVATIONS",[new metagame_EdictContent(1,2,"Upgrades cavalry to Ancient Riders"),new metagame_EdictContent(28,-7,"-7% cost of your undead troops"),new metagame_EdictContent(28,-15,"-15% cost of your undead troops")],15);
-metagame_Edict.I_ARCANE_FROST = new metagame_Edict("ARCANE FROST",[new metagame_EdictContent(29,1,"Unlocks Ice Blast"),new metagame_EdictContent(30,1,"+1 second to freeze duration"),new metagame_EdictContent(30,2,"+2 seconds to freeze duration")],0,0);
-metagame_Edict.I_DECLARATION_OF_INDEPENDENCE = new metagame_Edict("DECLARATION OF INDEPENDENCE",[new metagame_EdictContent(0,0,"Unlocks basic troops"),new metagame_EdictContent(31,-15,"-15% farms, mines and obelisks cost"),new metagame_EdictContent(31,-30,"-30% farms, mines and obelisks cost")],0,0);
-metagame_Edict.I_ARTISIANS_GUILD = new metagame_Edict("ARTISIANS GUILD",[new metagame_EdictContent(2,1,"Upgrades Gunsmiths to Gunbots"),new metagame_EdictContent(32,5,"+5% crit chance for mechanisms"),new metagame_EdictContent(32,10,"+10% crit chance for mechanisms")],4);
-metagame_Edict.I_REBEL_ARMY = new metagame_Edict("REBEL ARMY",[new metagame_EdictContent(0,1,"Upgrades Rebels to Myrmidons"),new metagame_EdictContent(33,7,"+7% freeze chance to infantry"),new metagame_EdictContent(33,15,"+15% freeze chance to infantry")],4);
-metagame_Edict.I_MAGIC_LIBRARY = new metagame_Edict("MAGIC LIBRARY",[new metagame_EdictContent(34,1,"Unlocks Frost Enchantmnet"),new metagame_EdictContent(35,-10,"-10% spells cost"),new metagame_EdictContent(35,-20,"-20% spells cost")],7);
-metagame_Edict.I_LIBERATION_ARMY = new metagame_Edict("LIBERATION ARMY",[new metagame_EdictContent(36,1,"Unlocks Banner of Liberation"),new metagame_EdictContent(37,15,"Your squads gain xp 15% faster"),new metagame_EdictContent(37,30,"Your squads gain xp 30% faster")],7);
-metagame_Edict.I_MAGIC_ACADEMY = new metagame_Edict("MAGIC ACADEMY",[new metagame_EdictContent(4,1,"Upgrades Acolytes to Wizards"),new metagame_EdictContent(38,1,"Magic Towers give +1 gold/supply/mana"),new metagame_EdictContent(38,2,"Magic Towers give +2 gold/supply/mana")],11);
-metagame_Edict.I_BREAK_IN_THE_REPTILES = new metagame_Edict("TAME THE REPTILES",[new metagame_EdictContent(1,1,"Upgrades Lancers to Dragon Lancers"),new metagame_EdictContent(39,10,"+10% cavalry HP"),new metagame_EdictContent(39,20,"+20% cavalry HP")],11);
-metagame_Edict.I_GIANT_CONSTRUCTION = new metagame_Edict("GIANT CONSTRUCTION",[new metagame_EdictContent(2,2,"Upgrades marskmen to Giant Bots"),new metagame_EdictContent(40,2,"Giant Bots restore 2% HP per second"),new metagame_EdictContent(40,4,"Giant Bots restore 4% HP per second")],15);
+metagame_Edict.W_THE_LORDS_CHURCH = new metagame_Edict("主之圣堂-解锁奉献之旗",[new metagame_EdictContent(5,1,"解锁奉献之旗"),new metagame_EdictContent(6,25,"+25% 旗帜持续时间"),new metagame_EdictContent(6,50,"+50% 旗帜持续时间")],0,0);
+metagame_Edict.W_DUCAL_SOVEREIGNITY = new metagame_Edict("公爵权威-解锁基础部队",[new metagame_EdictContent(0,0,"解锁基础部队"),new metagame_EdictContent(8,75,"任务开始时 +75 金币"),new metagame_EdictContent(8,150,"任务开始时 +150 金币")],0,0);
+metagame_Edict.W_CALL_FOR_THE_CRUSADE = new metagame_Edict("号召圣战-解锁圣裁雷击",[new metagame_EdictContent(9,1,"解锁圣裁"),new metagame_EdictContent(10,15,"圣裁伤害 +15%"),new metagame_EdictContent(10,30,"圣裁伤害 +30%")],4);
+metagame_Edict.W_TOWN_GUILDS = new metagame_Edict("城镇行会-卫兵升级为剑士",[new metagame_EdictContent(0,1,"将卫兵升级为剑士"),new metagame_EdictContent(11,15,"要塞生命值 +15%"),new metagame_EdictContent(11,30,"要塞生命值 +30%")],4);
+metagame_Edict.W_THE_ZEALOTS_ORDER = new metagame_Edict("狂热者教团-僧侣升级为狂热者",[new metagame_EdictContent(4,1,"将僧侣升级为狂热者"),new metagame_EdictContent(12,-10,"终极技能冷却 -10%"),new metagame_EdictContent(12,-20,"终极技能冷却 -20%")],7);
+metagame_Edict.W_MECHANICS_RESEARCH = new metagame_Edict("机械研究-弓箭手升级为弩手",[new metagame_EdictContent(2,1,"将弓箭手升级为弩手"),new metagame_EdictContent(13,10,"弓箭 / 攻城武器伤害 +10%"),new metagame_EdictContent(13,20,"弓箭 / 攻城武器伤害 +20%")],7);
+metagame_Edict.W_HEROIC_EPOS = new metagame_Edict("英雄史诗-解锁英勇之旗",[new metagame_EdictContent(14,1,"解锁英勇之旗"),new metagame_EdictContent(15,7,"部队基础士气 +7%"),new metagame_EdictContent(15,15,"部队基础士气 +15%")],11);
+metagame_Edict.W_REGULAR_TOURNAMENTS = new metagame_Edict("比武大会-骑士升级为冠军",[new metagame_EdictContent(1,1,"将骑士升级为冠军"),new metagame_EdictContent(7,50,"骑兵冲锋造成 2.5 倍伤害"),new metagame_EdictContent(7,100,"骑兵冲锋造成 3 倍伤害")],11);
+metagame_Edict.W_LEGION = new metagame_Edict("军团-步兵升级为军团士兵",[new metagame_EdictContent(0,2,"将步兵升级为军团士兵"),new metagame_EdictContent(16,15,"步兵生命值 +15%"),new metagame_EdictContent(16,30,"步兵生命值 +30%")],15);
+
+metagame_Edict.H_BLOODLUST = new metagame_Edict("嗜血-解锁嗜血之旗",[new metagame_EdictContent(17,1,"解锁嗜血之旗"),new metagame_EdictContent(18,25,"对要塞伤害 +25%"),new metagame_EdictContent(18,50,"对要塞伤害 +50%")],0,0);
+metagame_Edict.H_DECLARATION_OF_WAR = new metagame_Edict("宣战令-解锁基础部队",[new metagame_EdictContent(0,0,"解锁基础部队"),new metagame_EdictContent(19,10,"部队移动速度 +10%"),new metagame_EdictContent(19,20,"部队移动速度 +20%")],0,0);
+metagame_Edict.H_SPEEKING_WHIT_ANIMALS = new metagame_Edict("与兽沟通-解锁诱捕石蠕虫法术",[new metagame_EdictContent(20,1,"解锁诱捕石蠕虫法术"),new metagame_EdictContent(21,1,"+1 条蠕虫（延长诱捕石蠕虫）"),new metagame_EdictContent(21,2,"+2 条蠕虫（延长诱捕石蠕虫）")],4);
+metagame_Edict.H_3_DAYS_TO_PLUNDER = new metagame_Edict("三日劫掠-游牧者升级为骑射者",[new metagame_EdictContent(1,1,"将游牧者升级为骑射者"),new metagame_EdictContent(22,75,"占领要塞 +75 金币"),new metagame_EdictContent(22,150,"占领要塞 +150 金币")],4);
+metagame_Edict.H_RAID_THE_TOMBS = new metagame_Edict("掠夺古墓-战士升级为不朽者",[new metagame_EdictContent(0,1,"将战士升级为不朽者"),new metagame_EdictContent(23,1,"不朽者小队 +1 单位"),new metagame_EdictContent(23,2,"不朽者小队 +2 单位")],7);
+metagame_Edict.H_POISONS_RESEARCH = new metagame_Edict("毒素研究-猎人升级为蛇毒弓手",[new metagame_EdictContent(2,1,"将猎人升级为蛇毒弓手"),new metagame_EdictContent(24,1,"毒伤害 +1"),new metagame_EdictContent(24,2,"毒伤害 +2")],7);
+metagame_Edict.H_DARK_TEACHING = new metagame_Edict("黑暗教义-解锁亡魂出土",[new metagame_EdictContent(25,1,"解锁亡魂出土"),new metagame_EdictContent(26,3,"小队阵亡时终极技能充能 +3%"),new metagame_EdictContent(26,6,"小队阵亡时终极技能充能 +6%")],11);
+metagame_Edict.H_DREADFUL_MACHINERY = new metagame_Edict("恐怖机械-投石车升级为毒性投石机",[new metagame_EdictContent(3,1,"将投石车升级为毒性投石机"),new metagame_EdictContent(27,50,"攻城武器移动速度 +50%"),new metagame_EdictContent(27,100,"攻城武器移动速度 +100%")],11);
+metagame_Edict.H_NECROPOLIS_EXCAVATIONS = new metagame_Edict("死城发掘-骑兵升级为远古骑士",[new metagame_EdictContent(1,2,"将骑兵升级为远古骑士"),new metagame_EdictContent(28,-7,"亡灵部队费用 -7%"),new metagame_EdictContent(28,-15,"亡灵部队费用 -15%")],15);
+
+metagame_Edict.I_ARCANE_FROST = new metagame_Edict("奥术寒霜-解锁冰冻",[new metagame_EdictContent(29,1,"解锁寒冰冲击"),new metagame_EdictContent(30,1,"冻结时长 +1 秒"),new metagame_EdictContent(30,2,"冻结时长 +2 秒")],0,0);
+metagame_Edict.I_DECLARATION_OF_INDEPENDENCE = new metagame_Edict("独立宣言-解锁基础部队",[new metagame_EdictContent(0,0,"解锁基础部队"),new metagame_EdictContent(31,-15,"农场、矿场、方尖碑费用 -15%"),new metagame_EdictContent(31,-30,"农场、矿场、方尖碑费用 -30%")],0,0);
+metagame_Edict.I_ARTISIANS_GUILD = new metagame_Edict("工匠行会-枪械师升级为机械枪兵",[new metagame_EdictContent(2,1,"将枪械师升级为机械枪兵"),new metagame_EdictContent(32,5,"机械单位暴击率 +5%"),new metagame_EdictContent(32,10,"机械单位暴击率 +10%")],4);
+metagame_Edict.I_REBEL_ARMY = new metagame_Edict("反叛军-反叛者升级为冰甲战士",[new metagame_EdictContent(0,1,"将反叛者升级为重装战士"),new metagame_EdictContent(33,7,"步兵冻结概率 +7%"),new metagame_EdictContent(33,15,"步兵冻结概率 +15%")],4);
+metagame_Edict.I_MAGIC_LIBRARY = new metagame_Edict("魔法图书馆,-解锁霜附魔",[new metagame_EdictContent(34,1,"解锁霜附魔"),new metagame_EdictContent(35,-10,"法术消耗 -10%"),new metagame_EdictContent(35,-20,"法术消耗 -20%")],7);
+metagame_Edict.I_LIBERATION_ARMY = new metagame_Edict("解放军魂-解锁解放之旗",[new metagame_EdictContent(36,1,"解锁解放之旗"),new metagame_EdictContent(37,15,"小队获得经验速度 +15%"),new metagame_EdictContent(37,30,"小队获得经验速度 +30%")],7);
+metagame_Edict.I_MAGIC_ACADEMY = new metagame_Edict("魔法学院-侍祭升级为巫师",[new metagame_EdictContent(4,1,"将侍祭升级为巫师"),new metagame_EdictContent(38,1,"魔塔提供 +1 金币/补给/法力"),new metagame_EdictContent(38,2,"魔塔提供 +2 金币/补给/法力")],11);
+metagame_Edict.I_BREAK_IN_THE_REPTILES = new metagame_Edict("驯化巨蜥-枪骑兵升级为龙枪兵",[new metagame_EdictContent(1,1,"将枪骑兵升级为龙枪兵"),new metagame_EdictContent(39,10,"骑兵生命值 +10%"),new metagame_EdictContent(39,20,"骑兵生命值 +20%")],11);
+metagame_Edict.I_GIANT_CONSTRUCTION = new metagame_Edict("巨像建造-射手升级为巨型机甲",[new metagame_EdictContent(2,2,"将射手升级为巨型机甲"),new metagame_EdictContent(40,2,"巨型机甲每秒恢复 2% 生命"),new metagame_EdictContent(40,4,"巨型机甲每秒恢复 4% 生命")],15);
+
 motion_actuators_SimpleActuator.actuators = [];
 motion_actuators_SimpleActuator.actuatorsLength = 0;
 motion_actuators_SimpleActuator.addedEvent = false;
