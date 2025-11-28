@@ -5864,7 +5864,7 @@ GameApp.prototype = $extend(AppTemplate.prototype,{
 		GameApp.gm_ctx_.profile.badges().signalBadgeUnlocked.connect($bind(this,this.onBadgeUnlocked));
 	}
 	,onBadgeUnlocked: function(badge,key) {
-		haxe_Log.trace("badge unlocked!",{ fileName : "src_base/GameApp.hx", lineNumber : 415, className : "GameApp", methodName : "onBadgeUnlocked", customParams : [$bind(badge,badge.name)]});
+		haxe_Log.trace("徽章解锁!",{ fileName : "src_base/GameApp.hx", lineNumber : 415, className : "GameApp", methodName : "onBadgeUnlocked", customParams : [$bind(badge,badge.name)]});
 		this.unlocked_badges_.push(badge);
 		GameApp.gm_ctx_.Save();
 	}
