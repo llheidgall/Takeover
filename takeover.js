@@ -8358,6 +8358,7 @@ Hlp.playDeadSound = function(_unitArmyStat) {
 	case battle_ArmyStat.armyStatBD.h[1].h[4].h[2]:
 	case battle_ArmyStat.armyStatBD.h[1].h[0].h[3]:
 	case battle_ArmyStat.UNDYING_ASSASSINS_T1_E:
+	case battle_ArmyStat.SHADES_T2_E:
 		return Hlp.playRandomSound([127,128]);
 	case battle_ArmyStat.DARK_KNIGHTS_T2_E:
 		break;
@@ -8427,6 +8428,7 @@ Hlp.playBeginBattleSound = function(_unitArmyStat) {
 	case battle_ArmyStat.UNDYING_ARCHERS_T1_E:
 	case battle_ArmyStat.UNDYING_ASSASSINS_T1_E:
 	case battle_ArmyStat.UNDYING_HORSEMEN_T1_E:
+	case battle_ArmyStat.SHADES_T2_E:
 	case battle_ArmyStat.armyStatBD.h[1].h[0].h[1]:
 	case battle_ArmyStat.armyStatBD.h[1].h[1].h[1]:
 	case battle_ArmyStat.armyStatBD.h[1].h[2].h[1]:
@@ -8460,7 +8462,7 @@ Hlp.playSpellSound = function(_spellInfo) {
 		Hlp.playSoundID(150);
 	}
 	if(_spellInfo.id == battle_spell_SpellInfo.LORDS_JUDGEMENT.id) {
-		soundID = 143;
+		soundID = 149;
 	} else if(_spellInfo.id == battle_spell_SpellInfo.ICE_BLAST.id) {
 		soundID = 147;
 	} else if(_spellInfo.id == battle_spell_SpellInfo.FROST_ENCHANTMENT.id) {
