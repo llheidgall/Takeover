@@ -13794,7 +13794,7 @@ WindowController.getSquadLevelDescription = function(_squadLevel) {
 		bonus = 20;
 	}
 	if(bonus > 0) {
-		return "HP and DMG are increased by " + (bonus == null ? "null" : "" + bonus) + "%";
+		return "生命值和伤害增加" + (bonus == null ? "null" : "" + bonus) + "%";
 	}
 	return "Have no any rank bonuses";
 };
@@ -14227,7 +14227,7 @@ WindowController.prototype = $extend(iriysoft_core_templates_BaseObject.prototyp
 		var centerDef = new hud_win_CenterPanelDef(_node.isActive(),_node.name,frame,_node.goldSpeed,_node.supplyPower,_node.manaSpeed,this.getCenterPanelOrientation(_position.x));
 		var text = "";
 		if(_node.isActive() == false) {
-			text = "Restore the stronghold to train new troops.";
+			text = "修复这个据点来训练新的部队";
 		}
 		var def = new hud_WindowBaseDef(_position,frame,centerDef,text,new hud_WindowContentManager(this.ref_level,_node));
 		def.windowClass = "WindowCastleClass";
@@ -14246,7 +14246,7 @@ WindowController.prototype = $extend(iriysoft_core_templates_BaseObject.prototyp
 		var centerDef = new hud_win_CenterPanelDef(_node.isActive(),_node.name,frame,_node.goldSpeed,_node.supplyPower,_node.manaSpeed,this.getCenterPanelOrientation(_position.x));
 		var text = "";
 		if(_node.isActive() == false) {
-			text = "Restore the stronghold to train new troops.";
+			text = "修复这个据点来训练新的部队";
 		}
 		var def = new hud_WindowBaseDef(_position,frame,centerDef,text,new hud_WindowContentManager(this.ref_level,_node));
 		def.windowClass = "WindowTownClass";
@@ -14263,7 +14263,7 @@ WindowController.prototype = $extend(iriysoft_core_templates_BaseObject.prototyp
 		var centerDef = new hud_win_CenterPanelDef(_node.isActive(),_node.name,frame,_node.goldSpeed,_node.supplyPower,_node.manaSpeed,this.getCenterPanelOrientation(_position.x));
 		var text = "";
 		if(_node.isActive() == false) {
-			text = "Restore the stronghold to train new troops.";
+			text = "修复这个据点来训练新的部队";
 		}
 		var def = new hud_WindowBaseDef(_position,frame,centerDef,text,new hud_WindowContentManager(this.ref_level,_node));
 		def.windowClass = "WindowMageTowerClass";
