@@ -21736,43 +21736,44 @@ battle_unit_param_UnitProperty.__name__ = "battle.unit.param.UnitProperty";
 battle_unit_param_UnitProperty.getNameStatic = function(_abilID,_abilVal,_armyStatBonus) {
 	switch(_abilID) {
 	case "Charge":
-		return "CHARGE" + " " + (parseFloat(_abilVal) - 1 + _armyStatBonus.chargeFactor) + "x";
+		return "冲锋" + " " + (parseFloat(_abilVal) - 1 + _armyStatBonus.chargeFactor) + "x";
 	case "Discipline":
-		return "DISCIPLINE";
+		return "纪律";
 	case "DivinePresence":
-		return "DIVINE PRESENCE";
+		return "神圣气场";
 	case "Explosive":
-		return "EXPLOSIVE";
+		return "爆炸";
 	case "FreezeArrow":
-		return "FREEZE ARROW";
+		return "冰冻箭";
 	case "FreezeBlast":
-		return "FREEZE BLAST";
+		return "冰霜冲击";
 	case "HorrificDash":
-		return "DASH";
+		return "突袭";
 	case "Intimidiation":
-		return "INTIMIDIATION";
+		return "威吓";
 	case "LongSpear":
-		return "LONG SPEAR" + " " + (1 + parseFloat(_abilVal) / 100) + "x";
+		return "长矛" + " " + (1 + parseFloat(_abilVal) / 100) + "x";
 	case "MartialArtists":
-		return "MARTIAL ARTISTS";
+		return "武斗者";
 	case "Mechanism":
-		return "MECHANISM";
+		return "机械体";
 	case "PoisonImmunity":
-		return "POISON IMMUNITY";
+		return "免疫毒素";
 	case "Poisonous":
-		return "POISONOUS";
+		return "剧毒";
 	case "ShieldWall":
-		return "SHIELD WALL";
+		return "盾墙";
 	case "SiegeWeapon":
-		return "BESIEGER";
+		return "攻城器械";
 	case "SplashDamage":
-		return "SPLASH DAMAGE";
+		return "范围伤害";
 	case "Undead":
-		return "UNDEAD";
+		return "亡灵";
 	default:
 		return "";
 	}
 };
+
 battle_unit_param_UnitProperty.getDescription = function(_abilID,_abilVal,_armyStatBonus) {
 	switch(_abilID) {
 	case "Charge":
@@ -114305,53 +114306,55 @@ battle_unit_param_UnitProperties.EVENT_ADD_EFFECT = base_BObject.createEventUID(
 battle_unit_param_UnitProperties.EVENT_REMOVE_EFFECT = base_BObject.createEventUID();
 battle_unit_param_UnitProperties.EVENT_DEAL_DAMAGE = base_BObject.createEventUID();
 battle_unit_param_UnitProperties.EVENT_TAKE_DAMAGE = base_BObject.createEventUID();
-battle_unit_param_UnitProperty.SHIELD_WALL = "ShieldWall";
-battle_unit_param_UnitProperty.DISCIPLINE = "Discipline";
-battle_unit_param_UnitProperty.CHARGE = "Charge";
-battle_unit_param_UnitProperty.SPLASH_DAMAGE = "SplashDamage";
-battle_unit_param_UnitProperty.MECHANISM = "Mechanism";
-battle_unit_param_UnitProperty.SIEGE_WEAPON = "SiegeWeapon";
-battle_unit_param_UnitProperty.DIVINE_PRESENCE = "DivinePresence";
-battle_unit_param_UnitProperty.MARTIALARTISTS = "MartialArtists";
-battle_unit_param_UnitProperty.UNDEAD = "Undead";
-battle_unit_param_UnitProperty.POISONOUS = "Poisonous";
-battle_unit_param_UnitProperty.INTIMIDIATION = "Intimidiation";
-battle_unit_param_UnitProperty.HORRIFIC_DASH = "HorrificDash";
-battle_unit_param_UnitProperty.POISON_IMMUNITY = "PoisonImmunity";
-battle_unit_param_UnitProperty.LONG_SPEAR = "LongSpear";
-battle_unit_param_UnitProperty.EXPLOSIVE = "Explosive";
-battle_unit_param_UnitProperty.FREEZE_ARROW = "FreezeArrow";
-battle_unit_param_UnitProperty.FREEZE_BLAST = "FreezeBlast";
-battle_unit_param_UnitProperty.DAMAGE_RESIST = "DamageResist";
-battle_unit_param_UnitProperty.REGENERATION = "Regeneration";
-battle_unit_param_UnitProperty.ATK_MELEE = "ATK_MELEE";
-battle_unit_param_UnitProperty.ATK_DISTANCE = "ATK_DISTANCE";
-battle_unit_param_UnitProperty.ATK_CHARGE = "ATK_CHARGE";
-battle_unit_param_UnitProperty.ATK_POISON = "ATK_POISON";
-battle_unit_param_UnitProperty.ATK_FREEZ = "ATK_FREEZ";
-battle_unit_param_UnitProperty.ATK_MAGIC = "ATK_MAGIC";
-battle_unit_param_UnitProperty.ATK_SPEAR = "ATK_SPEAR";
+battle_unit_param_UnitProperty.SHIELD_WALL = "盾墙";
+battle_unit_param_UnitProperty.DISCIPLINE = "纪律";
+battle_unit_param_UnitProperty.CHARGE = "冲锋";
+battle_unit_param_UnitProperty.SPLASH_DAMAGE = "范围伤害";
+battle_unit_param_UnitProperty.MECHANISM = "机械体";
+battle_unit_param_UnitProperty.SIEGE_WEAPON = "攻城器械";
+battle_unit_param_UnitProperty.DIVINE_PRESENCE = "神圣气场";
+battle_unit_param_UnitProperty.MARTIALARTISTS = "武斗者";
+battle_unit_param_UnitProperty.UNDEAD = "亡灵";
+battle_unit_param_UnitProperty.POISONOUS = "剧毒";
+battle_unit_param_UnitProperty.INTIMIDIATION = "威吓";
+battle_unit_param_UnitProperty.HORRIFIC_DASH = "突袭";
+battle_unit_param_UnitProperty.POISON_IMMUNITY = "免疫毒素";
+battle_unit_param_UnitProperty.LONG_SPEAR = "长矛";
+battle_unit_param_UnitProperty.EXPLOSIVE = "爆炸";
+battle_unit_param_UnitProperty.FREEZE_ARROW = "冰冻箭";
+battle_unit_param_UnitProperty.FREEZE_BLAST = "冰霜冲击";
+battle_unit_param_UnitProperty.DAMAGE_RESIST = "伤害减免";
+battle_unit_param_UnitProperty.REGENERATION = "再生";
+battle_unit_param_UnitProperty.ATK_MELEE = "近战攻击";
+battle_unit_param_UnitProperty.ATK_DISTANCE = "远程攻击";
+battle_unit_param_UnitProperty.ATK_CHARGE = "冲锋攻击";
+battle_unit_param_UnitProperty.ATK_POISON = "毒素攻击";
+battle_unit_param_UnitProperty.ATK_FREEZ = "冰冻攻击";
+battle_unit_param_UnitProperty.ATK_MAGIC = "魔法攻击";
+battle_unit_param_UnitProperty.ATK_SPEAR = "长矛攻击";
 battle_unit_param_UnitProperty.INFINITY = 2000000;
 battle_unit_param_UnitProperty.MASK_ABILITY = 1;
 battle_unit_param_UnitProperty.MASK_EFFECT = 2;
 battle_unit_param_UnitProperty.EVENT_EFFECT_ATTACK = base_BObject.createEventUID();
-battle_unit_param_UnitProperty.NAME_SHIELD_WALL = "SHIELD WALL";
-battle_unit_param_UnitProperty.NAME_DISCIPLINE = "DISCIPLINE";
-battle_unit_param_UnitProperty.NAME_CHARGE = "CHARGE";
-battle_unit_param_UnitProperty.NAME_SPLASH_DAMAGE = "SPLASH DAMAGE";
-battle_unit_param_UnitProperty.NAME_MECHANISM = "MECHANISM";
-battle_unit_param_UnitProperty.NAME_SIEGE_WEAPON = "BESIEGER";
-battle_unit_param_UnitProperty.NAME_DIVINE_PRESENCE = "DIVINE PRESENCE";
-battle_unit_param_UnitProperty.NAME_MARTIAL_ARTISTS = "MARTIAL ARTISTS";
-battle_unit_param_UnitProperty.NAME_UNDEAD = "UNDEAD";
-battle_unit_param_UnitProperty.NAME_POISONOUS = "POISONOUS";
-battle_unit_param_UnitProperty.NAME_INTIMIDIATION = "INTIMIDIATION";
-battle_unit_param_UnitProperty.NAME_HORRIFIC_DASH = "DASH";
-battle_unit_param_UnitProperty.NAME_POISON_IMMUNITY = "POISON IMMUNITY";
-battle_unit_param_UnitProperty.NAME_LONG_SPEAR = "LONG SPEAR";
-battle_unit_param_UnitProperty.NAME_EXPLOSIVE = "EXPLOSIVE";
-battle_unit_param_UnitProperty.NAME_FREEZE_ARROW = "FREEZE ARROW";
-battle_unit_param_UnitProperty.NAME_FREEZE_BLAST = "FREEZE BLAST";
+
+battle_unit_param_UnitProperty.NAME_SHIELD_WALL = "盾墙";
+battle_unit_param_UnitProperty.NAME_DISCIPLINE = "纪律";
+battle_unit_param_UnitProperty.NAME_CHARGE = "冲锋";
+battle_unit_param_UnitProperty.NAME_SPLASH_DAMAGE = "范围伤害";
+battle_unit_param_UnitProperty.NAME_MECHANISM = "机械体";
+battle_unit_param_UnitProperty.NAME_SIEGE_WEAPON = "攻城器械";
+battle_unit_param_UnitProperty.NAME_DIVINE_PRESENCE = "神圣气场";
+battle_unit_param_UnitProperty.NAME_MARTIAL_ARTISTS = "武斗者";
+battle_unit_param_UnitProperty.NAME_UNDEAD = "亡灵";
+battle_unit_param_UnitProperty.NAME_POISONOUS = "剧毒";
+battle_unit_param_UnitProperty.NAME_INTIMIDIATION = "威吓";
+battle_unit_param_UnitProperty.NAME_HORRIFIC_DASH = "突袭";
+battle_unit_param_UnitProperty.NAME_POISON_IMMUNITY = "免疫毒素";
+battle_unit_param_UnitProperty.NAME_LONG_SPEAR = "长矛";
+battle_unit_param_UnitProperty.NAME_EXPLOSIVE = "爆炸";
+battle_unit_param_UnitProperty.NAME_FREEZE_ARROW = "冰冻箭";
+battle_unit_param_UnitProperty.NAME_FREEZE_BLAST = "冰霜冲击";
+
 data_CompanyInfo.WESTARIA = 0;
 data_CompanyInfo.KHAGANATE = 1;
 data_CompanyInfo.CULT = 2;
