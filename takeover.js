@@ -13780,11 +13780,11 @@ WindowController.squadLevelColor = function(_squadLevel,_text) {
 };
 WindowController.getSquadLevelName = function(_squadLevel) {
 	if(_squadLevel == 1) {
-		return "Veteran";
+		return "精锐";
 	} else if(_squadLevel >= 2) {
-		return "Elite";
+		return "精英";
 	}
-	return "Regular";
+	return "常备军";
 };
 WindowController.getSquadLevelDescription = function(_squadLevel) {
 	var bonus = 0;
