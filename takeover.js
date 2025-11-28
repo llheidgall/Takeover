@@ -14042,7 +14042,26 @@ WindowController.prototype = $extend(iriysoft_core_templates_BaseObject.prototyp
 		var winInfo = new hud_CurWindowInfo(_node);
 		if(this.ref_level.checkPlayerControll(_cmbtn.description) == false) {
 			var raceName = battle_CombotantData.getCombotantName(_cmbtn.getRace());
-			var text = "It belongs to<br>" + raceName + ".<br>We must capture it!";
+			var raceNameInChinese;
+			// switch to Chinese
+			switch (raceName) {
+				case "Rivadis Empire":
+					raceNameInChinese = "卡瑞米森部落";
+					break;
+				case "Duchy of Westaria":
+					raceNameInChinese = "瑞瓦迪斯帝国";
+					break;
+				case "Crimson Horde":
+					raceNameInChinese = "卡瑞米森部落";
+					break;
+				case "Icedales Cult":
+					raceNameInChinese = "艾斯得雷邪教";
+					break;
+				case "n/a":
+					raceName = "无";
+					break;
+			}
+			var text = "它属于<br>" + raceNameInChinese + ".<br>我们必须占领它!";
 			win = this.constructEnemyWindow(_node,_node.panelCenter().getCopy(),text);
 		} else {
 			switch(_node.getNodeType()._hx_index) {
@@ -14073,10 +14092,29 @@ WindowController.prototype = $extend(iriysoft_core_templates_BaseObject.prototyp
 		if(this.ref_level.checkPlayerControll(_cmbtn.description) == false) {
 			var text;
 			var raceName = battle_CombotantData.getCombotantName(_cmbtn.getRace());
+			var raceNameInChinese;
+			// switch to Chinese
+			switch (raceName) {
+				case "Rivadis Empire":
+					raceNameInChinese = "卡瑞米森部落";
+					break;
+				case "Duchy of Westaria":
+					raceNameInChinese = "瑞瓦迪斯帝国";
+					break;
+				case "Crimson Horde":
+					raceNameInChinese = "卡瑞米森部落";
+					break;
+				case "Icedales Cult":
+					raceNameInChinese = "艾斯得雷邪教";
+					break;
+				case "n/a":
+					raceName = "无";
+					break;
+			}
 			if(_node.getType() == level_SupplyBuildingType.Empty) {
-				text = "It belongs to<br>" + raceName + ".<br>You can`t build here.";
+				text = "它属于<br>" + raceNameInChinese + ".<br>你不能在这里建造.";
 			} else {
-				text = "It belongs to<br>" + raceName + ".";
+				text = "它属于<br>" + raceNameInChinese + ".";
 			}
 			win = this.constructEnemyWindow(_node,_node.panelCenter().getCopy(),text);
 		} else if(_node.getType() == level_SupplyBuildingType.Empty) {
@@ -26486,11 +26524,11 @@ hud_GamePanel.prototype = $extend(iriysoft_core_templates_BaseObject.prototype,{
 		iriysoft_core_templates_BaseObject.prototype.update.call(this,_timeElapsed);
 		iriysoft_helper_Fwh.GetChildT(ui_BattleScr.scr(),["speed_block_","mcTime","txtTime"]).set_htmlText(Hlp.getFormattedTimeBySeconds(this.lifetime(),false,true,true,false));
 		if(this.lifetime() <= 330) {
-			iriysoft_helper_Fwh.GetChildT(ui_BattleScr.scr(),["speed_block_","mcRank","txtRank"]).set_htmlText("PERFECT");
+			iriysoft_helper_Fwh.GetChildT(ui_BattleScr.scr(),["speed_block_","mcRank","txtRank"]).set_htmlText("完美");
 		} else if(this.lifetime() <= 570) {
-			iriysoft_helper_Fwh.GetChildT(ui_BattleScr.scr(),["speed_block_","mcRank","txtRank"]).set_htmlText("GREAT");
+			iriysoft_helper_Fwh.GetChildT(ui_BattleScr.scr(),["speed_block_","mcRank","txtRank"]).set_htmlText("优秀");
 		} else {
-			iriysoft_helper_Fwh.GetChildT(ui_BattleScr.scr(),["speed_block_","mcRank","txtRank"]).set_htmlText("GOOD");
+			iriysoft_helper_Fwh.GetChildT(ui_BattleScr.scr(),["speed_block_","mcRank","txtRank"]).set_htmlText("良好");
 		}
 	}
 	,m_enable: null
@@ -40923,7 +40961,7 @@ level_Level.prototype = $extend(level_LevelVisual.prototype,{
 			return;
 		}
 		this.ref_hintLayer.hideHint();
-		this.hintLayer().getHintWindow(this.textHintID()).setText("This <FONT COLOR='#FFFF00'>CHEST</FONT> contains <FONT COLOR='#FFFF00'>GOLD</FONT>!<br><FONT COLOR='#65FF00'>Bring your squad here </FONT> and it will be yours!");
+		this.hintLayer().getHintWindow(this.textHintID()).setText("这个<FONT COLOR='#FFFF00'>宝箱</FONT>装着<FONT COLOR='#FFFF00'>黄金</FONT>!<br><FONT COLOR='#65FF00'>派你的军队过来</FONT>然后占为己有！");
 		this.hintLayer().showHideableHintAtRect(level_Level.getRectangleUnderPanel(),this.textHintID());
 		this.__chestHintOn = true;
 	}
@@ -114059,91 +114097,91 @@ battle_CombotantData.ULTIMATE_MAX_TIME = 200;
 battle_CombotantData.START_GOLD = 0;
 battle_CombotantData.START_MANA = 0;
 //// override the units here, 电脑的好像可以直接改battle_CombotantRace， 但是玩家的只能改数据库, 改了一堆这里
-battle_ArmyStat.UNDYING_WARRIORS_T1_E = new battle_ArmyStat("Undying Warriors",27,battle_CombotantRace.TheEmpire,9,4,8,17,0,0,50,40,100,1,"Undead",1,battle_unit_CombatUnitType.Infantry,0.1,0,0,11,5);
+battle_ArmyStat.UNDYING_WARRIORS_T1_E = new battle_ArmyStat("不死战士",27,battle_CombotantRace.TheEmpire,9,4,8,17,0,0,50,40,100,1,"Undead",1,battle_unit_CombatUnitType.Infantry,0.1,0,0,11,5);
 battle_ArmyStat.armyStatBD.h[1].h[0].h[1] = battle_ArmyStat.UNDYING_WARRIORS_T1_E;
-battle_ArmyStat.WARRIORS_T1_D = new battle_ArmyStat("Warriors",18,battle_CombotantRace.TheKhaganate,9,3,4,15,0,0,50,50,100,1,"",1,battle_unit_CombatUnitType.Infantry,0.1,0,0,11,5);
-battle_ArmyStat.WARRIORS_T1_D = new battle_ArmyStat("Warriors",18,battle_CombotantRace.TheKhaganate,9,3,4,15,0,0,50,50,100,1,"",1,battle_unit_CombatUnitType.Infantry,0.1,0,0,11,5);
+battle_ArmyStat.WARRIORS_T1_D = new battle_ArmyStat("战士",18,battle_CombotantRace.TheKhaganate,9,3,4,15,0,0,50,50,100,1,"",1,battle_unit_CombatUnitType.Infantry,0.1,0,0,11,5);
+battle_ArmyStat.WARRIORS_T1_D = new battle_ArmyStat("战士",18,battle_CombotantRace.TheKhaganate,9,3,4,15,0,0,50,50,100,1,"",1,battle_unit_CombatUnitType.Infantry,0.1,0,0,11,5);
 battle_ArmyStat.armyStatBD.h[3].h[0].h[1] = battle_ArmyStat.WARRIORS_T1_D;
 
-battle_ArmyStat.REBELS_T1_B = new battle_ArmyStat("Rebels",22,battle_CombotantRace.TheCult,9,1,5,16,0,0,50,50,100,1,"LongSpear 50",1,battle_unit_CombatUnitType.Infantry,0.1,0,0,11,5);
-battle_ArmyStat.UNDYING_WARRIORS_T1_E = new battle_ArmyStat("Undying Warriors",20,battle_CombotantRace.TheEmpire,9,2,4,17,0,0,50,50,100,1,"Undead",1,battle_unit_CombatUnitType.Infantry,0.1,0,0,11,5);
-battle_ArmyStat.WARRIORS_T1_D = new battle_ArmyStat("Warriors",18,battle_CombotantRace.TheKhaganate,9,3,4,15,0,0,50,50,100,1,"",1,battle_unit_CombatUnitType.Infantry,0.1,0,0,11,5);
+battle_ArmyStat.REBELS_T1_B = new battle_ArmyStat("叛军",22,battle_CombotantRace.TheCult,9,1,5,16,0,0,50,50,100,1,"LongSpear 50",1,battle_unit_CombatUnitType.Infantry,0.1,0,0,11,5);
+battle_ArmyStat.UNDYING_WARRIORS_T1_E = new battle_ArmyStat("不死战士",20,battle_CombotantRace.TheEmpire,9,2,4,17,0,0,50,50,100,1,"Undead",1,battle_unit_CombatUnitType.Infantry,0.1,0,0,11,5);
+battle_ArmyStat.WARRIORS_T1_D = new battle_ArmyStat("战士",18,battle_CombotantRace.TheKhaganate,9,3,4,15,0,0,50,50,100,1,"",1,battle_unit_CombatUnitType.Infantry,0.1,0,0,11,5);
 battle_ArmyStat.armyStatBD.h[0].h[0].h[1] = battle_ArmyStat.WARRIORS_T1_D;
-battle_ArmyStat.SWORDSMEN_T2_W = new battle_ArmyStat("Swordsmen",36,battle_CombotantRace.Westaria,9,3,4,15,0,0,50,50,100,1,"ShieldWall 15",2,battle_unit_CombatUnitType.Infantry,0.1,0,0,11,5);
-battle_ArmyStat.UNDYING_WARRIORS_T1_E = new battle_ArmyStat("Undying Warriors",24,battle_CombotantRace.TheEmpire,9,3,6,17,0,0,50,40,100,1,"Undead",1,battle_unit_CombatUnitType.Infantry,0.1,0,0,11,5);
+battle_ArmyStat.SWORDSMEN_T2_W = new battle_ArmyStat("剑士",36,battle_CombotantRace.Westaria,9,3,4,15,0,0,50,50,100,1,"ShieldWall 15",2,battle_unit_CombatUnitType.Infantry,0.1,0,0,11,5);
+battle_ArmyStat.UNDYING_WARRIORS_T1_E = new battle_ArmyStat("不死战士",24,battle_CombotantRace.TheEmpire,9,3,6,17,0,0,50,40,100,1,"Undead",1,battle_unit_CombatUnitType.Infantry,0.1,0,0,11,5);
 battle_ArmyStat.armyStatBD.h[1].h[0].h[2] = battle_ArmyStat.UNDYING_WARRIORS_T1_E;
-battle_ArmyStat.IMMORTALS_T2_D = new battle_ArmyStat("Immortals",28,battle_CombotantRace.TheKhaganate,9,4,6,15,0,0,50,50,100,1,"Undead",2,battle_unit_CombatUnitType.Infantry,0.1,0,0,11,5);
-battle_ArmyStat.MYRMIDONS_T2_B = new battle_ArmyStat("Myrmidons",30,battle_CombotantRace.TheCult,9,2,7,16,0,0,50,50,100,1,"LongSpear 50",2,battle_unit_CombatUnitType.Infantry,0.1,0,0,11,5);
-battle_ArmyStat.ZOMBIE_WARRIORS_T2_E = new battle_ArmyStat("Zombie Warriors",26,battle_CombotantRace.TheEmpire,9,3,5,17,0,0,50,50,100,1,"Undead",2,battle_unit_CombatUnitType.Infantry,0.1,0,0,11,5)
-battle_ArmyStat.IMMORTALS_T2_D = new battle_ArmyStat("Immortals",28,battle_CombotantRace.TheKhaganate,9,4,6,15,0,0,50,50,100,1,"Undead",2,battle_unit_CombatUnitType.Infantry,0.1,0,0,11,5);
+battle_ArmyStat.IMMORTALS_T2_D = new battle_ArmyStat("不朽者",28,battle_CombotantRace.TheKhaganate,9,4,6,15,0,0,50,50,100,1,"Undead",2,battle_unit_CombatUnitType.Infantry,0.1,0,0,11,5);
+battle_ArmyStat.MYRMIDONS_T2_B = new battle_ArmyStat("冰霜战士",30,battle_CombotantRace.TheCult,9,2,7,16,0,0,50,50,100,1,"LongSpear 50",2,battle_unit_CombatUnitType.Infantry,0.1,0,0,11,5);
+battle_ArmyStat.ZOMBIE_WARRIORS_T2_E = new battle_ArmyStat("僵尸战士",26,battle_CombotantRace.TheEmpire,9,3,5,17,0,0,50,50,100,1,"Undead",2,battle_unit_CombatUnitType.Infantry,0.1,0,0,11,5)
+battle_ArmyStat.IMMORTALS_T2_D = new battle_ArmyStat("不朽者",28,battle_CombotantRace.TheKhaganate,9,4,6,15,0,0,50,50,100,1,"Undead",2,battle_unit_CombatUnitType.Infantry,0.1,0,0,11,5);
 battle_ArmyStat.armyStatBD.h[0].h[0].h[2] = battle_ArmyStat.IMMORTALS_T2_D;
-battle_ArmyStat.LEGIONARIES_T3_W = new battle_ArmyStat("Legionaries",40,battle_CombotantRace.Westaria,9,4,5,15,0,0,50,50,100,1,"ShieldWall 20;Discipline",3,battle_unit_CombatUnitType.Infantry,0.1,0,0,11,5);
-battle_ArmyStat.UNDYING_WARRIORS_T1_E = new battle_ArmyStat("Undying Warriors",24,battle_CombotantRace.TheEmpire,9,3,6,17,0,0,50,40,100,1,"Undead",1,battle_unit_CombatUnitType.Infantry,0.1,0,0,11,5);
+battle_ArmyStat.LEGIONARIES_T3_W = new battle_ArmyStat("军团步兵",40,battle_CombotantRace.Westaria,9,4,5,15,0,0,50,50,100,1,"ShieldWall 20;Discipline",3,battle_unit_CombatUnitType.Infantry,0.1,0,0,11,5);
+battle_ArmyStat.UNDYING_WARRIORS_T1_E = new battle_ArmyStat("不死战士",24,battle_CombotantRace.TheEmpire,9,3,6,17,0,0,50,40,100,1,"Undead",1,battle_unit_CombatUnitType.Infantry,0.1,0,0,11,5);
 battle_ArmyStat.armyStatBD.h[1].h[0].h[3] = battle_ArmyStat.UNDYING_WARRIORS_T1_E;
-battle_ArmyStat.UNDYING_ARCHERS_T1_E = new battle_ArmyStat("Archers",18,battle_CombotantRace.TheEmpire,9,6,9,30,100,70,50,40,120,1,"Undead",1,battle_unit_CombatUnitType.Archers,0.1,0,0,11,10);
+battle_ArmyStat.UNDYING_ARCHERS_T1_E = new battle_ArmyStat("不死弓手",18,battle_CombotantRace.TheEmpire,9,6,9,30,100,70,50,40,120,1,"Undead",1,battle_unit_CombatUnitType.Archers,0.1,0,0,11,10);
 battle_ArmyStat.armyStatBD.h[1].h[1].h[1] = battle_ArmyStat.UNDYING_ARCHERS_T1_E;
-battle_ArmyStat.HUNTERS_T1_D = new battle_ArmyStat("Hunters",15,battle_CombotantRace.TheKhaganate,9,4,10,30,100,70,50,40,120,1,"Poisonous 1",1,battle_unit_CombatUnitType.Archers,0.1,0,0,11,10);
-battle_ArmyStat.GUNSMITHS_T1_B = new battle_ArmyStat("Gunsmiths",14,battle_CombotantRace.TheCult,9,2,8,20,115,70,50,40,120,1,"",1,battle_unit_CombatUnitType.Archers,0.05,25,25,11,3);
-battle_ArmyStat.UNDYING_ARCHERS_T1_E = new battle_ArmyStat("Undying Archers",12,battle_CombotantRace.TheEmpire,9,4,8,30,100,70,50,40,120,1,"Undead",1,battle_unit_CombatUnitType.Archers,0.1,0,0,11,10);
-battle_ArmyStat.HUNTERS_T1_D = new battle_ArmyStat("Hunters",15,battle_CombotantRace.TheKhaganate,9,4,10,30,100,70,50,40,120,1,"Poisonous 1",1,battle_unit_CombatUnitType.Archers,0.1,0,0,11,10);
+battle_ArmyStat.HUNTERS_T1_D = new battle_ArmyStat("猎人",15,battle_CombotantRace.TheKhaganate,9,4,10,30,100,70,50,40,120,1,"Poisonous 1",1,battle_unit_CombatUnitType.Archers,0.1,0,0,11,10);
+battle_ArmyStat.GUNSMITHS_T1_B = new battle_ArmyStat("火枪兵",14,battle_CombotantRace.TheCult,9,2,8,20,115,70,50,40,120,1,"",1,battle_unit_CombatUnitType.Archers,0.05,25,25,11,3);
+battle_ArmyStat.UNDYING_ARCHERS_T1_E = new battle_ArmyStat("不死弓手",12,battle_CombotantRace.TheEmpire,9,4,8,30,100,70,50,40,120,1,"Undead",1,battle_unit_CombatUnitType.Archers,0.1,0,0,11,10);
+battle_ArmyStat.HUNTERS_T1_D = new battle_ArmyStat("猎人",15,battle_CombotantRace.TheKhaganate,9,4,10,30,100,70,50,40,120,1,"Poisonous 1",1,battle_unit_CombatUnitType.Archers,0.1,0,0,11,10);
 battle_ArmyStat.armyStatBD.h[0].h[1].h[1] = battle_ArmyStat.HUNTERS_T1_D;
-battle_ArmyStat.CROSSBOWMEN_T2_W = new battle_ArmyStat("Crossbowmen",22,battle_CombotantRace.Westaria,9,8,10,30,100,70,50,40,120,1,"",2,battle_unit_CombatUnitType.Archers,0.1,0,0,11,10);
-battle_ArmyStat.SKELETON_ARCHERS_T2_E = new battle_ArmyStat("Skeleton Archers",20,battle_CombotantRace.TheEmpire,9,10,15,30,100,70,50,40,120,1,"Undead",2,battle_unit_CombatUnitType.Archers,0.1,0,0,11,10);
+battle_ArmyStat.CROSSBOWMEN_T2_W = new battle_ArmyStat("弩手",22,battle_CombotantRace.Westaria,9,8,10,30,100,70,50,40,120,1,"",2,battle_unit_CombatUnitType.Archers,0.1,0,0,11,10);
+battle_ArmyStat.SKELETON_ARCHERS_T2_E = new battle_ArmyStat("骷髅射手",20,battle_CombotantRace.TheEmpire,9,10,15,30,100,70,50,40,120,1,"Undead",2,battle_unit_CombatUnitType.Archers,0.1,0,0,11,10);
 battle_ArmyStat.armyStatBD.h[1].h[1].h[2] = battle_ArmyStat.SKELETON_ARCHERS_T2_E;
-battle_ArmyStat.SERPENT_ARCHERS_T2_D = new battle_ArmyStat("Serpent Archers",18,battle_CombotantRace.TheKhaganate,9,7,14,30,100,70,50,40,120,1,"Poisonous 2",2,battle_unit_CombatUnitType.Archers,0.1,0,0,11,10);
-battle_ArmyStat.GUNBOTS_T2_B = new battle_ArmyStat("Gunbots",27,battle_CombotantRace.TheCult,6,8,14,20,115,70,50,40,120,1,"Mechanism",2,battle_unit_CombatUnitType.Archers,0.15,25,10,11,3);
-battle_ArmyStat.SKELETON_ARCHERS_T2_E = new battle_ArmyStat("Skeleton Archers",16,battle_CombotantRace.TheEmpire,9,8,10,30,100,70,50,40,120,1,"Undead",2,battle_unit_CombatUnitType.Archers,0.1,0,0,11,10);
-battle_ArmyStat.SERPENT_ARCHERS_T2_D = new battle_ArmyStat("Serpent Archers",18,battle_CombotantRace.TheKhaganate,9,7,14,30,100,70,50,40,120,1,"Poisonous 2",2,battle_unit_CombatUnitType.Archers,0.1,0,0,11,10);
+battle_ArmyStat.SERPENT_ARCHERS_T2_D = new battle_ArmyStat("蛇弓手",18,battle_CombotantRace.TheKhaganate,9,7,14,30,100,70,50,40,120,1,"Poisonous 2",2,battle_unit_CombatUnitType.Archers,0.1,0,0,11,10);
+battle_ArmyStat.GUNBOTS_T2_B = new battle_ArmyStat("机器射手",27,battle_CombotantRace.TheCult,6,8,14,20,115,70,50,40,120,1,"Mechanism",2,battle_unit_CombatUnitType.Archers,0.15,25,10,11,3);
+battle_ArmyStat.SKELETON_ARCHERS_T2_E = new battle_ArmyStat("骷髅射手",16,battle_CombotantRace.TheEmpire,9,8,10,30,100,70,50,40,120,1,"Undead",2,battle_unit_CombatUnitType.Archers,0.1,0,0,11,10);
+battle_ArmyStat.SERPENT_ARCHERS_T2_D = new battle_ArmyStat("蛇弓手",18,battle_CombotantRace.TheKhaganate,9,7,14,30,100,70,50,40,120,1,"Poisonous 2",2,battle_unit_CombatUnitType.Archers,0.1,0,0,11,10);
 battle_ArmyStat.armyStatBD.h[0].h[1].h[2] = battle_ArmyStat.SERPENT_ARCHERS_T2_D;
-battle_ArmyStat.GIANTBOTS_T3_B = new battle_ArmyStat("Giantbots",200,battle_CombotantRace.TheCult,1,30,50,10,115,0,50,40,120,1,"Mechanism;MartialArtists",3,battle_unit_CombatUnitType.Archers,0.15,55,15,11,3);
-battle_ArmyStat.KNIGHTS_T1_W = new battle_ArmyStat("Knights",58,battle_CombotantRace.Westaria,5,5,8,15,0,0,50,60,180,1,"Charge 2",1,battle_unit_CombatUnitType.Cavalry,0.01,0,0,15.5,5);
-battle_ArmyStat.UNDYING_HORSEMEN_T1_E = new battle_ArmyStat("Undying Horsemen",60,battle_CombotantRace.TheEmpire,5,6,10,17,0,0,50,60,180,1,"Charge 2;Undead",1,battle_unit_CombatUnitType.Cavalry,0.01,0,0,15.5,5);
+battle_ArmyStat.GIANTBOTS_T3_B = new battle_ArmyStat("巨型机械",200,battle_CombotantRace.TheCult,1,30,50,10,115,0,50,40,120,1,"Mechanism;MartialArtists",3,battle_unit_CombatUnitType.Archers,0.15,55,15,11,3);
+battle_ArmyStat.KNIGHTS_T1_W = new battle_ArmyStat("骑士",58,battle_CombotantRace.Westaria,5,5,8,15,0,0,50,60,180,1,"Charge 2",1,battle_unit_CombatUnitType.Cavalry,0.01,0,0,15.5,5);
+battle_ArmyStat.UNDYING_HORSEMEN_T1_E = new battle_ArmyStat("不死骑兵",60,battle_CombotantRace.TheEmpire,5,6,10,17,0,0,50,60,180,1,"Charge 2;Undead",1,battle_unit_CombatUnitType.Cavalry,0.01,0,0,15.5,5);
 battle_ArmyStat.armyStatBD.h[1].h[2].h[1] = battle_ArmyStat.UNDYING_HORSEMEN_T1_E;
-battle_ArmyStat.NOMADS_T1_D = new battle_ArmyStat("Nomads",40,battle_CombotantRace.TheKhaganate,7,4,7,15,0,0,50,60,180,1,"Charge 2",1,battle_unit_CombatUnitType.Cavalry,0.01,0,0,15.5,5);
-battle_ArmyStat.LANCERS_T1_B = new battle_ArmyStat("Lancers",54,battle_CombotantRace.TheCult,5,4,10,17,0,0,50,60,180,1,"Charge 2",1,battle_unit_CombatUnitType.Cavalry,0.01,0,0,15.5,5);
-battle_ArmyStat.UNDYING_HORSEMEN_T1_E = new battle_ArmyStat("Undying Horsemen",54,battle_CombotantRace.TheEmpire,5,5,8,17,0,0,50,60,180,1,"Charge 2;Undead",1,battle_unit_CombatUnitType.Cavalry,0.01,0,0,15.5,5);
-battle_ArmyStat.NOMADS_T1_D = new battle_ArmyStat("Nomads",40,battle_CombotantRace.TheKhaganate,7,4,7,15,0,0,50,60,180,1,"Charge 2",1,battle_unit_CombatUnitType.Cavalry,0.01,0,0,15.5,5);
+battle_ArmyStat.NOMADS_T1_D = new battle_ArmyStat("游牧骑兵",40,battle_CombotantRace.TheKhaganate,7,4,7,15,0,0,50,60,180,1,"Charge 2",1,battle_unit_CombatUnitType.Cavalry,0.01,0,0,15.5,5);
+battle_ArmyStat.LANCERS_T1_B = new battle_ArmyStat("枪骑兵",54,battle_CombotantRace.TheCult,5,4,10,17,0,0,50,60,180,1,"Charge 2",1,battle_unit_CombatUnitType.Cavalry,0.01,0,0,15.5,5);
+battle_ArmyStat.UNDYING_HORSEMEN_T1_E = new battle_ArmyStat("不死骑兵",54,battle_CombotantRace.TheEmpire,5,5,8,17,0,0,50,60,180,1,"Charge 2;Undead",1,battle_unit_CombatUnitType.Cavalry,0.01,0,0,15.5,5);
+battle_ArmyStat.NOMADS_T1_D = new battle_ArmyStat("游牧骑兵",40,battle_CombotantRace.TheKhaganate,7,4,7,15,0,0,50,60,180,1,"Charge 2",1,battle_unit_CombatUnitType.Cavalry,0.01,0,0,15.5,5);
 battle_ArmyStat.armyStatBD.h[0].h[2].h[1] = battle_ArmyStat.NOMADS_T1_D;
-battle_ArmyStat.CHAMPIONS_T2_W = new battle_ArmyStat("Champions",72,battle_CombotantRace.Westaria,5,6,9,15,0,0,50,60,180,1,"Charge 2",2,battle_unit_CombatUnitType.Cavalry,0.01,0,0,15.5,5);
-battle_ArmyStat.DARK_KNIGHTS_T2_E = new battle_ArmyStat("Dark Knights",75,battle_CombotantRace.TheEmpire,5,9,12,17,0,0,50,60,180,1,"Charge 2;Undead",2,battle_unit_CombatUnitType.Cavalry,0.01,0,0,15.5,5);
+battle_ArmyStat.CHAMPIONS_T2_W = new battle_ArmyStat("冠军骑兵",72,battle_CombotantRace.Westaria,5,6,9,15,0,0,50,60,180,1,"Charge 2",2,battle_unit_CombatUnitType.Cavalry,0.01,0,0,15.5,5);
+battle_ArmyStat.DARK_KNIGHTS_T2_E = new battle_ArmyStat("黑骑士",75,battle_CombotantRace.TheEmpire,5,9,12,17,0,0,50,60,180,1,"Charge 2;Undead",2,battle_unit_CombatUnitType.Cavalry,0.01,0,0,15.5,5);
 battle_ArmyStat.armyStatBD.h[1].h[2].h[2] = battle_ArmyStat.DARK_KNIGHTS_T2_E;
-battle_ArmyStat.RAIDERS_T2_D = new battle_ArmyStat("Raiders",48,battle_CombotantRace.TheKhaganate,7,5,8,15,0,0,50,60,180,1,"Charge 2;Intimidiation 20",2,battle_unit_CombatUnitType.Cavalry,0.01,0,0,15.5,5);
-battle_ArmyStat.DRAGON_LANCERS_T2_B = new battle_ArmyStat("Dragon Lancers",67,battle_CombotantRace.TheCult,5,6,11,17,0,0,50,60,180,1,"Charge 2",2,battle_unit_CombatUnitType.Cavalry,0.01,0,0,15.5,5);
-battle_ArmyStat.DARK_KNIGHTS_T2_E = new battle_ArmyStat("Dark Knights",67,battle_CombotantRace.TheEmpire,5,6,10,17,0,0,50,60,180,1,"Charge 2;Undead",2,battle_unit_CombatUnitType.Cavalry,0.01,0,0,15.5,5);
-battle_ArmyStat.RAIDERS_T2_D = new battle_ArmyStat("Raiders",48,battle_CombotantRace.TheKhaganate,7,5,8,15,0,0,50,60,180,1,"Charge 2;Intimidiation 20",2,battle_unit_CombatUnitType.Cavalry,0.01,0,0,15.5,5);
+battle_ArmyStat.RAIDERS_T2_D = new battle_ArmyStat("掠夺者骑兵",48,battle_CombotantRace.TheKhaganate,7,5,8,15,0,0,50,60,180,1,"Charge 2;Intimidiation 20",2,battle_unit_CombatUnitType.Cavalry,0.01,0,0,15.5,5);
+battle_ArmyStat.DRAGON_LANCERS_T2_B = new battle_ArmyStat("龙骑士",67,battle_CombotantRace.TheCult,5,6,11,17,0,0,50,60,180,1,"Charge 2",2,battle_unit_CombatUnitType.Cavalry,0.01,0,0,15.5,5);
+battle_ArmyStat.DARK_KNIGHTS_T2_E = new battle_ArmyStat("黑骑士",67,battle_CombotantRace.TheEmpire,5,6,10,17,0,0,50,60,180,1,"Charge 2;Undead",2,battle_unit_CombatUnitType.Cavalry,0.01,0,0,15.5,5);
+battle_ArmyStat.RAIDERS_T2_D = new battle_ArmyStat("掠夺者骑兵",48,battle_CombotantRace.TheKhaganate,7,5,8,15,0,0,50,60,180,1,"Charge 2;Intimidiation 20",2,battle_unit_CombatUnitType.Cavalry,0.01,0,0,15.5,5);
 battle_ArmyStat.armyStatBD.h[0].h[2].h[2] = battle_ArmyStat.RAIDERS_T2_D;
-battle_ArmyStat.ANCIENT_RAIDERS_T3_D = new battle_ArmyStat("Ancient Raiders",75,battle_CombotantRace.TheKhaganate,5,7,12,15,0,0,50,60,180,1,"Charge 2;Intimidiation 20;Undead",3,battle_unit_CombatUnitType.Cavalry,0.001,0,0,15.5,5);
-battle_ArmyStat.TREBUCHET_T1_W = new battle_ArmyStat("Trebuchet",400,battle_CombotantRace.Westaria,1,15,25,50,200,100,50,20,200,2,"Mechanism;SplashDamage 25;SiegeWeapon 50",1,battle_unit_CombatUnitType.Siege,0.01,100,0,11,10);
-battle_ArmyStat.TREBUCHET_T1_D = new battle_ArmyStat("Trebuchet",400,battle_CombotantRace.TheKhaganate,1,15,25,50,200,100,50,20,200,2,"Mechanism;SplashDamage 25;SiegeWeapon 50",1,battle_unit_CombatUnitType.Siege,0.01,100,0,11,10);
-battle_ArmyStat.TREBUCHET_T1_B = new battle_ArmyStat("Trebuchet",400,battle_CombotantRace.TheCult,1,15,25,50,200,100,50,20,200,2,"Mechanism;SplashDamage 25;SiegeWeapon 50",1,battle_unit_CombatUnitType.Siege,0.01,100,0,11,10);
-battle_ArmyStat.TREBUCHET_T1_E = new battle_ArmyStat("Trebuchet",400,battle_CombotantRace.TheEmpire,1,15,25,50,200,100,50,20,200,2,"Mechanism;SplashDamage 25;SiegeWeapon 50",1,battle_unit_CombatUnitType.Siege,0.01,100,0,11,10);
-battle_ArmyStat.TREBUCHET_T1_D = new battle_ArmyStat("Trebuchet",400,battle_CombotantRace.TheKhaganate,1,15,25,50,200,100,50,20,200,2,"Mechanism;SplashDamage 25;SiegeWeapon 50",1,battle_unit_CombatUnitType.Siege,0.01,100,0,11,10);
+battle_ArmyStat.ANCIENT_RAIDERS_T3_D = new battle_ArmyStat("古代亡骑",75,battle_CombotantRace.TheKhaganate,5,7,12,15,0,0,50,60,180,1,"Charge 2;Intimidiation 20;Undead",3,battle_unit_CombatUnitType.Cavalry,0.001,0,0,15.5,5);
+battle_ArmyStat.TREBUCHET_T1_W = new battle_ArmyStat("投石车",400,battle_CombotantRace.Westaria,1,15,25,50,200,100,50,20,200,2,"Mechanism;SplashDamage 25;SiegeWeapon 50",1,battle_unit_CombatUnitType.Siege,0.01,100,0,11,10);
+battle_ArmyStat.TREBUCHET_T1_D = new battle_ArmyStat("投石车",400,battle_CombotantRace.TheKhaganate,1,15,25,50,200,100,50,20,200,2,"Mechanism;SplashDamage 25;SiegeWeapon 50",1,battle_unit_CombatUnitType.Siege,0.01,100,0,11,10);
+battle_ArmyStat.TREBUCHET_T1_B = new battle_ArmyStat("投石车",400,battle_CombotantRace.TheCult,1,15,25,50,200,100,50,20,200,2,"Mechanism;SplashDamage 25;SiegeWeapon 50",1,battle_unit_CombatUnitType.Siege,0.01,100,0,11,10);
+battle_ArmyStat.TREBUCHET_T1_E = new battle_ArmyStat("投石车",400,battle_CombotantRace.TheEmpire,1,15,25,50,200,100,50,20,200,2,"Mechanism;SplashDamage 25;SiegeWeapon 50",1,battle_unit_CombatUnitType.Siege,0.01,100,0,11,10);
+battle_ArmyStat.TREBUCHET_T1_D = new battle_ArmyStat("投石车",400,battle_CombotantRace.TheKhaganate,1,15,25,50,200,100,50,20,200,2,"Mechanism;SplashDamage 25;SiegeWeapon 50",1,battle_unit_CombatUnitType.Siege,0.01,100,0,11,10);
 battle_ArmyStat.armyStatBD.h[0].h[3].h[1] = battle_ArmyStat.TREBUCHET_T1_D;
-battle_ArmyStat.POISON_CATAPULT_T2_D = new battle_ArmyStat("Poison Catapult",600,battle_CombotantRace.TheKhaganate,1,20,35,50,200,100,50,20,200,2,"Mechanism;SplashDamage 25;SiegeWeapon 50;Poisonous 2",2,battle_unit_CombatUnitType.Siege,0.3,50,0,11,10);
-battle_ArmyStat.POISON_CATAPULT_T2_E = new battle_ArmyStat("Poison Catapult",600,battle_CombotantRace.TheEmpire,1,20,35,50,200,100,50,20,200,1,"Mechanism;SplashDamage 25;SiegeWeapon 50;Poisonous 2",2,battle_unit_CombatUnitType.Siege,0.3,50,0,11,10);
-battle_ArmyStat.POISON_CATAPULT_T2_D = new battle_ArmyStat("Poison Catapult",600,battle_CombotantRace.TheKhaganate,1,20,35,50,200,100,50,20,200,2,"Mechanism;SplashDamage 25;SiegeWeapon 50;Poisonous 2",2,battle_unit_CombatUnitType.Siege,0.3,50,0,11,10);
+battle_ArmyStat.POISON_CATAPULT_T2_D = new battle_ArmyStat("毒性投石机",600,battle_CombotantRace.TheKhaganate,1,20,35,50,200,100,50,20,200,2,"Mechanism;SplashDamage 25;SiegeWeapon 50;Poisonous 2",2,battle_unit_CombatUnitType.Siege,0.3,50,0,11,10);
+battle_ArmyStat.POISON_CATAPULT_T2_E = new battle_ArmyStat("毒性投石机",600,battle_CombotantRace.TheEmpire,1,20,35,50,200,100,50,20,200,1,"Mechanism;SplashDamage 25;SiegeWeapon 50;Poisonous 2",2,battle_unit_CombatUnitType.Siege,0.3,50,0,11,10);
+battle_ArmyStat.POISON_CATAPULT_T2_D = new battle_ArmyStat("毒性投石机",600,battle_CombotantRace.TheKhaganate,1,20,35,50,200,100,50,20,200,2,"Mechanism;SplashDamage 25;SiegeWeapon 50;Poisonous 2",2,battle_unit_CombatUnitType.Siege,0.3,50,0,11,10);
 battle_ArmyStat.armyStatBD.h[0].h[3].h[2] = battle_ArmyStat.POISON_CATAPULT_T2_D;
-battle_ArmyStat.POISON_CATAPULT_T2_E = new battle_ArmyStat("Poison Catapult",600,battle_CombotantRace.TheEmpire,1,20,35,50,200,100,50,20,200,1,"Mechanism;SplashDamage 25;SiegeWeapon 50;Poisonous 2",2,battle_unit_CombatUnitType.Siege,0.3,50,0,11,10);
+battle_ArmyStat.POISON_CATAPULT_T2_E = new battle_ArmyStat("毒性投石机",600,battle_CombotantRace.TheEmpire,1,20,35,50,200,100,50,20,200,1,"Mechanism;SplashDamage 25;SiegeWeapon 50;Poisonous 2",2,battle_unit_CombatUnitType.Siege,0.3,50,0,11,10);
 battle_ArmyStat.armyStatBD.h[1].h[3].h[1] = battle_ArmyStat.POISON_CATAPULT_T2_E;
-battle_ArmyStat.MONKS_T1_W = new battle_ArmyStat("Monks",65,battle_CombotantRace.Westaria,6,5,6,15,0,0,50,40,150,1,"DivinePresence 10",1,battle_unit_CombatUnitType.Magic,0.1,0,0,11,5);
-battle_ArmyStat.UNDYING_ASSASSINS_T1_E = new battle_ArmyStat("Undying Assassins",130,battle_CombotantRace.TheEmpire,3,6,12,15,0,0,50,40,150,1,"Undead;HorrificDash 8;Intimidiation 10",1,battle_unit_CombatUnitType.Magic,0.1,0,0,11,5);
+battle_ArmyStat.MONKS_T1_W = new battle_ArmyStat("僧侣",65,battle_CombotantRace.Westaria,6,5,6,15,0,0,50,40,150,1,"DivinePresence 10",1,battle_unit_CombatUnitType.Magic,0.1,0,0,11,5);
+battle_ArmyStat.UNDYING_ASSASSINS_T1_E = new battle_ArmyStat("不死刺客",130,battle_CombotantRace.TheEmpire,3,6,12,15,0,0,50,40,150,1,"Undead;HorrificDash 8;Intimidiation 10",1,battle_unit_CombatUnitType.Magic,0.1,0,0,11,5);
 battle_ArmyStat.armyStatBD.h[1].h[4].h[1] = battle_ArmyStat.UNDYING_ASSASSINS_T1_E;
-battle_ArmyStat.ASSASSINS_T1_D = new battle_ArmyStat("Assassins",120,battle_CombotantRace.TheKhaganate,3,8,16,15,0,0,50,40,150,1,"HorrificDash 5;PoisonImmunity;Discipline",1,battle_unit_CombatUnitType.Magic,0.1,0,0,11,5);
+battle_ArmyStat.ASSASSINS_T1_D = new battle_ArmyStat("刺客",120,battle_CombotantRace.TheKhaganate,3,8,16,15,0,0,50,40,150,1,"HorrificDash 5;PoisonImmunity;Discipline",1,battle_unit_CombatUnitType.Magic,0.1,0,0,11,5);
 battle_ArmyStat.ACOLYTES_T1_B = new battle_ArmyStat("Acolytes",55,battle_CombotantRace.TheCult,6,8,12,25,100,50,50,40,150,1,"FreezeArrow 50",1,battle_unit_CombatUnitType.Magic,0.1,44,0,11,5);
-battle_ArmyStat.UNDYING_ASSASSINS_T1_E = new battle_ArmyStat("Undying Assassins",130,battle_CombotantRace.TheEmpire,3,6,12,15,0,0,50,40,150,1,"Undead;HorrificDash 8;Intimidiation 10",1,battle_unit_CombatUnitType.Magic,0.1,0,0,11,5);
-battle_ArmyStat.ASSASSINS_T1_D = new battle_ArmyStat("Assassins",120,battle_CombotantRace.TheKhaganate,3,8,16,15,0,0,50,40,150,1,"HorrificDash 5;PoisonImmunity;Discipline",1,battle_unit_CombatUnitType.Magic,0.1,0,0,11,5);
+battle_ArmyStat.UNDYING_ASSASSINS_T1_E = new battle_ArmyStat("不死刺客",130,battle_CombotantRace.TheEmpire,3,6,12,15,0,0,50,40,150,1,"Undead;HorrificDash 8;Intimidiation 10",1,battle_unit_CombatUnitType.Magic,0.1,0,0,11,5);
+battle_ArmyStat.ASSASSINS_T1_D = new battle_ArmyStat("刺客",120,battle_CombotantRace.TheKhaganate,3,8,16,15,0,0,50,40,150,1,"HorrificDash 5;PoisonImmunity;Discipline",1,battle_unit_CombatUnitType.Magic,0.1,0,0,11,5);
 battle_ArmyStat.armyStatBD.h[0].h[4].h[1] = battle_ArmyStat.ASSASSINS_T1_D;
-battle_ArmyStat.ZEALOTS_T2_W = new battle_ArmyStat("Zealots",75,battle_CombotantRace.Westaria,6,6,9,15,50,0,50,40,150,1,"DivinePresence 10;MartialArtists",2,battle_unit_CombatUnitType.Magic,0.33,50,0,11,5);
-battle_ArmyStat.SHADES_T2_E = new battle_ArmyStat("Shades",135,battle_CombotantRace.TheEmpire,3,12,20,15,0,0,50,40,150,1,"Undead;HorrificDash 4;Intimidiation 15",2,battle_unit_CombatUnitType.Magic,0.1,0,0,11,5);
+battle_ArmyStat.ZEALOTS_T2_W = new battle_ArmyStat("狂热信徒",75,battle_CombotantRace.Westaria,6,6,9,15,50,0,50,40,150,1,"DivinePresence 10;MartialArtists",2,battle_unit_CombatUnitType.Magic,0.33,50,0,11,5);
+battle_ArmyStat.SHADES_T2_E = new battle_ArmyStat("阴魂",135,battle_CombotantRace.TheEmpire,3,12,20,15,0,0,50,40,150,1,"Undead;HorrificDash 4;Intimidiation 15",2,battle_unit_CombatUnitType.Magic,0.1,0,0,11,5);
 battle_ArmyStat.armyStatBD.h[1].h[4].h[2] = battle_ArmyStat.SHADES_T2_E;
-battle_ArmyStat.WIZARDS_T2_B = new battle_ArmyStat("Wizards",65,battle_CombotantRace.TheCult,6,12,18,25,100,50,50,40,150,1,"FreezeBlast 40",2,battle_unit_CombatUnitType.Magic,0.1,55,0,11,5);
-battle_ArmyStat.SHADES_T2_E = new battle_ArmyStat("Shades",135,battle_CombotantRace.TheEmpire,3,12,20,15,0,0,50,40,150,1,"Undead;HorrificDash 4;Intimidiation 15",2,battle_unit_CombatUnitType.Magic,0.1,0,0,11,5);
-battle_ArmyStat.ASSASSINS_T1_D = new battle_ArmyStat("Assassins",120,battle_CombotantRace.TheKhaganate,3,8,16,15,0,0,50,40,150,1,"HorrificDash 5;PoisonImmunity;Discipline",1,battle_unit_CombatUnitType.Magic,0.1,0,0,11,5);
+battle_ArmyStat.WIZARDS_T2_B = new battle_ArmyStat("冰巫师",65,battle_CombotantRace.TheCult,6,12,18,25,100,50,50,40,150,1,"FreezeBlast 40",2,battle_unit_CombatUnitType.Magic,0.1,55,0,11,5);
+battle_ArmyStat.SHADES_T2_E = new battle_ArmyStat("阴魂",135,battle_CombotantRace.TheEmpire,3,12,20,15,0,0,50,40,150,1,"Undead;HorrificDash 4;Intimidiation 15",2,battle_unit_CombatUnitType.Magic,0.1,0,0,11,5);
+battle_ArmyStat.ASSASSINS_T1_D = new battle_ArmyStat("刺客",120,battle_CombotantRace.TheKhaganate,3,8,16,15,0,0,50,40,150,1,"HorrificDash 5;PoisonImmunity;Discipline",1,battle_unit_CombatUnitType.Magic,0.1,0,0,11,5);
 battle_ArmyStat.armyStatBD.h[0].h[4].h[1] = battle_ArmyStat.ASSASSINS_T1_D;
 // Fix, idk why this one got overriden
-battle_ArmyStat.WARRIORS_T1_D = new battle_ArmyStat("Warriors",18,battle_CombotantRace.TheKhaganate,9,3,4,15,0,0,50,50,100,1,"",1,battle_unit_CombatUnitType.Infantry,0.1,0,0,11,5);
+battle_ArmyStat.WARRIORS_T1_D = new battle_ArmyStat("战士",18,battle_CombotantRace.TheKhaganate,9,3,4,15,0,0,50,50,100,1,"",1,battle_unit_CombatUnitType.Infantry,0.1,0,0,11,5);
 battle_ArmyStat.armyStatBD.h[3].h[0].h[1] = battle_ArmyStat.WARRIORS_T1_D;
-battle_ArmyStat.OGRE_T1_N = new battle_ArmyStat("Ogre",400,battle_CombotantRace.Bandits,1,8,12,30,0,0,50,30,0,0,"SplashDamage 25",1,battle_unit_CombatUnitType.Magic,0.1,0,0,20,5);
+battle_ArmyStat.OGRE_T1_N = new battle_ArmyStat("野人",400,battle_CombotantRace.Bandits,1,8,12,30,0,0,50,30,0,0,"SplashDamage 25",1,battle_unit_CombatUnitType.Magic,0.1,0,0,20,5);
 battle_ArmyStat.AVATAR_T3_W = new battle_ArmyStat("Avatar",1000,battle_CombotantRace.Westaria,1,10,15,30,0,0,50,30,0,0,"SplashDamage 25;Undead;SiegeWeapon 50",3,battle_unit_CombatUnitType.Magic,0.1,0,0,20,5);
 battle_ArmyStat.WOLVES_T1_N = new battle_ArmyStat("Wolves",40,battle_CombotantRace.Bandits,6,4,10,17,0,0,50,60,0,0,"Charge 2",1,battle_unit_CombatUnitType.Cavalry,0.01,0,0,11,5);
 battle_ArmyStat.BRIGAND_WARRIORS_T1_N = new battle_ArmyStat("Brigand Warriors",21,battle_CombotantRace.Bandits,9,1,5,16,0,0,50,50,0,0,"",1,battle_unit_CombatUnitType.Infantry,0.1,0,0,11,5);
