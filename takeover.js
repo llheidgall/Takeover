@@ -26506,13 +26506,13 @@ hud_GamePanel.constructSpellHint = function(_spell,_hintWindow) {
 	iriysoft_helper_Fwh.GetChildT(hintImage,["textSpellName"]).set_htmlText(_spell.name);
 	switch(_spell.type) {
 	case 0:
-		hintText += "<FONT COLOR='#999999'>SPELL</FONT>";
+		hintText += "<FONT COLOR='#999999'>法术</FONT>";
 		break;
 	case 1:
-		hintText += "<FONT COLOR='#999999'>BANNER - " + _spell.time + " sec.</FONT>";
+		hintText += "<FONT COLOR='#999999'>旗帜-" + _spell.time + "秒</FONT>";
 		break;
 	case 2:
-		hintText += "<FONT COLOR='#999999'>ULTIMATE POWER</FONT>";
+		hintText += "<FONT COLOR='#999999'>终极法术</FONT>";
 		break;
 	}
 	hintText += "<br><br><FONT SIZE='+1'>" + _spell.hint + "</FONT>";
@@ -114221,22 +114221,23 @@ battle_spell_SpellInfo.TYPE_SPELL = 0;
 battle_spell_SpellInfo.TYPE_BANNER = 1;
 battle_spell_SpellInfo.TYPE_ULTIMATE = 2;
 battle_spell_SpellInfo.m_allSpells = [];
-battle_spell_SpellInfo.LORDS_JUDGEMENT = new battle_spell_SpellInfo(0,1,"LORD'S JUDGEMENT",battle_CombotantRace.Westaria,0,50,75,60,30,"Damages enemy units in a selected area");
-battle_spell_SpellInfo.BANNER_OF_CONSECRATION = new battle_spell_SpellInfo(1,2,"BANNER OF CONSECRATION",battle_CombotantRace.Westaria,1,50,75,20,12,"Heals and ressurects your units");
-battle_spell_SpellInfo.BANNER_OF_HEROISM = new battle_spell_SpellInfo(2,3,"BANNER OF HEROISM",battle_CombotantRace.Westaria,1,75,75,2,12,"All your nearby squads enter into Heroic state (a squad causes 1.5x damage in Heroic state)");
-battle_spell_SpellInfo.SIGN_OF_THE_ADVENT = new battle_spell_SpellInfo(3,4,"SIGN OF THE ADVENT",battle_CombotantRace.Westaria,2,1,0,0,0,"Temporarily summons Lord's Avatar into the battlefield");
-battle_spell_SpellInfo.SUMMON_STONEWORMS = new battle_spell_SpellInfo(4,1,"SUMMON STONEWORMS",battle_CombotantRace.TheKhaganate,0,100,75,8,10,"Stoneworms damage the enemy units in a selected area");
-battle_spell_SpellInfo.DISENTOMB = new battle_spell_SpellInfo(5,2,"DISENTOMB",battle_CombotantRace.TheKhaganate,0,250,75,3,0,"Summons Immortals squad");
-battle_spell_SpellInfo.BANNER_OF_BLOODLUST = new battle_spell_SpellInfo(6,3,"BANNER OF BLOODLUST",battle_CombotantRace.TheKhaganate,1,50,75,4,12,"Increases the damage caused by your units");
-battle_spell_SpellInfo.CATACLYSM = new battle_spell_SpellInfo(7,4,"CATACLYSM",battle_CombotantRace.TheKhaganate,2,1,150,8,0,"Hail of meteors causes great damage to all of the enemy's squads and strongholds and average damage to yours.");
-battle_spell_SpellInfo.ICE_BLAST = new battle_spell_SpellInfo(8,1,"ICE BLAST",battle_CombotantRace.TheCult,0,100,75,6,5,"Temporarily freezes the enemy squads in a selected area");
-battle_spell_SpellInfo.FROST_ENCHANTMENT = new battle_spell_SpellInfo(9,2,"FROST ENCHANTMENT",battle_CombotantRace.TheCult,0,150,75,25,10,"Enchants your squads in a selected area to temporarily cause the max damage and get 25% less damage from the enemy attacks");
-battle_spell_SpellInfo.BANNER_OF_LIBERATION = new battle_spell_SpellInfo(10,3,"BANNER OF LIBERATION",battle_CombotantRace.TheCult,1,50,75,3,12,"Protects your nearby units from any negative magic effects");
-battle_spell_SpellInfo.GRAND_TRANSFORMATION = new battle_spell_SpellInfo(11,4,"GRAND TRANSFORMATION",battle_CombotantRace.TheCult,2,1,0,20,0,"Destroys a random half of the enemy units giving your mana and gold for the destroyed units");
-battle_spell_SpellInfo.TERROR = new battle_spell_SpellInfo(12,1,"TERROR",battle_CombotantRace.TheEmpire,0,100,75,1,0,"Пугает (переводит в состояние Испуган или снимает Героизм) вражеские отряды");
-battle_spell_SpellInfo.RAISE_THE_DEAD = new battle_spell_SpellInfo(13,2,"RAISE THE DEAD",battle_CombotantRace.TheEmpire,0,250,75,1,0,"Призывает нежить-пехоту или стрелков");
-battle_spell_SpellInfo.BANNER_OF_DESECRATION = new battle_spell_SpellInfo(14,3,"BANNER OF DESECRATION",battle_CombotantRace.TheEmpire,1,75,75,10,12,"Лечит и возрождает ваши юниты");
-battle_spell_SpellInfo.CALL_OF_THE_GRAVE = new battle_spell_SpellInfo(15,4,"CALL OF THE GRAVE",battle_CombotantRace.TheEmpire,2,1,0,2,0,"Превращает 1-3 случайных живых вражеских отряда в соответствующие отряды нежити");
+battle_spell_SpellInfo.LORDS_JUDGEMENT = new battle_spell_SpellInfo(0,1,"亡灵审判",battle_CombotantRace.Westaria,0,50,75,60,30,"降低所选区域敌人士气");
+battle_spell_SpellInfo.BANNER_OF_CONSECRATION = new battle_spell_SpellInfo(1,2,"魂祭之旗",battle_CombotantRace.Westaria,1,50,75,20,12,"以亡灵之力治愈不死大军");
+battle_spell_SpellInfo.BANNER_OF_HEROISM = new battle_spell_SpellInfo(2,3,"亡灵召唤",battle_CombotantRace.Westaria,0,75,75,2,12,"随机召唤一只亡灵军队在指定区域");
+battle_spell_SpellInfo.SIGN_OF_THE_ADVENT = new battle_spell_SpellInfo(3,4,"墓穴召唤",battle_CombotantRace.Westaria,2,1,0,0,0,"将 1 至 3 个随机活体敌军转化为对应的亡灵单位");
+battle_spell_SpellInfo.SUMMON_STONEWORMS = new battle_spell_SpellInfo(4,1,"召唤石虫",battle_CombotantRace.TheKhaganate,0,100,75,8,10,"石虫会对选定区域内的敌军造成伤害");
+battle_spell_SpellInfo.DISENTOMB = new battle_spell_SpellInfo(5,2,"破墓",battle_CombotantRace.TheKhaganate,0,250,75,3,0,"召唤一支不朽者小队");
+battle_spell_SpellInfo.BANNER_OF_BLOODLUST = new battle_spell_SpellInfo(6,3,"嗜血之旗",battle_CombotantRace.TheKhaganate,1,50,75,4,12,"提高己方部队造成的伤害");
+battle_spell_SpellInfo.CATACLYSM = new battle_spell_SpellInfo(7,4,"天灾浩劫",battle_CombotantRace.TheKhaganate,2,1,150,8,0,"流星雨对敌方所有小队和要塞造成巨大伤害，并对己方造成中等伤害");
+battle_spell_SpellInfo.ICE_BLAST = new battle_spell_SpellInfo(8,1,"寒冰冲击",battle_CombotantRace.TheCult,0,100,75,6,5,"短暂冻结选定区域内的敌方小队");
+battle_spell_SpellInfo.FROST_ENCHANTMENT = new battle_spell_SpellInfo(9,2,"霜寒附魔",battle_CombotantRace.TheCult,0,150,75,25,10,"使选定区域内的己方小队获得短暂无上伤害并减少 25% 所受伤害");
+battle_spell_SpellInfo.BANNER_OF_LIBERATION = new battle_spell_SpellInfo(10,3,"解放之旗",battle_CombotantRace.TheCult,1,50,75,3,12,"保护附近的己方部队免受所有负面魔法效果");
+battle_spell_SpellInfo.GRAND_TRANSFORMATION = new battle_spell_SpellInfo(11,4,"大变革",battle_CombotantRace.TheCult,2,1,0,20,0,"摧毁敌方随机一半单位，并按数量给予法力与金币");
+battle_spell_SpellInfo.TERROR = new battle_spell_SpellInfo(12,1,"恐惧",battle_CombotantRace.TheEmpire,0,100,75,1,0,"恐吓敌军（使其陷入恐惧状态或解除其英勇状态）");
+battle_spell_SpellInfo.RAISE_THE_DEAD = new battle_spell_SpellInfo(13,2,"死者复起",battle_CombotantRace.TheEmpire,0,250,75,1,0,"召唤亡灵步兵或亡灵射手");
+battle_spell_SpellInfo.BANNER_OF_DESECRATION = new battle_spell_SpellInfo(14,3,"亵渎之旗",battle_CombotantRace.TheEmpire,1,75,75,10,12,"治愈并复活你的亡灵单位");
+battle_spell_SpellInfo.CALL_OF_THE_GRAVE = new battle_spell_SpellInfo(15,4,"墓穴召唤",battle_CombotantRace.TheEmpire,2,1,0,2,0,"将 1 至 3 个随机活体敌军转化为对应的亡灵单位");
+
 battle_squad_UnitSet.UNIT_DIST = 14;
 battle_squad_UnitSet.FORMATION_3x3 = [new base_Position(0,0),new base_Position(0,14),new base_Position(0,-14.),new base_Position(-14.,0),new base_Position(-14.,14),new base_Position(-14.,-14.),new base_Position(-28.,0),new base_Position(-28.,14),new base_Position(-28.,-14.)];
 battle_squad_UnitSet.FORMATION_3x4 = [new base_Position(0,0),new base_Position(0,14),new base_Position(0,-14.),new base_Position(-14.,0),new base_Position(-14.,14),new base_Position(-14.,-14.),new base_Position(-28.,0),new base_Position(-28.,14),new base_Position(-28.,-14.),new base_Position(-42.,0),new base_Position(-42.,14),new base_Position(-42.,-14.)];
