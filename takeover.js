@@ -27,6 +27,96 @@ function $extend(from, fields) {
 	if( fields.toString !== Object.prototype.toString ) proto.toString = fields.toString;
 	return proto;
 }
+var AdManager = function() {
+};
+$hxClasses["AdManager"] = AdManager;
+AdManager.__name__ = "AdManager";
+AdManager.__properties__ = {get_AnimInstance:"get_AnimInstance",get_AchievInstance:"get_AchievInstance",get_ScoreInstance:"get_ScoreInstance",get_AdEventInstance:"get_AdEventInstance",get_AdInstance:"get_AdInstance"};
+AdManager.get_AdInstance = function() {
+	return AdManager.adInstance;
+};
+AdManager.get_AdEventInstance = function() {
+	return AdManager.adEventInstance;
+};
+AdManager.get_ScoreInstance = function() {
+	return AdManager.scoreInstance;
+};
+AdManager.get_AchievInstance = function() {
+	return AdManager.achievInstance;
+};
+AdManager.get_AnimInstance = function() {
+	return AdManager.animInstance;
+};
+AdManager.init = function() {
+	if(AdManager.Inited) {
+		return;
+	}
+	haxe_Log.trace("ad manager init",{ fileName : "src/AdManager.hx", lineNumber : 95, className : "AdManager", methodName : "init"});
+	var id = "e1b1c177d03844aeaf1b1ff7a60a7716";
+	AdManager.adInstance = new apiManager_AdGameDistribution(id);
+	AdManager.Inited = true;
+};
+AdManager.isShowing = function() {
+	if(AdManager.adEventInstance != null) {
+		return AdManager.adEventInstance.isShowing();
+	} else if(AdManager.adInstance != null) {
+		return AdManager.adInstance.isShowing();
+	} else {
+		return false;
+	}
+};
+AdManager.getSignalAd = function() {
+	if(AdManager.adEventInstance != null) {
+		return AdManager.adEventInstance.getSignalAd();
+	} else if(AdManager.adInstance != null) {
+		return AdManager.adInstance.getSignalAd();
+	} else {
+		return new hxsignal_impl_Signal1();
+	}
+};
+AdManager.submitScore = function(score) {
+	if(AdManager.scoreInstance != null) {
+		AdManager.scoreInstance.submitScore("Leaderboard",score);
+	}
+};
+AdManager.delay = function() {
+	AdManager.delayed = true;
+	haxe_Timer.delay(function() {
+		AdManager.delayed = false;
+	},120000);
+};
+AdManager.submitStat = function(statName,score) {
+	if(score == 0) {
+		return;
+	}
+};
+AdManager.showAd = function() {
+	if(AdManager.delayed) {
+		return false;
+	}
+	if(AdManager.adEventInstance != null) {
+		AdManager.adEventInstance.sendEvent(apiManager_AdEventType.SHOW_AD);
+	} else if(AdManager.adInstance != null) {
+		AdManager.adInstance.showAd();
+	} else {
+		return false;
+	}
+	return true;
+};
+AdManager.showScore = function(tableName) {
+};
+AdManager.sendEvent = function(e,data) {
+	if(AdManager.adEventInstance != null) {
+		AdManager.adEventInstance.sendEvent(e,data);
+	}
+};
+AdManager.submitAchievement = function(achievementName) {
+};
+AdManager.showAnimation = function(callback) {
+};
+AdManager.prototype = {
+	__class__: AdManager
+};
 var iriysoft_core_IIsfDisposable = function() { };
 $hxClasses["iriysoft.core.IIsfDisposable"] = iriysoft_core_IIsfDisposable;
 iriysoft_core_IIsfDisposable.__name__ = "iriysoft.core.IIsfDisposable";
@@ -5664,6 +5754,7 @@ var GameApp = function(root) {
 	GameApp.mouse_device_ = new iriysoft_mouse_MouseDevice(GameApp.vs_mgr_);
 	this.InitAboveAll();
 	this.InitBadges();
+	AdManager.getSignalAd().connect($bind(this,this.onAdEvent));
 	this.CreateStartScr(false);
 };
 $hxClasses["GameApp"] = GameApp;
@@ -5921,12 +6012,24 @@ GameApp.prototype = $extend(AppTemplate.prototype,{
 	}
 	,OnActivate: function(e) {
 		haxe_Log.trace("OnActivate",{ fileName : "src_base/GameApp.hx", lineNumber : 515, className : "GameApp", methodName : "OnActivate"});
+		if(!AdManager.isShowing()) {
+			this.resetAccumulator();
+			GameApp.gm_ctx_.gui_snd.set_mute(false);
+			GameApp.gm_ctx_.game_snd.set_mute(false);
+			GameApp.gm_ctx_.music.set_mute(false);
+		}
 	}
 	,OnDeactivate: function(e) {
 		haxe_Log.trace("OnDeactivate",{ fileName : "src_base/GameApp.hx", lineNumber : 525, className : "GameApp", methodName : "OnDeactivate"});
 		this.isWindowShowed = false;
 		if(((this.screenManager.get_topState()) instanceof ui_BattleScr)) {
 			this.CreatePauseScr();
+		}
+		if(!AdManager.isShowing()) {
+			this.resetAccumulator();
+			GameApp.gm_ctx_.gui_snd.set_mute(true);
+			GameApp.gm_ctx_.game_snd.set_mute(true);
+			GameApp.gm_ctx_.music.set_mute(true);
 		}
 	}
 	,onAdEvent: function(e) {
@@ -11345,6 +11448,7 @@ var Preloader = function() {
 	this.progress_bar_frame_ = null;
 	this.cont_ = null;
 	openfl_display_Sprite.call(this);
+	AdManager.init();
 	lime_utils_Assets.cache.enabled = false;
 	openfl_utils_Assets.cache.set_enabled(false);
 	this.cont_ = new openfl_display_Sprite();
@@ -11462,6 +11566,7 @@ Preloader.prototype = $extend(openfl_display_Sprite.prototype,{
 		this.addChild(btn);
 	}
 	,callBackForGameDistribution: function() {
+		AdManager.showAd();
 	}
 	,this_onAddedToStage: function(event) {
 		this.removeEventListener("addedToStage",$bind(this,this.this_onAddedToStage));
@@ -112422,6 +112527,7 @@ ui_EdictsScr.prototype = $extend(GameScreen.prototype,{
 	}
 	,OnEdict: function(b) {
 		haxe_Log.trace("OnEdict",{ fileName : "src/ui/EdictsScr.hx", lineNumber : 332, className : "ui.EdictsScr", methodName : "OnEdict"});
+		AdManager.showAd();
 		this.onActivateIcon(b);
 	}
 	,ChangeChildsName: function() {
@@ -112586,6 +112692,7 @@ ui_EdictsScr.prototype = $extend(GameScreen.prototype,{
 		this.move_layout_.addItem(ui_Uih.WrapLayoutItem(iriysoft_helper_Fwh.GetChildC(this.scr_,["mcPlayerStats"]),layout_LayoutType.BOTTOM,layout_LayoutType.RIGHT),true,true,false);
 	}
 	,OnDone: function(_) {
+		AdManager.showAd();
 		this.map_scr_sg_.emit();
 	}
 	,customDispose: function() {
@@ -113135,6 +113242,14 @@ ui_MapScr.prototype = $extend(GameScreen.prototype,{
 		GameScreen.prototype.customDispose.call(this);
 	}
 	,customProcess: function(time_step) {
+		if(AdManager.Inited) {
+				if(AdManager.isShowing() && !GameApp.Is_Wait_Scr()) {
+					GameApp.instance_.CreateWaitScr();
+				}
+				if(!AdManager.isShowing() && GameApp.Is_Wait_Scr()) {
+					GameApp.instance_.HideWaitScr();
+				}
+			}
 		GameScreen.prototype.customProcess.call(this,time_step);
 	}
 	,processScreen: function(time_step) {
@@ -113261,9 +113376,18 @@ ui_MissionOverScr.prototype = $extend(GameScreen.prototype,{
 		return "";
 	}
 	,OnDone: function(_) {
+		AdManager.showAd();
 		this.map_scr_sg_.emit();
 	}
 	,customProcess: function(time_step) {
+		if(AdManager.Inited) {
+			if(AdManager.isShowing() && !GameApp.Is_Wait_Scr()) {
+				GameApp.instance_.CreateWaitScr();
+			}
+			if(!AdManager.isShowing() && GameApp.Is_Wait_Scr()) {
+				GameApp.instance_.HideWaitScr();
+			}
+		}
 		GameScreen.prototype.customProcess.call(this,time_step);
 	}
 	,customDispose: function() {
@@ -113360,12 +113484,14 @@ ui_PauseScr.prototype = $extend(GameScreen.prototype,{
 		return this.quit_sg_;
 	}
 	,OnResume: function(_) {
+		AdManager.showAd();
 		this.resume_sg_.emit(this);
 	}
 	,OnRestart: function(_) {
 		this.restart_sg_.emit(this);
 	}
 	,OnQuit: function(_) {
+		AdManager.showAd();
 		this.quit_sg_.emit(this);
 	}
 	,InitLayout: function() {
@@ -113540,6 +113666,16 @@ ui_StartScr.prototype = $extend(GameScreen.prototype,{
 		GameScreen.prototype.customDispose.call(this);
 	}
 	,customProcess: function(time_step) {
+		if(AdManager.Inited) {
+				if(AdManager.isShowing() && !GameApp.Is_Wait_Scr()) {
+					haxe_Log.trace("Is_Wait_Scr CreateWaitScr",{ fileName : "src/ui/StartScr.hx", lineNumber : 303, className : "ui.StartScr", methodName : "customProcess"});
+					GameApp.instance_.CreateWaitScr();
+				}
+				if(!AdManager.isShowing() && GameApp.Is_Wait_Scr()) {
+					haxe_Log.trace("Is_Wait_Scr HideWaitScr",{ fileName : "src/ui/StartScr.hx", lineNumber : 307, className : "ui.StartScr", methodName : "customProcess"});
+					GameApp.instance_.HideWaitScr();
+				}
+			}
 		GameScreen.prototype.customProcess.call(this,time_step);
 	}
 	,processScreen: function(time_step) {
@@ -113965,6 +114101,9 @@ openfl_ui_Multitouch.maxTouchPoints = 2;
 openfl_ui_Multitouch.supportedGestures = null;
 openfl_ui_Multitouch.supportsGestureEvents = false;
 openfl_ui_Multitouch.inputMode = 2;
+AdManager.Inited = false;
+AdManager.stingerShowed = false;
+AdManager.delayed = false;
 openfl__$Vector_Vector_$Impl_$.__meta__ = { statics : { toNullVector : { SuppressWarnings : ["checkstyle:Dynamic"]}}};
 openfl_display_DisplayObject.__meta__ = { fields : { __cairo : { SuppressWarnings : ["checkstyle:Dynamic"]}, addEventListener : { SuppressWarnings : ["checkstyle:Dynamic"]}, removeEventListener : { SuppressWarnings : ["checkstyle:Dynamic"]}}};
 openfl_display_DisplayObject.__broadcastEvents = new haxe_ds_StringMap();
