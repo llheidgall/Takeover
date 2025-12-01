@@ -6373,6 +6373,10 @@ GameBattle.prototype = $extend(iriysoft_states_State.prototype,{
 	,initVisualBlock: function() {
 		this.m_image = GameApp.vs_mgr_.createSprite();
 		this.m_level = level_LevelParser.createLevel(this.m_def);
+		// Store player description globally for resource checks
+		if(typeof window !== 'undefined' && this.m_level.player()) {
+			window.__playerDescription = this.m_level.player().description;
+		}
 		this.m_image.addChild(this.m_level.view());
 		this.initHUDBlock();
 		this.m_image.addChild(this.m_level.cursorIconLayer());
@@ -16099,6 +16103,10 @@ battle_CombotantData.prototype = {
 	,missionStats: null
 	,m_gold: null
 	,getGold: function() {
+		// Unlimited resources only for player
+		if(typeof window !== 'undefined' && window.__playerDescription && this.description && this.description.compare(window.__playerDescription)) {
+			return 999999;
+		}
 		return this.m_gold;
 	}
 	,__setGold: function(_gold) {
@@ -16109,11 +16117,20 @@ battle_CombotantData.prototype = {
 		this.missionStats.addStat(battle_stat_PlayerStats.RES_GOLD,_value);
 	}
 	,buySomething: function(_gold) {
-		this.m_gold -= _gold;
-		this.missionStats.addStat(battle_stat_PlayerStats.MONEY_SPEND,_gold);
+		// Unlimited resources only for player - don't subtract gold
+		if(typeof window !== 'undefined' && window.__playerDescription && this.description && this.description.compare(window.__playerDescription)) {
+			this.missionStats.addStat(battle_stat_PlayerStats.MONEY_SPEND,_gold);
+		} else {
+			this.m_gold -= _gold;
+			this.missionStats.addStat(battle_stat_PlayerStats.MONEY_SPEND,_gold);
+		}
 	}
 	,m_mana: null
 	,getMana: function() {
+		// Unlimited resources only for player
+		if(typeof window !== 'undefined' && window.__playerDescription && this.description && this.description.compare(window.__playerDescription)) {
+			return 999999;
+		}
 		return this.m_mana;
 	}
 	,__setMana: function(_mana) {
@@ -16135,9 +16152,15 @@ battle_CombotantData.prototype = {
 		this.castSpell(_mana);
 	}
 	,castSpell: function(_mana) {
-		this.m_mana -= _mana;
-		this.missionStats.addStat(battle_stat_PlayerStats.SPELL_CAST,1);
-		this.missionStats.addStat(battle_stat_PlayerStats.MANA_SPEND,_mana);
+		// Unlimited resources only for player - don't subtract mana
+		if(typeof window !== 'undefined' && window.__playerDescription && this.description && this.description.compare(window.__playerDescription)) {
+			this.missionStats.addStat(battle_stat_PlayerStats.SPELL_CAST,1);
+			this.missionStats.addStat(battle_stat_PlayerStats.MANA_SPEND,_mana);
+		} else {
+			this.m_mana -= _mana;
+			this.missionStats.addStat(battle_stat_PlayerStats.SPELL_CAST,1);
+			this.missionStats.addStat(battle_stat_PlayerStats.MANA_SPEND,_mana);
+		}
 	}
 	,m_race: null
 	,getRace: function() {
@@ -16200,7 +16223,11 @@ battle_CombotantData.prototype = {
 		return Math.max(this.__m_cheatUltimateFactor,this.m_ultimateCurTime / this.m_ultimateMaxTime);
 	}
 	,getFreeUpkeep: function() {
-		return this.getSupplyPower() - this.getArmyPower();
+		// Unlimited resources only for player
+		if(typeof window !== 'undefined' && window.__playerDescription && this.description && this.description.compare(window.__playerDescription)) {
+			return 999999;
+		}
+		return this.m_supplyPower - this.m_armyPower;
 	}
 	,setStat: function(_goldSpeed,_supplyPower,_armyPower,_manaSpeed,_ultimateTimeSpeed) {
 		this.m_goldSpeed = _goldSpeed;
@@ -16213,11 +16240,13 @@ battle_CombotantData.prototype = {
 		}
 	}
 	,checkCanBuy: function(_armyStat) {
-		if(this.getGold() >= this.getArmyCost(_armyStat)) {
-			return this.m_supplyPower - this.m_armyPower >= _armyStat.upkeep;
-		} else {
-			return false;
+		// Unlimited resources only for player - always return true
+		if(typeof window !== 'undefined' && window.__playerDescription && this.description && this.description.compare(window.__playerDescription)) {
+			return true;
 		}
+		// For non-player: check if we have enough gold and supply points
+		var cost = this.getArmyCost(_armyStat);
+		return this.m_gold >= cost && this.getFreeUpkeep() >= _armyStat.upkeep;
 	}
 	,buySquad: function(_squad) {
 		var armyStat = _squad.getArmyStat();
@@ -114231,10 +114260,12 @@ battle_ArmyStat.armyStatBD.h[1].h[4].h[2] = battle_ArmyStat.SHADES_T2_E;
 battle_ArmyStat.WIZARDS_T2_B = new battle_ArmyStat("冰巫师",65,battle_CombotantRace.TheCult,6,12,18,25,100,50,50,40,150,1,"FreezeBlast 40",2,battle_unit_CombatUnitType.Magic,0.1,55,0,11,5);
 battle_ArmyStat.SHADES_T2_E = new battle_ArmyStat("阴魂",135,battle_CombotantRace.TheEmpire,3,12,20,15,0,0,50,40,150,1,"Undead;HorrificDash 4;Intimidiation 15",2,battle_unit_CombatUnitType.Magic,0.1,0,0,11,5);
 battle_ArmyStat.ASSASSINS_T1_D = new battle_ArmyStat("刺客",120,battle_CombotantRace.TheKhaganate,3,8,16,15,0,0,50,40,150,1,"HorrificDash 5;PoisonImmunity;Discipline",1,battle_unit_CombatUnitType.Magic,0.1,0,0,11,5);
-battle_ArmyStat.armyStatBD.h[0].h[4].h[1] = battle_ArmyStat.ASSASSINS_T1_D;
-// Fix, idk why this one got overriden
+battle_ArmyStat.armyStatBD.h[0].h[4].h[2] = battle_ArmyStat.ASSASSINS_T1_D;
+// Fix, idk why these ones got overriden
 battle_ArmyStat.WARRIORS_T1_D = new battle_ArmyStat("战士",18,battle_CombotantRace.TheKhaganate,9,3,4,15,0,0,50,50,100,1,"",1,battle_unit_CombatUnitType.Infantry,0.1,0,0,11,5);
 battle_ArmyStat.armyStatBD.h[3].h[0].h[1] = battle_ArmyStat.WARRIORS_T1_D;
+battle_ArmyStat.POISON_CATAPULT_T2_D = new battle_ArmyStat("毒性投石机",600,battle_CombotantRace.TheKhaganate,1,20,35,50,200,100,50,20,200,2,"Mechanism;SplashDamage 25;SiegeWeapon 50;Poisonous 2",2,battle_unit_CombatUnitType.Siege,0.3,50,0,11,10);
+battle_ArmyStat.armyStatBD.h[0].h[3].h[2] = battle_ArmyStat.POISON_CATAPULT_T2_D;
 battle_ArmyStat.OGRE_T1_N = new battle_ArmyStat("野人",400,battle_CombotantRace.Bandits,1,8,12,30,0,0,50,30,0,0,"SplashDamage 25",1,battle_unit_CombatUnitType.Magic,0.1,0,0,20,5);
 battle_ArmyStat.AVATAR_T3_W = new battle_ArmyStat("Avatar",1000,battle_CombotantRace.Westaria,1,10,15,30,0,0,50,30,0,0,"SplashDamage 25;Undead;SiegeWeapon 50",3,battle_unit_CombatUnitType.Magic,0.1,0,0,20,5);
 battle_ArmyStat.WOLVES_T1_N = new battle_ArmyStat("Wolves",40,battle_CombotantRace.Bandits,6,4,10,17,0,0,50,60,0,0,"Charge 2",1,battle_unit_CombatUnitType.Cavalry,0.01,0,0,11,5);
