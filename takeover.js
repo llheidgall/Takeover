@@ -111199,7 +111199,7 @@ progress_CompanyProgress.prototype = $extend(base_BObject.prototype,{
 		return pl;
 	}
 	,getTotalSkillPoints: function() {
-		return Math.min(2 + (this.getRank() - 1) * 2,27) | 0;
+		return 27;
 	}
 	,getFreeSkillPoints: function() {
 		return this.getTotalSkillPoints() - this.m_raceEdicts.getEdictsPoints();
