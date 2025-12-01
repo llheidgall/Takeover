@@ -40155,11 +40155,34 @@ level_Level.prototype = $extend(level_LevelVisual.prototype,{
 		var race = _combotant.getRace();
 		var rad = _spell.radius;
 		var pos = new base_Position(_spell.position.x,_spell.position.y);
+		var myKn = this.seekKeyNodeForSummon(_combotant);
+		var unitType;
+		var sqdPos;
+		var esq;
+		var isPurple;
+		var lightningBonus = _combotant.bonuses.getBonus(10);
+		var transferChance = 0.01;
+		if(lightningBonus == 15) {
+			transferChance = 0.25;
+		} else if(lightningBonus == 30) {
+			transferChance = 0.5;
+		}
 		while(iter.hasNext()) {
 			sqd = iter.next();
 			if(sqd.getRace() != race) {
 				if(sqd.checkUnitAtRadius(pos,rad)) {
 					sqd.enableTerror();
+					isPurple = XMLData.getColorID(sqd.getRace()) == "Purple";
+					if(sqd.isEnemyOutFromKeyNode(race) && !isPurple && Math.random() < transferChance) {
+						unitType = sqd.getUnitType();
+						sqdPos = sqd.getMainUnit().getPosition();
+						sqd.forceKill();
+						esq = this.manualCreateSquad(sqdPos,_combotant,_combotant.getArmyStateByType(unitType));
+						esq.forceMoveToKeyNode(myKn);
+						esq.moveTo(sqdPos.x,sqdPos.y);
+						this.sendToAttackFrom(myKn,esq);
+						this.createSingleAnimEffect("TerrorSpellEffectClass",sqdPos.x,sqdPos.y,3);
+					} 
 				}
 			}
 		}
@@ -114221,7 +114244,7 @@ battle_spell_SpellInfo.TYPE_SPELL = 0;
 battle_spell_SpellInfo.TYPE_BANNER = 1;
 battle_spell_SpellInfo.TYPE_ULTIMATE = 2;
 battle_spell_SpellInfo.m_allSpells = [];
-battle_spell_SpellInfo.LORDS_JUDGEMENT = new battle_spell_SpellInfo(0,1,"亡灵审判",battle_CombotantRace.Westaria,0,50,75,60,30,"降低所选区域敌人士气");
+battle_spell_SpellInfo.LORDS_JUDGEMENT = new battle_spell_SpellInfo(0,1,"亡灵审判",battle_CombotantRace.Westaria,0,50,75,60,30,"降低所选区域敌人士气，并可能直接转化为友方单位");
 battle_spell_SpellInfo.BANNER_OF_CONSECRATION = new battle_spell_SpellInfo(1,2,"魂祭之旗",battle_CombotantRace.Westaria,1,50,75,20,12,"以亡灵之力治愈不死大军");
 battle_spell_SpellInfo.BANNER_OF_HEROISM = new battle_spell_SpellInfo(2,3,"亡灵召唤",battle_CombotantRace.Westaria,0,75,75,2,12,"随机召唤一只亡灵军队在指定区域");
 battle_spell_SpellInfo.SIGN_OF_THE_ADVENT = new battle_spell_SpellInfo(3,4,"墓穴召唤",battle_CombotantRace.Westaria,2,1,0,0,0,"将 1 至 3 个随机活体敌军转化为对应的亡灵单位");
@@ -115959,7 +115982,7 @@ metagame_CombotantBonuses.UNLOCK_BANNER_OF_DESECRATION = 43;
 metagame_CombotantBonuses.BONUSES_COUNT = 44;
 metagame_Edict.W_THE_LORDS_CHURCH = new metagame_Edict("冥主暗堂-解锁魂祭之旗",[new metagame_EdictContent(5,1,"解锁魂祭之旗"),new metagame_EdictContent(6,25,"+25% 旗帜持续时间"),new metagame_EdictContent(6,50,"+50% 旗帜持续时间")],0,0);
 metagame_Edict.W_DUCAL_SOVEREIGNITY = new metagame_Edict("冥权统御-解锁基础亡灵",[new metagame_EdictContent(0,0,"解锁基础亡灵"),new metagame_EdictContent(8,75,"任务开始时 +75 金币"),new metagame_EdictContent(8,150,"任务开始时 +150 金币")],0,0);
-metagame_Edict.W_CALL_FOR_THE_CRUSADE = new metagame_Edict("暗影号令-解锁亡灵审判",[new metagame_EdictContent(9,1,"解锁冥雷审判"),new metagame_EdictContent(10,15,"冥雷伤害 +15%"),new metagame_EdictContent(10,30,"冥雷伤害 +30%")],4);
+metagame_Edict.W_CALL_FOR_THE_CRUSADE = new metagame_Edict("暗影号令-解锁亡灵审判",[new metagame_EdictContent(9,1,"解锁冥雷审判"),new metagame_EdictContent(10,15,"+25% 概率直接转化敌方单位"),new metagame_EdictContent(10,30,"+50% 概率直接转化敌方单位")],4);
 metagame_Edict.W_TOWN_GUILDS = new metagame_Edict("亡城行会-卫兵转化为骸骨剑士",[new metagame_EdictContent(0,1,"将卫兵转化为骸骨剑士"),new metagame_EdictContent(11,15,"要塞生命值 +15%"),new metagame_EdictContent(11,30,"要塞生命值 +30%")],4);
 metagame_Edict.W_THE_ZEALOTS_ORDER = new metagame_Edict("冥徒教派-不死刺客转化为阴魂",[new metagame_EdictContent(4,1,"将侍僧转化为冥执者"),new metagame_EdictContent(12,-10,"终极技能冷却 -10%"),new metagame_EdictContent(12,-20,"终极技能冷却 -20%")],7);
 metagame_Edict.W_MECHANICS_RESEARCH = new metagame_Edict("亡械典籍-弓手改造为骷髅弩手",[new metagame_EdictContent(2,1,"将弓手改造为骨弩手"),new metagame_EdictContent(13,10,"弓箭 / 攻城武器伤害 +10%"),new metagame_EdictContent(13,20,"弓箭 / 攻城武器伤害 +20%")],7);
