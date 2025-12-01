@@ -6373,10 +6373,6 @@ GameBattle.prototype = $extend(iriysoft_states_State.prototype,{
 	,initVisualBlock: function() {
 		this.m_image = GameApp.vs_mgr_.createSprite();
 		this.m_level = level_LevelParser.createLevel(this.m_def);
-		// Store player description globally for resource checks
-		if(typeof window !== 'undefined' && this.m_level.player()) {
-			window.__playerDescription = this.m_level.player().description;
-		}
 		this.m_image.addChild(this.m_level.view());
 		this.initHUDBlock();
 		this.m_image.addChild(this.m_level.cursorIconLayer());
@@ -16103,10 +16099,6 @@ battle_CombotantData.prototype = {
 	,missionStats: null
 	,m_gold: null
 	,getGold: function() {
-		// Unlimited resources only for player
-		if(typeof window !== 'undefined' && window.__playerDescription && this.description && this.description.compare(window.__playerDescription)) {
-			return 999999;
-		}
 		return this.m_gold;
 	}
 	,__setGold: function(_gold) {
@@ -16117,20 +16109,11 @@ battle_CombotantData.prototype = {
 		this.missionStats.addStat(battle_stat_PlayerStats.RES_GOLD,_value);
 	}
 	,buySomething: function(_gold) {
-		// Unlimited resources only for player - don't subtract gold
-		if(typeof window !== 'undefined' && window.__playerDescription && this.description && this.description.compare(window.__playerDescription)) {
-			this.missionStats.addStat(battle_stat_PlayerStats.MONEY_SPEND,_gold);
-		} else {
-			this.m_gold -= _gold;
-			this.missionStats.addStat(battle_stat_PlayerStats.MONEY_SPEND,_gold);
-		}
+		this.m_gold -= _gold;
+		this.missionStats.addStat(battle_stat_PlayerStats.MONEY_SPEND,_gold);
 	}
 	,m_mana: null
 	,getMana: function() {
-		// Unlimited resources only for player
-		if(typeof window !== 'undefined' && window.__playerDescription && this.description && this.description.compare(window.__playerDescription)) {
-			return 999999;
-		}
 		return this.m_mana;
 	}
 	,__setMana: function(_mana) {
@@ -16152,15 +16135,9 @@ battle_CombotantData.prototype = {
 		this.castSpell(_mana);
 	}
 	,castSpell: function(_mana) {
-		// Unlimited resources only for player - don't subtract mana
-		if(typeof window !== 'undefined' && window.__playerDescription && this.description && this.description.compare(window.__playerDescription)) {
-			this.missionStats.addStat(battle_stat_PlayerStats.SPELL_CAST,1);
-			this.missionStats.addStat(battle_stat_PlayerStats.MANA_SPEND,_mana);
-		} else {
-			this.m_mana -= _mana;
-			this.missionStats.addStat(battle_stat_PlayerStats.SPELL_CAST,1);
-			this.missionStats.addStat(battle_stat_PlayerStats.MANA_SPEND,_mana);
-		}
+		this.m_mana -= _mana;
+		this.missionStats.addStat(battle_stat_PlayerStats.SPELL_CAST,1);
+		this.missionStats.addStat(battle_stat_PlayerStats.MANA_SPEND,_mana);
 	}
 	,m_race: null
 	,getRace: function() {
@@ -16223,11 +16200,7 @@ battle_CombotantData.prototype = {
 		return Math.max(this.__m_cheatUltimateFactor,this.m_ultimateCurTime / this.m_ultimateMaxTime);
 	}
 	,getFreeUpkeep: function() {
-		// Unlimited resources only for player
-		if(typeof window !== 'undefined' && window.__playerDescription && this.description && this.description.compare(window.__playerDescription)) {
-			return 999999;
-		}
-		return this.m_supplyPower - this.m_armyPower;
+		return this.getSupplyPower() - this.getArmyPower();
 	}
 	,setStat: function(_goldSpeed,_supplyPower,_armyPower,_manaSpeed,_ultimateTimeSpeed) {
 		this.m_goldSpeed = _goldSpeed;
@@ -16240,13 +16213,11 @@ battle_CombotantData.prototype = {
 		}
 	}
 	,checkCanBuy: function(_armyStat) {
-		// Unlimited resources only for player - always return true
-		if(typeof window !== 'undefined' && window.__playerDescription && this.description && this.description.compare(window.__playerDescription)) {
-			return true;
+		if(this.getGold() >= this.getArmyCost(_armyStat)) {
+			return this.m_supplyPower - this.m_armyPower >= _armyStat.upkeep;
+		} else {
+			return false;
 		}
-		// For non-player: check if we have enough gold and supply points
-		var cost = this.getArmyCost(_armyStat);
-		return this.m_gold >= cost && this.getFreeUpkeep() >= _armyStat.upkeep;
 	}
 	,buySquad: function(_squad) {
 		var armyStat = _squad.getArmyStat();
@@ -20066,33 +20037,33 @@ battle_unit_FCombatUnit.prototype = $extend(battle_unit_CombatUnit.prototype,{
 				if(this.getArmyStat().side == battle_CombotantRace.TheCult) {
 					switch(this.getArmyStat().techLevel) {
 					case 1:
-						this.renderBullet(_place,_x,_y,"BulletClass",_yPosScale,_colorTransform);
+						this.renderBullet(_place,_x,_y,"BulletClass",_yPosScale,filter);
 						break;
 					case 2:
 						rad = 10;
 						angle = Math.PI * (90 * this.m_view.animDir() + 45) / 180;
-						this.renderBullet(_place,_x + Math.cos(angle) * rad,_y + Math.sin(angle) * rad,"GunbotBulletClass",_yPosScale,_colorTransform);
+						this.renderBullet(_place,_x + Math.cos(angle) * rad,_y + Math.sin(angle) * rad,"GunbotBulletClass",_yPosScale,filter);
 						break;
 					case 3:
 						rad = 5;
 						angle = Math.PI * (90 * this.m_view.animDir() + 45) / 180;
-						this.renderBullet(_place,_x + Math.cos(angle) * rad,_y + Math.sin(angle) * rad,"GiantbotBulletClass",_yPosScale,_colorTransform);
+						this.renderBullet(_place,_x + Math.cos(angle) * rad,_y + Math.sin(angle) * rad,"GiantbotBulletClass",_yPosScale,filter);
 						break;
 					}
 				} else {
-					this.renderArrow(_place,_x,_y,"arrow_bullet_",_yPosScale,_colorTransform);
+					this.renderArrow(_place,_x,_y,"arrow_bullet_",_yPosScale,filter);
 				}
 				break;
 			case 4:
-				this.renderRocket(_place,_x,_y,_yPosScale,_colorTransform);
+				this.renderRocket(_place,_x,_y,_yPosScale,filter);
 				break;
 			case 5:
 				switch(this.getArmyStat().side._hx_index) {
 				case 2:
-					this.renderBullet(_place,_x,_y,"ZealotBulletClass",_yPosScale,_colorTransform);
+					this.renderBullet(_place,_x,_y,"ZealotBulletClass",_yPosScale,filter);
 					break;
 				case 4:
-					this.renderBullet(_place,_x,_y,"AcolytesBulletClass",_yPosScale,_colorTransform);
+					this.renderBullet(_place,_x,_y,"AcolytesBulletClass",_yPosScale,filter);
 					break;
 				default:
 				}
@@ -20114,6 +20085,7 @@ battle_unit_FCombatUnit.prototype = $extend(battle_unit_CombatUnit.prototype,{
 		if(_x == null) {
 			_x = 0.0;
 		}
+		this.render(_place, _x, _y, _yPosScale, _colorTransform);
 	}
 	,x: function() {
 		return this.m_x;
@@ -23199,15 +23171,21 @@ grapheng_RGLObject.prototype = $extend(iriysoft_core_templates_DisposableObject.
 		iriysoft_core_templates_DisposableObject.prototype.customDispose.call(this);
 	}
 	,render: function(_place,_x,_y,_yPosScale,_colorTransform) {
-		if(_yPosScale == null) {
-			_yPosScale = 1.0;
+		if (_yPosScale == null) _yPosScale = 1.0;
+		if (_y == null) _y = 0.0;
+		if (_x == null) _x = 0.0;
+
+		// Position the animation
+		this.m_curAnimation.set_x(this.x_ + _x);
+		this.m_curAnimation.set_y((this.y_ + _y) * _yPosScale);
+
+		// Apply color transform if provided
+		if (_colorTransform != null) {
+			this.m_curAnimation.set_transform(_colorTransform);
 		}
-		if(_y == null) {
-			_y = 0.0;
-		}
-		if(_x == null) {
-			_x = 0.0;
-		}
+
+		// Draw animation on screen
+		this.m_curAnimation.render(_place);
 	}
 	,x: function() {
 		return this.m_rasterObject.x();
@@ -40184,34 +40162,11 @@ level_Level.prototype = $extend(level_LevelVisual.prototype,{
 		var race = _combotant.getRace();
 		var rad = _spell.radius;
 		var pos = new base_Position(_spell.position.x,_spell.position.y);
-		var myKn = this.seekKeyNodeForSummon(_combotant);
-		var unitType;
-		var sqdPos;
-		var esq;
-		var isPurple;
-		var lightningBonus = _combotant.bonuses.getBonus(10);
-		var transferChance = 0.01;
-		if(lightningBonus == 15) {
-			transferChance = 0.25;
-		} else if(lightningBonus == 30) {
-			transferChance = 0.5;
-		}
 		while(iter.hasNext()) {
 			sqd = iter.next();
 			if(sqd.getRace() != race) {
 				if(sqd.checkUnitAtRadius(pos,rad)) {
 					sqd.enableTerror();
-					isPurple = XMLData.getColorID(sqd.getRace()) == "Purple";
-					if(sqd.isEnemyOutFromKeyNode(race) && !isPurple && Math.random() < transferChance) {
-						unitType = sqd.getUnitType();
-						sqdPos = sqd.getMainUnit().getPosition();
-						sqd.forceKill();
-						esq = this.manualCreateSquad(sqdPos,_combotant,_combotant.getArmyStateByType(unitType));
-						esq.forceMoveToKeyNode(myKn);
-						esq.moveTo(sqdPos.x,sqdPos.y);
-						this.sendToAttackFrom(myKn,esq);
-						this.createSingleAnimEffect("TerrorSpellEffectClass",sqdPos.x,sqdPos.y,3);
-					} 
 				}
 			}
 		}
@@ -111199,7 +111154,7 @@ progress_CompanyProgress.prototype = $extend(base_BObject.prototype,{
 		return pl;
 	}
 	,getTotalSkillPoints: function() {
-		return Math.min(2 + (this.getRank() - 1) * 2,27) | 0;
+		return 27;
 	}
 	,getFreeSkillPoints: function() {
 		return this.getTotalSkillPoints() - this.m_raceEdicts.getEdictsPoints();
@@ -114260,12 +114215,10 @@ battle_ArmyStat.armyStatBD.h[1].h[4].h[2] = battle_ArmyStat.SHADES_T2_E;
 battle_ArmyStat.WIZARDS_T2_B = new battle_ArmyStat("冰巫师",65,battle_CombotantRace.TheCult,6,12,18,25,100,50,50,40,150,1,"FreezeBlast 40",2,battle_unit_CombatUnitType.Magic,0.1,55,0,11,5);
 battle_ArmyStat.SHADES_T2_E = new battle_ArmyStat("阴魂",135,battle_CombotantRace.TheEmpire,3,12,20,15,0,0,50,40,150,1,"Undead;HorrificDash 4;Intimidiation 15",2,battle_unit_CombatUnitType.Magic,0.1,0,0,11,5);
 battle_ArmyStat.ASSASSINS_T1_D = new battle_ArmyStat("刺客",120,battle_CombotantRace.TheKhaganate,3,8,16,15,0,0,50,40,150,1,"HorrificDash 5;PoisonImmunity;Discipline",1,battle_unit_CombatUnitType.Magic,0.1,0,0,11,5);
-battle_ArmyStat.armyStatBD.h[0].h[4].h[2] = battle_ArmyStat.ASSASSINS_T1_D;
-// Fix, idk why these ones got overriden
+battle_ArmyStat.armyStatBD.h[0].h[4].h[1] = battle_ArmyStat.ASSASSINS_T1_D;
+// Fix, idk why this one got overriden
 battle_ArmyStat.WARRIORS_T1_D = new battle_ArmyStat("战士",18,battle_CombotantRace.TheKhaganate,9,3,4,15,0,0,50,50,100,1,"",1,battle_unit_CombatUnitType.Infantry,0.1,0,0,11,5);
 battle_ArmyStat.armyStatBD.h[3].h[0].h[1] = battle_ArmyStat.WARRIORS_T1_D;
-battle_ArmyStat.POISON_CATAPULT_T2_D = new battle_ArmyStat("毒性投石机",600,battle_CombotantRace.TheKhaganate,1,20,35,50,200,100,50,20,200,2,"Mechanism;SplashDamage 25;SiegeWeapon 50;Poisonous 2",2,battle_unit_CombatUnitType.Siege,0.3,50,0,11,10);
-battle_ArmyStat.armyStatBD.h[0].h[3].h[2] = battle_ArmyStat.POISON_CATAPULT_T2_D;
 battle_ArmyStat.OGRE_T1_N = new battle_ArmyStat("野人",400,battle_CombotantRace.Bandits,1,8,12,30,0,0,50,30,0,0,"SplashDamage 25",1,battle_unit_CombatUnitType.Magic,0.1,0,0,20,5);
 battle_ArmyStat.AVATAR_T3_W = new battle_ArmyStat("Avatar",1000,battle_CombotantRace.Westaria,1,10,15,30,0,0,50,30,0,0,"SplashDamage 25;Undead;SiegeWeapon 50",3,battle_unit_CombatUnitType.Magic,0.1,0,0,20,5);
 battle_ArmyStat.WOLVES_T1_N = new battle_ArmyStat("Wolves",40,battle_CombotantRace.Bandits,6,4,10,17,0,0,50,60,0,0,"Charge 2",1,battle_unit_CombatUnitType.Cavalry,0.01,0,0,11,5);
@@ -114275,7 +114228,7 @@ battle_spell_SpellInfo.TYPE_SPELL = 0;
 battle_spell_SpellInfo.TYPE_BANNER = 1;
 battle_spell_SpellInfo.TYPE_ULTIMATE = 2;
 battle_spell_SpellInfo.m_allSpells = [];
-battle_spell_SpellInfo.LORDS_JUDGEMENT = new battle_spell_SpellInfo(0,1,"亡灵审判",battle_CombotantRace.Westaria,0,50,75,60,30,"降低所选区域敌人士气，并可能直接转化为友方单位");
+battle_spell_SpellInfo.LORDS_JUDGEMENT = new battle_spell_SpellInfo(0,1,"亡灵审判",battle_CombotantRace.Westaria,0,50,75,60,30,"降低所选区域敌人士气");
 battle_spell_SpellInfo.BANNER_OF_CONSECRATION = new battle_spell_SpellInfo(1,2,"魂祭之旗",battle_CombotantRace.Westaria,1,50,75,20,12,"以亡灵之力治愈不死大军");
 battle_spell_SpellInfo.BANNER_OF_HEROISM = new battle_spell_SpellInfo(2,3,"亡灵召唤",battle_CombotantRace.Westaria,0,75,75,2,12,"随机召唤一只亡灵军队在指定区域");
 battle_spell_SpellInfo.SIGN_OF_THE_ADVENT = new battle_spell_SpellInfo(3,4,"墓穴召唤",battle_CombotantRace.Westaria,2,1,0,0,0,"将 1 至 3 个随机活体敌军转化为对应的亡灵单位");
@@ -116013,7 +115966,7 @@ metagame_CombotantBonuses.UNLOCK_BANNER_OF_DESECRATION = 43;
 metagame_CombotantBonuses.BONUSES_COUNT = 44;
 metagame_Edict.W_THE_LORDS_CHURCH = new metagame_Edict("冥主暗堂-解锁魂祭之旗",[new metagame_EdictContent(5,1,"解锁魂祭之旗"),new metagame_EdictContent(6,25,"+25% 旗帜持续时间"),new metagame_EdictContent(6,50,"+50% 旗帜持续时间")],0,0);
 metagame_Edict.W_DUCAL_SOVEREIGNITY = new metagame_Edict("冥权统御-解锁基础亡灵",[new metagame_EdictContent(0,0,"解锁基础亡灵"),new metagame_EdictContent(8,75,"任务开始时 +75 金币"),new metagame_EdictContent(8,150,"任务开始时 +150 金币")],0,0);
-metagame_Edict.W_CALL_FOR_THE_CRUSADE = new metagame_Edict("暗影号令-解锁亡灵审判",[new metagame_EdictContent(9,1,"解锁冥雷审判"),new metagame_EdictContent(10,15,"+25% 概率直接转化敌方单位"),new metagame_EdictContent(10,30,"+50% 概率直接转化敌方单位")],4);
+metagame_Edict.W_CALL_FOR_THE_CRUSADE = new metagame_Edict("暗影号令-解锁亡灵审判",[new metagame_EdictContent(9,1,"解锁冥雷审判"),new metagame_EdictContent(10,15,"冥雷伤害 +15%"),new metagame_EdictContent(10,30,"冥雷伤害 +30%")],4);
 metagame_Edict.W_TOWN_GUILDS = new metagame_Edict("亡城行会-卫兵转化为骸骨剑士",[new metagame_EdictContent(0,1,"将卫兵转化为骸骨剑士"),new metagame_EdictContent(11,15,"要塞生命值 +15%"),new metagame_EdictContent(11,30,"要塞生命值 +30%")],4);
 metagame_Edict.W_THE_ZEALOTS_ORDER = new metagame_Edict("冥徒教派-不死刺客转化为阴魂",[new metagame_EdictContent(4,1,"将侍僧转化为冥执者"),new metagame_EdictContent(12,-10,"终极技能冷却 -10%"),new metagame_EdictContent(12,-20,"终极技能冷却 -20%")],7);
 metagame_Edict.W_MECHANICS_RESEARCH = new metagame_Edict("亡械典籍-弓手改造为骷髅弩手",[new metagame_EdictContent(2,1,"将弓手改造为骨弩手"),new metagame_EdictContent(13,10,"弓箭 / 攻城武器伤害 +10%"),new metagame_EdictContent(13,20,"弓箭 / 攻城武器伤害 +20%")],7);
