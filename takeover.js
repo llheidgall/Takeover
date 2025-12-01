@@ -114235,6 +114235,8 @@ battle_ArmyStat.armyStatBD.h[0].h[4].h[1] = battle_ArmyStat.ASSASSINS_T1_D;
 // Fix, idk why this one got overriden
 battle_ArmyStat.WARRIORS_T1_D = new battle_ArmyStat("战士",18,battle_CombotantRace.TheKhaganate,9,3,4,15,0,0,50,50,100,1,"",1,battle_unit_CombatUnitType.Infantry,0.1,0,0,11,5);
 battle_ArmyStat.armyStatBD.h[3].h[0].h[1] = battle_ArmyStat.WARRIORS_T1_D;
+battle_ArmyStat.POISON_CATAPULT_T2_D = new battle_ArmyStat("毒性投石机",600,battle_CombotantRace.TheKhaganate,1,20,35,50,200,100,50,20,200,2,"Mechanism;SplashDamage 25;SiegeWeapon 50;Poisonous 2",2,battle_unit_CombatUnitType.Siege,0.3,50,0,11,10);
+battle_ArmyStat.armyStatBD.h[0].h[3].h[2] = battle_ArmyStat.POISON_CATAPULT_T2_D;
 battle_ArmyStat.OGRE_T1_N = new battle_ArmyStat("野人",400,battle_CombotantRace.Bandits,1,8,12,30,0,0,50,30,0,0,"SplashDamage 25",1,battle_unit_CombatUnitType.Magic,0.1,0,0,20,5);
 battle_ArmyStat.AVATAR_T3_W = new battle_ArmyStat("Avatar",1000,battle_CombotantRace.Westaria,1,10,15,30,0,0,50,30,0,0,"SplashDamage 25;Undead;SiegeWeapon 50",3,battle_unit_CombatUnitType.Magic,0.1,0,0,20,5);
 battle_ArmyStat.WOLVES_T1_N = new battle_ArmyStat("Wolves",40,battle_CombotantRace.Bandits,6,4,10,17,0,0,50,60,0,0,"Charge 2",1,battle_unit_CombatUnitType.Cavalry,0.01,0,0,11,5);
