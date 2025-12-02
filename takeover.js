@@ -14979,6 +14979,25 @@ apiManager_AdGameDistribution.prototype = {
         }
       ;
 	}
+	// ,showAd: function() {
+	// 	this.isAdShowing = true;
+	// if(!this.initialized) {
+	// 	return;
+	// }
+	// // Use 4399 interstitial ad API instead of gdsdk
+	// if (typeof window !== "undefined" &&
+	// 	window.h5api &&
+	// 	typeof window.h5api.playInterstitialAd === "function") {
+	// 	try {
+	// 		window.h5api.playInterstitialAd();
+	// 	} catch (err) {
+	// 		console.log("h5api.playInterstitialAd error:", err);
+	// 		this.getSignalAd().emit(apiManager_AdEventType.ERROR);
+	// 	}
+	// } else {
+	// 	// 4399 API not available
+	// 	this.getSignalAd().emit(apiManager_AdEventType.ERROR);
+	// }
 	,showRewarded: function() {
 		if(!this.isPreloadedRewarded) {
 			this.getSignalAd().emit(apiManager_AdEventType.ERROR);
