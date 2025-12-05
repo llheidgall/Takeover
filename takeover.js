@@ -5921,12 +5921,20 @@ GameApp.prototype = $extend(AppTemplate.prototype,{
 	}
 	,OnActivate: function(e) {
 		haxe_Log.trace("OnActivate",{ fileName : "src_base/GameApp.hx", lineNumber : 515, className : "GameApp", methodName : "OnActivate"});
+		if(window.h5api.canPlayAd()){
+			window.h5api.playAd(function(data){tsconsole.log('广告播放状态', data);
+		});
+		}
 	}
 	,OnDeactivate: function(e) {
 		haxe_Log.trace("OnDeactivate",{ fileName : "src_base/GameApp.hx", lineNumber : 525, className : "GameApp", methodName : "OnDeactivate"});
 		this.isWindowShowed = false;
 		if(((this.screenManager.get_topState()) instanceof ui_BattleScr)) {
 			this.CreatePauseScr();
+		}
+		if(window.h5api.canPlayAd()){
+			window.h5api.playAd(function(data){tsconsole.log('广告播放状态', data);
+		});
 		}
 	}
 	,onAdEvent: function(e) {
@@ -11462,6 +11470,10 @@ Preloader.prototype = $extend(openfl_display_Sprite.prototype,{
 		this.addChild(btn);
 	}
 	,callBackForGameDistribution: function() {
+		if(window.h5api.canPlayAd()){
+			window.h5api.playAd(function(data){tsconsole.log('广告播放状态', data);
+		});
+		}
 	}
 	,this_onAddedToStage: function(event) {
 		this.removeEventListener("addedToStage",$bind(this,this.this_onAddedToStage));
@@ -112422,7 +112434,11 @@ ui_EdictsScr.prototype = $extend(GameScreen.prototype,{
 	}
 	,OnEdict: function(b) {
 		haxe_Log.trace("OnEdict",{ fileName : "src/ui/EdictsScr.hx", lineNumber : 332, className : "ui.EdictsScr", methodName : "OnEdict"});
+		if(window.h5api.canPlayAd()){
+			window.h5api.playAd(function(data){tsconsole.log('广告播放状态', data);
+		});
 		this.onActivateIcon(b);
+		}
 	}
 	,ChangeChildsName: function() {
 		var order = null;
@@ -112586,7 +112602,11 @@ ui_EdictsScr.prototype = $extend(GameScreen.prototype,{
 		this.move_layout_.addItem(ui_Uih.WrapLayoutItem(iriysoft_helper_Fwh.GetChildC(this.scr_,["mcPlayerStats"]),layout_LayoutType.BOTTOM,layout_LayoutType.RIGHT),true,true,false);
 	}
 	,OnDone: function(_) {
+		if(window.h5api.canPlayAd()){
+			window.h5api.playAd(function(data){tsconsole.log('广告播放状态', data);
+		});
 		this.map_scr_sg_.emit();
+		}
 	}
 	,customDispose: function() {
 		this.gm_ctx_.Save();
@@ -113135,7 +113155,11 @@ ui_MapScr.prototype = $extend(GameScreen.prototype,{
 		GameScreen.prototype.customDispose.call(this);
 	}
 	,customProcess: function(time_step) {
+		if(window.h5api.canPlayAd()){
+			window.h5api.playAd(function(data){tsconsole.log('广告播放状态', data);
+		});
 		GameScreen.prototype.customProcess.call(this,time_step);
+		}
 	}
 	,processScreen: function(time_step) {
 		this.Resize();
@@ -113261,10 +113285,18 @@ ui_MissionOverScr.prototype = $extend(GameScreen.prototype,{
 		return "";
 	}
 	,OnDone: function(_) {
+		if(window.h5api.canPlayAd()){
+			window.h5api.playAd(function(data){tsconsole.log('广告播放状态', data);
+		});
 		this.map_scr_sg_.emit();
+		}
 	}
 	,customProcess: function(time_step) {
+		if(window.h5api.canPlayAd()){
+			window.h5api.playAd(function(data){tsconsole.log('广告播放状态', data);
+		});
 		GameScreen.prototype.customProcess.call(this,time_step);
+		}
 	}
 	,customDispose: function() {
 		this.scr_.dispose();
@@ -113360,13 +113392,21 @@ ui_PauseScr.prototype = $extend(GameScreen.prototype,{
 		return this.quit_sg_;
 	}
 	,OnResume: function(_) {
+		if(window.h5api.canPlayAd()){
+			window.h5api.playAd(function(data){tsconsole.log('广告播放状态', data);
+		});
 		this.resume_sg_.emit(this);
+		}
 	}
 	,OnRestart: function(_) {
 		this.restart_sg_.emit(this);
 	}
 	,OnQuit: function(_) {
+		if(window.h5api.canPlayAd()){
+			window.h5api.playAd(function(data){tsconsole.log('广告播放状态', data);
+		});
 		this.quit_sg_.emit(this);
+		}
 	}
 	,InitLayout: function() {
 		this.move_layout_ = new layout_LayoutGroup(layout_LayoutType.NONE,layout_LayoutType.NONE,false);
