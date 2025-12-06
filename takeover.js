@@ -8527,10 +8527,13 @@ Hlp.playBeginBattleSound = function(_unitArmyStat) {
 	case battle_ArmyStat.ANCIENT_RAIDERS_T3_D:
 	case battle_ArmyStat.DARK_KNIGHTS_T2_E:
 	case battle_ArmyStat.IMMORTALS_T2_D:
+	case battle_ArmyStat.UNDYING_WARRIORS_T1_E:
 	case battle_ArmyStat.SKELETON_ARCHERS_T2_E:
+	case battle_ArmyStat.ZOMBIE_WARRIORS_T2_E:
 	case battle_ArmyStat.UNDYING_ARCHERS_T1_E:
 	case battle_ArmyStat.UNDYING_ASSASSINS_T1_E:
 	case battle_ArmyStat.UNDYING_HORSEMEN_T1_E:
+	case battle_ArmyStat.DARK_KNIGHTS_T2_E:
 	case battle_ArmyStat.SHADES_T2_E:
 	case battle_ArmyStat.armyStatBD.h[1].h[0].h[1]:
 	case battle_ArmyStat.armyStatBD.h[1].h[1].h[1]:
@@ -40332,9 +40335,9 @@ level_Level.prototype = $extend(level_LevelVisual.prototype,{
 		var lightningBonus = _combotant.bonuses.getBonus(10);
 		var transferChance = 0.01;
 		if(lightningBonus == 15) {
-			transferChance = 0.25;
+			transferChance = 0.15;
 		} else if(lightningBonus == 30) {
-			transferChance = 0.5;
+			transferChance = 0.3;
 		}
 		while(iter.hasNext()) {
 			sqd = iter.next();
@@ -114361,7 +114364,7 @@ battle_ArmyStat.WARRIORS_T1_D = new battle_ArmyStat("战士",18,battle_Combotant
 battle_ArmyStat.armyStatBD.h[3].h[0].h[1] = battle_ArmyStat.WARRIORS_T1_D;
 
 battle_ArmyStat.REBELS_T1_B = new battle_ArmyStat("叛军",22,battle_CombotantRace.TheCult,9,1,5,16,0,0,50,50,100,1,"LongSpear 50",1,battle_unit_CombatUnitType.Infantry,0.1,0,0,11,5);
-battle_ArmyStat.UNDYING_WARRIORS_T1_E = new battle_ArmyStat("不死战士",20,battle_CombotantRace.TheEmpire,9,2,4,17,0,0,50,50,100,1,"Undead",1,battle_unit_CombatUnitType.Infantry,0.1,0,0,11,5);
+battle_ArmyStat.UNDYING_WARRIORS_T1_E = new battle_ArmyStat("不死战士",25,battle_CombotantRace.TheEmpire,9,2,6,17,0,0,50,50,100,1,"Undead",1,battle_unit_CombatUnitType.Infantry,0.1,0,0,11,5);
 battle_ArmyStat.WARRIORS_T1_D = new battle_ArmyStat("战士",18,battle_CombotantRace.TheKhaganate,9,3,4,15,0,0,50,50,100,1,"",1,battle_unit_CombatUnitType.Infantry,0.1,0,0,11,5);
 battle_ArmyStat.armyStatBD.h[0].h[0].h[1] = battle_ArmyStat.WARRIORS_T1_D;
 battle_ArmyStat.SWORDSMEN_T2_W = new battle_ArmyStat("剑士",36,battle_CombotantRace.Westaria,9,3,4,15,0,0,50,50,100,1,"ShieldWall 15",2,battle_unit_CombatUnitType.Infantry,0.1,0,0,11,5);
@@ -116187,7 +116190,7 @@ metagame_CombotantBonuses.UNDEAD_COST_REDUCTION = 46;
 metagame_CombotantBonuses.BONUSES_COUNT = 47;
 metagame_Edict.W_THE_LORDS_CHURCH = new metagame_Edict("冥主暗堂-解锁魂祭之旗",[new metagame_EdictContent(5,1,"解锁魂祭之旗"),new metagame_EdictContent(6,25,"+25% 旗帜持续时间"),new metagame_EdictContent(6,50,"+50% 旗帜持续时间")],0,0);
 metagame_Edict.W_DUCAL_SOVEREIGNITY = new metagame_Edict("冥权统御-解锁基础亡灵",[new metagame_EdictContent(0,0,"解锁基础亡灵"),new metagame_EdictContent(8,75,"任务开始时 +75 金币"),new metagame_EdictContent(8,150,"任务开始时 +150 金币")],0,0);
-metagame_Edict.W_CALL_FOR_THE_CRUSADE = new metagame_Edict("暗影号令-解锁亡灵审判",[new metagame_EdictContent(9,1,"解锁冥雷审判"),new metagame_EdictContent(10,15,"+25% 概率直接转化敌方单位"),new metagame_EdictContent(10,30,"+50% 概率直接转化敌方单位")],4);
+metagame_Edict.W_CALL_FOR_THE_CRUSADE = new metagame_Edict("暗影号令-解锁亡灵审判",[new metagame_EdictContent(9,1,"解锁冥雷审判"),new metagame_EdictContent(10,15,"+15% 概率直接转化敌方单位"),new metagame_EdictContent(10,30,"+30% 概率直接转化敌方单位")],4);
 metagame_Edict.W_TOWN_GUILDS = new metagame_Edict("亡城行会-卫兵转化为僵尸战士",[new metagame_EdictContent(0,1,"将卫兵转化为僵尸战士"),new metagame_EdictContent(11,15,"要塞生命值 +15%"),new metagame_EdictContent(11,30,"要塞生命值 +30%")],4);
 metagame_Edict.W_THE_ZEALOTS_ORDER = new metagame_Edict("冥徒教派-不死刺客转化为阴魂",[new metagame_EdictContent(4,1,"将侍僧转化为冥执者"),new metagame_EdictContent(12,-10,"终极技能冷却 -10%"),new metagame_EdictContent(12,-20,"终极技能冷却 -20%")],7);
 metagame_Edict.W_MECHANICS_RESEARCH = new metagame_Edict("亡械典籍-弓手改造为骷髅弩手",[new metagame_EdictContent(2,1,"将弓手改造为骨弩手"),new metagame_EdictContent(13,10,"弓箭 / 攻城武器伤害 +10%"),new metagame_EdictContent(13,20,"弓箭 / 攻城武器伤害 +20%")],7);
