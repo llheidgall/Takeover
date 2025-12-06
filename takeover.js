@@ -8449,6 +8449,16 @@ Hlp.playHitSound = function(_unitArmyStat) {
 Hlp.playDeadSound = function(_unitArmyStat) {
 	switch(_unitArmyStat) {
 	case battle_ArmyStat.ANCIENT_RAIDERS_T3_D:
+	case battle_ArmyStat.DARK_KNIGHTS_T2_E:
+	case battle_ArmyStat.IMMORTALS_T2_D:
+	case battle_ArmyStat.UNDYING_WARRIORS_T1_E:
+	case battle_ArmyStat.SKELETON_ARCHERS_T2_E:
+	case battle_ArmyStat.ZOMBIE_WARRIORS_T2_E:
+	case battle_ArmyStat.UNDYING_ARCHERS_T1_E:
+	case battle_ArmyStat.UNDYING_ASSASSINS_T1_E:
+	case battle_ArmyStat.UNDYING_HORSEMEN_T1_E:
+	case battle_ArmyStat.DARK_KNIGHTS_T2_E:
+	case battle_ArmyStat.SHADES_T2_E:
 	case battle_ArmyStat.armyStatBD.h[1].h[0].h[1]:
 	case battle_ArmyStat.armyStatBD.h[1].h[1].h[1]:
 	case battle_ArmyStat.armyStatBD.h[1].h[2].h[1]:
@@ -8461,7 +8471,6 @@ Hlp.playDeadSound = function(_unitArmyStat) {
 	case battle_ArmyStat.armyStatBD.h[1].h[4].h[2]:
 	case battle_ArmyStat.armyStatBD.h[1].h[0].h[3]:
 	case battle_ArmyStat.UNDYING_ASSASSINS_T1_E:
-	case battle_ArmyStat.SHADES_T2_E:
 		return Hlp.playRandomSound([127,128]);
 	case battle_ArmyStat.DARK_KNIGHTS_T2_E:
 		break;
