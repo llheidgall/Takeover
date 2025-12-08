@@ -27,6 +27,96 @@ function $extend(from, fields) {
 	if( fields.toString !== Object.prototype.toString ) proto.toString = fields.toString;
 	return proto;
 }
+var AdManager = function() {
+};
+$hxClasses["AdManager"] = AdManager;
+AdManager.__name__ = "AdManager";
+AdManager.__properties__ = {get_AnimInstance:"get_AnimInstance",get_AchievInstance:"get_AchievInstance",get_ScoreInstance:"get_ScoreInstance",get_AdEventInstance:"get_AdEventInstance",get_AdInstance:"get_AdInstance"};
+AdManager.get_AdInstance = function() {
+	return AdManager.adInstance;
+};
+AdManager.get_AdEventInstance = function() {
+	return AdManager.adEventInstance;
+};
+AdManager.get_ScoreInstance = function() {
+	return AdManager.scoreInstance;
+};
+AdManager.get_AchievInstance = function() {
+	return AdManager.achievInstance;
+};
+AdManager.get_AnimInstance = function() {
+	return AdManager.animInstance;
+};
+AdManager.init = function() {
+	if(AdManager.Inited) {
+		return;
+	}
+	haxe_Log.trace("ad manager init",{ fileName : "src/AdManager.hx", lineNumber : 95, className : "AdManager", methodName : "init"});
+	var id = "e1b1c177d03844aeaf1b1ff7a60a7716";
+	AdManager.adInstance = new apiManager_AdGameDistribution(id);
+	AdManager.Inited = true;
+};
+AdManager.isShowing = function() {
+	if(AdManager.adEventInstance != null) {
+		return AdManager.adEventInstance.isShowing();
+	} else if(AdManager.adInstance != null) {
+		return AdManager.adInstance.isShowing();
+	} else {
+		return false;
+	}
+};
+AdManager.getSignalAd = function() {
+	if(AdManager.adEventInstance != null) {
+		return AdManager.adEventInstance.getSignalAd();
+	} else if(AdManager.adInstance != null) {
+		return AdManager.adInstance.getSignalAd();
+	} else {
+		return new hxsignal_impl_Signal1();
+	}
+};
+AdManager.submitScore = function(score) {
+	if(AdManager.scoreInstance != null) {
+		AdManager.scoreInstance.submitScore("Leaderboard",score);
+	}
+};
+AdManager.delay = function() {
+	AdManager.delayed = true;
+	haxe_Timer.delay(function() {
+		AdManager.delayed = false;
+	},120000);
+};
+AdManager.submitStat = function(statName,score) {
+	if(score == 0) {
+		return;
+	}
+};
+AdManager.showAd = function() {
+	if(AdManager.delayed) {
+		return false;
+	}
+	if(AdManager.adEventInstance != null) {
+		AdManager.adEventInstance.sendEvent(apiManager_AdEventType.SHOW_AD);
+	} else if(AdManager.adInstance != null) {
+		AdManager.adInstance.showAd();
+	} else {
+		return false;
+	}
+	return true;
+};
+AdManager.showScore = function(tableName) {
+};
+AdManager.sendEvent = function(e,data) {
+	if(AdManager.adEventInstance != null) {
+		AdManager.adEventInstance.sendEvent(e,data);
+	}
+};
+AdManager.submitAchievement = function(achievementName) {
+};
+AdManager.showAnimation = function(callback) {
+};
+AdManager.prototype = {
+	__class__: AdManager
+};
 var iriysoft_core_IIsfDisposable = function() { };
 $hxClasses["iriysoft.core.IIsfDisposable"] = iriysoft_core_IIsfDisposable;
 iriysoft_core_IIsfDisposable.__name__ = "iriysoft.core.IIsfDisposable";
@@ -5664,6 +5754,7 @@ var GameApp = function(root) {
 	GameApp.mouse_device_ = new iriysoft_mouse_MouseDevice(GameApp.vs_mgr_);
 	this.InitAboveAll();
 	this.InitBadges();
+	AdManager.getSignalAd().connect($bind(this,this.onAdEvent));
 	this.CreateStartScr(false);
 };
 $hxClasses["GameApp"] = GameApp;
@@ -5921,12 +6012,24 @@ GameApp.prototype = $extend(AppTemplate.prototype,{
 	}
 	,OnActivate: function(e) {
 		haxe_Log.trace("OnActivate",{ fileName : "src_base/GameApp.hx", lineNumber : 515, className : "GameApp", methodName : "OnActivate"});
+		if(!AdManager.isShowing()) {
+			this.resetAccumulator();
+			GameApp.gm_ctx_.gui_snd.set_mute(false);
+			GameApp.gm_ctx_.game_snd.set_mute(false);
+			GameApp.gm_ctx_.music.set_mute(false);
+		}
 	}
 	,OnDeactivate: function(e) {
 		haxe_Log.trace("OnDeactivate",{ fileName : "src_base/GameApp.hx", lineNumber : 525, className : "GameApp", methodName : "OnDeactivate"});
 		this.isWindowShowed = false;
 		if(((this.screenManager.get_topState()) instanceof ui_BattleScr)) {
 			this.CreatePauseScr();
+		}
+		if(!AdManager.isShowing()) {
+			this.resetAccumulator();
+			GameApp.gm_ctx_.gui_snd.set_mute(true);
+			GameApp.gm_ctx_.game_snd.set_mute(true);
+			GameApp.gm_ctx_.music.set_mute(true);
 		}
 	}
 	,onAdEvent: function(e) {
@@ -7944,7 +8047,7 @@ GlobalBase.prototype = {
 		}
 		var at = new GameAtlas();
 		var pathPrefix = GlobalBase.getImageResPathPrefix();
-		at.createData(_textureID,pathPrefix + _id,pathPrefix + _id + ".json",pathPrefix + _id + "_data.bin",_smooth,1);
+		at.createData(_textureID,pathPrefix + _id,pathPrefix + _id + ".json",pathPrefix + _id + "_data.dat",_smooth,1);
 		return at;
 	}
 	,_initScreenParam: function(_deviceWidth,_deviceHeight) {
@@ -8350,6 +8453,16 @@ Hlp.playHitSound = function(_unitArmyStat) {
 Hlp.playDeadSound = function(_unitArmyStat) {
 	switch(_unitArmyStat) {
 	case battle_ArmyStat.ANCIENT_RAIDERS_T3_D:
+	case battle_ArmyStat.DARK_KNIGHTS_T2_E:
+	case battle_ArmyStat.IMMORTALS_T2_D:
+	case battle_ArmyStat.UNDYING_WARRIORS_T1_E:
+	case battle_ArmyStat.SKELETON_ARCHERS_T2_E:
+	case battle_ArmyStat.ZOMBIE_WARRIORS_T2_E:
+	case battle_ArmyStat.UNDYING_ARCHERS_T1_E:
+	case battle_ArmyStat.UNDYING_ASSASSINS_T1_E:
+	case battle_ArmyStat.UNDYING_HORSEMEN_T1_E:
+	case battle_ArmyStat.DARK_KNIGHTS_T2_E:
+	case battle_ArmyStat.SHADES_T2_E:
 	case battle_ArmyStat.armyStatBD.h[1].h[0].h[1]:
 	case battle_ArmyStat.armyStatBD.h[1].h[1].h[1]:
 	case battle_ArmyStat.armyStatBD.h[1].h[2].h[1]:
@@ -8362,7 +8475,6 @@ Hlp.playDeadSound = function(_unitArmyStat) {
 	case battle_ArmyStat.armyStatBD.h[1].h[4].h[2]:
 	case battle_ArmyStat.armyStatBD.h[1].h[0].h[3]:
 	case battle_ArmyStat.UNDYING_ASSASSINS_T1_E:
-	case battle_ArmyStat.SHADES_T2_E:
 		return Hlp.playRandomSound([127,128]);
 	case battle_ArmyStat.DARK_KNIGHTS_T2_E:
 		break;
@@ -8428,10 +8540,13 @@ Hlp.playBeginBattleSound = function(_unitArmyStat) {
 	case battle_ArmyStat.ANCIENT_RAIDERS_T3_D:
 	case battle_ArmyStat.DARK_KNIGHTS_T2_E:
 	case battle_ArmyStat.IMMORTALS_T2_D:
+	case battle_ArmyStat.UNDYING_WARRIORS_T1_E:
 	case battle_ArmyStat.SKELETON_ARCHERS_T2_E:
+	case battle_ArmyStat.ZOMBIE_WARRIORS_T2_E:
 	case battle_ArmyStat.UNDYING_ARCHERS_T1_E:
 	case battle_ArmyStat.UNDYING_ASSASSINS_T1_E:
 	case battle_ArmyStat.UNDYING_HORSEMEN_T1_E:
+	case battle_ArmyStat.DARK_KNIGHTS_T2_E:
 	case battle_ArmyStat.SHADES_T2_E:
 	case battle_ArmyStat.armyStatBD.h[1].h[0].h[1]:
 	case battle_ArmyStat.armyStatBD.h[1].h[1].h[1]:
@@ -8796,7 +8911,7 @@ ManifestResources.init = function(config) {
 	if(ManifestResources.rootPath == null) {
 		ManifestResources.rootPath = "";
 	}
-	openfl_text_Font.registerFont(_$_$ASSET_$_$OPENFL_$_$fonts_$bebasneue_$book_$otf);
+	openfl_text_Font.registerFont(_$_$ASSET_$_$OPENFL_$_$fonts_$bebasneue_$book_$ttf);
 	openfl_text_Font.registerFont(_$_$ASSET_$_$OPENFL_$_$fonts_$firasans_$bold_$ttf);
 	openfl_text_Font.registerFont(_$_$ASSET_$_$OPENFL_$_$fonts_$firasans_$regular_$ttf);
 	openfl_text_Font.registerFont(_$_$ASSET_$_$OPENFL_$_$fonts_$robotocondensed_$bold_$ttf);
@@ -8804,7 +8919,7 @@ ManifestResources.init = function(config) {
 	openfl_text_Font.registerFont(_$_$ASSET_$_$OPENFL_$_$fonts_$vollkorn_$bold_$ttf);
 	openfl_text_Font.registerFont(_$_$ASSET_$_$OPENFL_$_$fonts_$vollkorn_$regular_$ttf);
 	var bundle;
-	var data = "{\"name\":null,\"assets\":\"aoy4:pathy26:ui%2Fbattle-data_data.jsony4:sizei4060886y4:typey4:TEXTy2:idR1y7:preloadtgoR0y27:ui%2Fcongrats-scr_data.jsonR2i15893R3R4R5R7R6tgoR0y30:ui%2Flayout-test-scr_data.jsonR2i837R3R4R5R8R6tgoR0y21:ui%2Flevels_data.jsonR2i3726542R3R4R5R9R6tgoR0y22:ui%2Fscreens_data.jsonR2i1886449R3R4R5R10R6tgoR0y20:ui%2Ftitle_data.jsonR2i344R3R4R5R11R6tgoR2i106516R3y4:FONTy9:classNamey33:__ASSET__fonts_bebasneue_book_otfR5y28:fonts%2FBebasNeue%20Book.otfR6tgoR2i553872R3R12R13y32:__ASSET__fonts_firasans_bold_ttfR5y25:fonts%2FFiraSans-Bold.ttfR6tgoR2i521436R3R12R13y35:__ASSET__fonts_firasans_regular_ttfR5y28:fonts%2FFiraSans-Regular.ttfR6tgoR2i178908R3R12R13y39:__ASSET__fonts_robotocondensed_bold_ttfR5y32:fonts%2FRobotoCondensed-Bold.ttfR6tgoR2i179516R3R12R13y42:__ASSET__fonts_robotocondensed_regular_ttfR5y35:fonts%2FRobotoCondensed-Regular.ttfR6tgoR2i367584R3R12R13y32:__ASSET__fonts_vollkorn_bold_ttfR5y25:fonts%2FVollkorn-Bold.ttfR6tgoR2i355776R3R12R13y35:__ASSET__fonts_vollkorn_regular_ttfR5y28:fonts%2FVollkorn-Regular.ttfR6tgoR0y21:preloader%2Farmor.mp4R2i199027R3y6:BINARYR5R28R6tgoR0y26:preloader%2Firiy-intro.mp4R2i961596R3R29R5R30R6tgoR0y20:preloader%2Fplay.pngR2i8542R3y5:IMAGER5R31R6tgoR0y22:img%2Fbattle-data.jsonR2i195071R3R4R5R33R6tgoR0y26:img%2Fbattle-data_data.binR2i9226824R3R29R5R34R6tgoR0y23:img%2Fcongrats-scr.jsonR2i2131R3R4R5R35R6tgoR0y27:img%2Fcongrats-scr_data.binR2i3076R3R29R5R36R6tgoR0y26:img%2Flayout-test-scr.jsonR2i282R3R4R5R37R6tgoR0y30:img%2Flayout-test-scr_data.binR2i118R3R29R5R38R6tgoR0y17:img%2Flevels.jsonR2i20948R3R4R5R39R6tgoR0y21:img%2Flevels_data.binR2i6678R3R29R5R40R6tgoR0y20:img%2Fpermanent.jsonR2i164R3R4R5R41R6tgoR0y24:img%2Fpermanent_data.binR2i64R3R29R5R42R6tgoR0y18:img%2Fscreens.jsonR2i52098R3R4R5R43R6tgoR0y22:img%2Fscreens_data.binR2i147414R3R29R5R44R6tgoR0y17:img%2Fsystem.jsonR2i161R3R4R5R45R6tgoR0y21:img%2Fsystem_data.binR2i78R3R29R5R46R6tgoR0y16:img%2Ftitle.jsonR2i163R3R4R5R47R6tgoR0y20:img%2Ftitle_data.binR2i82R3R29R5R48R6tgoR0y21:img%2Fbattle-data.pngR2i3069721R3R32R5R49goR0y22:img%2Fcongrats-scr.pngR2i2587254R3R32R5R50goR0y25:img%2Flayout-test-scr.pngR2i122R3R32R5R51goR0y16:img%2Flevels.pngR2i1525545R3R32R5R52goR0y19:img%2Fpermanent.pngR2i85R3R32R5R53goR0y17:img%2Fscreens.pngR2i3657707R3R32R5R54goR0y16:img%2Fsystem.pngR2i467R3R32R5R55goR0y15:img%2Ftitle.pngR2i2545376R3R32R5R56goR2i768879R3y5:MUSICR5y31:sounds%2FmusicGameplayClass.mp3y9:pathGroupaR58hgoR2i699080R3R57R5y27:sounds%2FmusicMenuClass.mp3R59aR60hgoR2i6522R3R57R5y26:sounds%2FsndAttackBow1.mp3R59aR61hgoR2i5268R3R57R5y26:sounds%2FsndAttackBow2.mp3R59aR62hgoR2i6940R3R57R5y26:sounds%2FsndAttackGun1.mp3R59aR63hgoR2i5268R3R57R5y26:sounds%2FsndAttackGun2.mp3R59aR64hgoR2i4432R3R57R5y28:sounds%2FsndAttackMagic1.mp3R59aR65hgoR2i11955R3R57R5y28:sounds%2FsndAttackMagic2.mp3R59aR66hgoR2i3596R3R57R5y26:sounds%2FsndAttackOgre.mp3R59aR67hgoR2i23240R3R57R5y27:sounds%2FsndAttackSiege.mp3R59aR68hgoR2i5268R3R57R5y28:sounds%2FsndAttackStaff1.mp3R59aR69hgoR2i4014R3R57R5y28:sounds%2FsndAttackStaff2.mp3R59aR70hgoR2i7358R3R57R5y28:sounds%2FsndAttackSword1.mp3R59aR71hgoR2i12373R3R57R5y28:sounds%2FsndAttackSword2.mp3R59aR72hgoR2i9448R3R57R5y28:sounds%2FsndAttackSword3.mp3R59aR73hgoR2i17807R3R57R5y28:sounds%2FsndBannerRemove.mp3R59aR74hgoR2i6940R3R57R5y25:sounds%2FsndBannerSet.mp3R59aR75hgoR2i7358R3R57R5y34:sounds%2FsndBeginBattleArchers.mp3R59aR76hgoR2i14045R3R57R5y31:sounds%2FsndBeginBattleBots.mp3R59aR77hgoR2i21568R3R57R5y31:sounds%2FsndBeginBattleOgre.mp3R59aR78hgoR2i25330R3R57R5y35:sounds%2FsndBeginBattleSoldiers.mp3R59aR79hgoR2i37451R3R57R5y33:sounds%2FsndBeginBattleUndead.mp3R59aR80hgoR2i28256R3R57R5y25:sounds%2FsndBuildFarm.mp3R59aR81hgoR2i45810R3R57R5y30:sounds%2FsndBuildGraveyard.mp3R59aR82hgoR2i64618R3R57R5y25:sounds%2FsndBuildMine.mp3R59aR83hgoR2i82173R3R57R5y28:sounds%2FsndBuildObelisk.mp3R59aR84hgoR2i6104R3R57R5y27:sounds%2FsndButtonClick.mp3R59aR85hgoR2i1088R3R57R5y26:sounds%2FsndButtonOver.mp3R59aR86hgoR2i12791R3R57R5y25:sounds%2FsndChestGold.mp3R59aR87hgoR2i14881R3R57R5y25:sounds%2FsndChestOpen.mp3R59aR88hgoR2i15299R3R57R5y23:sounds%2FsndDeadBot.mp3R59aR89hgoR2i13627R3R57R5y26:sounds%2FsndDeadHorse1.mp3R59aR90hgoR2i9866R3R57R5y26:sounds%2FsndDeadHorse2.mp3R59aR91hgoR2i16135R3R57R5y24:sounds%2FsndDeadMan1.mp3R59aR92hgoR2i9030R3R57R5y24:sounds%2FsndDeadMan2.mp3R59aR93hgoR2i9448R3R57R5y24:sounds%2FsndDeadMan3.mp3R59aR94hgoR2i43302R3R57R5y24:sounds%2FsndDeadOgre.mp3R59aR95hgoR2i9448R3R57R5y27:sounds%2FsndDeadReptile.mp3R59aR96hgoR2i26584R3R57R5y25:sounds%2FsndDeadSiege.mp3R59aR97hgoR2i12791R3R57R5y27:sounds%2FsndDeadUndead1.mp3R59aR98hgoR2i21986R3R57R5y27:sounds%2FsndDeadUndead2.mp3R59aR99hgoR2i18643R3R57R5y35:sounds%2FsndDestructionBuilding.mp3R59aR100hgoR2i32853R3R57R5y37:sounds%2FsndDestructionStronghold.mp3R59aR101hgoR2i5686R3R57R5y25:sounds%2FsndHitArrow1.mp3R59aR102hgoR2i8194R3R57R5y25:sounds%2FsndHitArrow2.mp3R59aR103hgoR2i12373R3R57R5y24:sounds%2FsndHitSiege.mp3R59aR104hgoR2i35361R3R57R5y24:sounds%2FsndSendBots.mp3R59aR105hgoR2i47900R3R57R5y25:sounds%2FsndSendCrowd.mp3R59aR106hgoR2i27420R3R57R5y26:sounds%2FsndSendHorses.mp3R59aR107hgoR2i19897R3R57R5y28:sounds%2FsndSendReptiles.mp3R59aR108hgoR2i37451R3R57R5y25:sounds%2FsndSendSiege.mp3R59aR109hgoR2i27002R3R57R5y28:sounds%2FsndSendSoldiers.mp3R59aR110hgoR2i54587R3R57R5y30:sounds%2FsndSpellDisentomb.mp3R59aR111hgoR2i37869R3R57R5y37:sounds%2FsndSpellFrostEnchantment.mp3R59aR112hgoR2i12791R3R57R5y29:sounds%2FsndSpellIceBlast.mp3R59aR113hgoR2i19061R3R57R5y35:sounds%2FsndSpellIceBlastLaunch.mp3R59aR114hgoR2i52079R3R57R5y35:sounds%2FsndSpellLordsJudgement.mp3R59aR115hgoR2i22404R3R57R5y37:sounds%2FsndSpellSummonStoneworms.mp3R59aR116hgoR2i34525R3R57R5y27:sounds%2FsndSpellTerror.mp3R59aR117hgoR2i15299R3R57R5y28:sounds%2FsndSquadLevelUp.mp3R59aR118hgoR2i73813R3R57R5y35:sounds%2FsndUltimateDeclaration.mp3R59aR119hgoR2i30764R3R57R5y37:sounds%2FsndUltimateDeclareAvatar.mp3R59aR120hgoR2i113519R3R57R5y40:sounds%2FsndUltimateDeclareCataclysm.mp3R59aR121hgoR2i34943R3R57R5y45:sounds%2FsndUltimateDeclareTransformation.mp3R59aR122hgoR2i67544R3R57R5y37:sounds%2FsndUltimateDeclareUndead.mp3R59aR123hgoR2i29510R3R57R5y26:sounds%2FsndUnitFeared.mp3R59aR124hgoR2i18643R3R57R5y26:sounds%2FsndUnitFrozen.mp3R59aR125hgoR2i46228R3R57R5y26:sounds%2FsndUnitHeroic.mp3R59aR126hgoR2i5686R3R57R5y27:sounds%2FsndWindowClose.mp3R59aR127hgh\",\"rootPath\":null,\"version\":2,\"libraryArgs\":[],\"libraryType\":null}";
+	var data = "{\"name\":null,\"assets\":\"aoy4:pathy26:ui%2Fbattle-data_data.jsony4:sizei4060886y4:typey4:TEXTy2:idR1y7:preloadtgoR0y27:ui%2Fcongrats-scr_data.jsonR2i15893R3R4R5R7R6tgoR0y30:ui%2Flayout-test-scr_data.jsonR2i837R3R4R5R8R6tgoR0y21:ui%2Flevels_data.jsonR2i3726542R3R4R5R9R6tgoR0y22:ui%2Fscreens_data.jsonR2i1886449R3R4R5R10R6tgoR0y20:ui%2Ftitle_data.jsonR2i344R3R4R5R11R6tgoR2i106516R3y4:FONTy9:classNamey33:__ASSET__fonts_bebasneue_book_ttfR5y28:fonts%2FBebasNeue%20Book.ttfR6tgoR2i553872R3R12R13y32:__ASSET__fonts_firasans_bold_ttfR5y25:fonts%2FFiraSans-Bold.ttfR6tgoR2i521436R3R12R13y35:__ASSET__fonts_firasans_regular_ttfR5y28:fonts%2FFiraSans-Regular.ttfR6tgoR2i178908R3R12R13y39:__ASSET__fonts_robotocondensed_bold_ttfR5y32:fonts%2FRobotoCondensed-Bold.ttfR6tgoR2i179516R3R12R13y42:__ASSET__fonts_robotocondensed_regular_ttfR5y35:fonts%2FRobotoCondensed-Regular.ttfR6tgoR2i367584R3R12R13y32:__ASSET__fonts_vollkorn_bold_ttfR5y25:fonts%2FVollkorn-Bold.ttfR6tgoR2i355776R3R12R13y35:__ASSET__fonts_vollkorn_regular_ttfR5y28:fonts%2FVollkorn-Regular.ttfR6tgoR0y21:preloader%2Farmor.mp4R2i199027R3y6:BINARYR5R28R6tgoR0y26:preloader%2Firiy-intro.mp4R2i961596R3R29R5R30R6tgoR0y20:preloader%2Fplay.pngR2i8542R3y5:IMAGER5R31R6tgoR0y22:img%2Fbattle-data.jsonR2i195071R3R4R5R33R6tgoR0y26:img%2Fbattle-data_data.datR2i9226824R3R29R5R34R6tgoR0y23:img%2Fcongrats-scr.jsonR2i2131R3R4R5R35R6tgoR0y27:img%2Fcongrats-scr_data.datR2i3076R3R29R5R36R6tgoR0y26:img%2Flayout-test-scr.jsonR2i282R3R4R5R37R6tgoR0y30:img%2Flayout-test-scr_data.datR2i118R3R29R5R38R6tgoR0y17:img%2Flevels.jsonR2i20948R3R4R5R39R6tgoR0y21:img%2Flevels_data.datR2i6678R3R29R5R40R6tgoR0y20:img%2Fpermanent.jsonR2i164R3R4R5R41R6tgoR0y24:img%2Fpermanent_data.datR2i64R3R29R5R42R6tgoR0y18:img%2Fscreens.jsonR2i52098R3R4R5R43R6tgoR0y22:img%2Fscreens_data.datR2i147414R3R29R5R44R6tgoR0y17:img%2Fsystem.jsonR2i161R3R4R5R45R6tgoR0y21:img%2Fsystem_data.datR2i78R3R29R5R46R6tgoR0y16:img%2Ftitle.jsonR2i163R3R4R5R47R6tgoR0y20:img%2Ftitle_data.datR2i82R3R29R5R48R6tgoR0y21:img%2Fbattle-data.pngR2i3069721R3R32R5R49goR0y22:img%2Fcongrats-scr.pngR2i2587254R3R32R5R50goR0y25:img%2Flayout-test-scr.pngR2i122R3R32R5R51goR0y16:img%2Flevels.pngR2i1525545R3R32R5R52goR0y19:img%2Fpermanent.pngR2i85R3R32R5R53goR0y17:img%2Fscreens.pngR2i3657707R3R32R5R54goR0y16:img%2Fsystem.pngR2i467R3R32R5R55goR0y15:img%2Ftitle.pngR2i2545376R3R32R5R56goR2i768879R3y5:MUSICR5y31:sounds%2FmusicGameplayClass.mp3y9:pathGroupaR58hgoR2i699080R3R57R5y27:sounds%2FmusicMenuClass.mp3R59aR60hgoR2i6522R3R57R5y26:sounds%2FsndAttackBow1.mp3R59aR61hgoR2i5268R3R57R5y26:sounds%2FsndAttackBow2.mp3R59aR62hgoR2i6940R3R57R5y26:sounds%2FsndAttackGun1.mp3R59aR63hgoR2i5268R3R57R5y26:sounds%2FsndAttackGun2.mp3R59aR64hgoR2i4432R3R57R5y28:sounds%2FsndAttackMagic1.mp3R59aR65hgoR2i11955R3R57R5y28:sounds%2FsndAttackMagic2.mp3R59aR66hgoR2i3596R3R57R5y26:sounds%2FsndAttackOgre.mp3R59aR67hgoR2i23240R3R57R5y27:sounds%2FsndAttackSiege.mp3R59aR68hgoR2i5268R3R57R5y28:sounds%2FsndAttackStaff1.mp3R59aR69hgoR2i4014R3R57R5y28:sounds%2FsndAttackStaff2.mp3R59aR70hgoR2i7358R3R57R5y28:sounds%2FsndAttackSword1.mp3R59aR71hgoR2i12373R3R57R5y28:sounds%2FsndAttackSword2.mp3R59aR72hgoR2i9448R3R57R5y28:sounds%2FsndAttackSword3.mp3R59aR73hgoR2i17807R3R57R5y28:sounds%2FsndBannerRemove.mp3R59aR74hgoR2i6940R3R57R5y25:sounds%2FsndBannerSet.mp3R59aR75hgoR2i7358R3R57R5y34:sounds%2FsndBeginBattleArchers.mp3R59aR76hgoR2i14045R3R57R5y31:sounds%2FsndBeginBattleBots.mp3R59aR77hgoR2i21568R3R57R5y31:sounds%2FsndBeginBattleOgre.mp3R59aR78hgoR2i25330R3R57R5y35:sounds%2FsndBeginBattleSoldiers.mp3R59aR79hgoR2i37451R3R57R5y33:sounds%2FsndBeginBattleUndead.mp3R59aR80hgoR2i28256R3R57R5y25:sounds%2FsndBuildFarm.mp3R59aR81hgoR2i45810R3R57R5y30:sounds%2FsndBuildGraveyard.mp3R59aR82hgoR2i64618R3R57R5y25:sounds%2FsndBuildMine.mp3R59aR83hgoR2i82173R3R57R5y28:sounds%2FsndBuildObelisk.mp3R59aR84hgoR2i6104R3R57R5y27:sounds%2FsndButtonClick.mp3R59aR85hgoR2i1088R3R57R5y26:sounds%2FsndButtonOver.mp3R59aR86hgoR2i12791R3R57R5y25:sounds%2FsndChestGold.mp3R59aR87hgoR2i14881R3R57R5y25:sounds%2FsndChestOpen.mp3R59aR88hgoR2i15299R3R57R5y23:sounds%2FsndDeadBot.mp3R59aR89hgoR2i13627R3R57R5y26:sounds%2FsndDeadHorse1.mp3R59aR90hgoR2i9866R3R57R5y26:sounds%2FsndDeadHorse2.mp3R59aR91hgoR2i16135R3R57R5y24:sounds%2FsndDeadMan1.mp3R59aR92hgoR2i9030R3R57R5y24:sounds%2FsndDeadMan2.mp3R59aR93hgoR2i9448R3R57R5y24:sounds%2FsndDeadMan3.mp3R59aR94hgoR2i43302R3R57R5y24:sounds%2FsndDeadOgre.mp3R59aR95hgoR2i9448R3R57R5y27:sounds%2FsndDeadReptile.mp3R59aR96hgoR2i26584R3R57R5y25:sounds%2FsndDeadSiege.mp3R59aR97hgoR2i12791R3R57R5y27:sounds%2FsndDeadUndead1.mp3R59aR98hgoR2i21986R3R57R5y27:sounds%2FsndDeadUndead2.mp3R59aR99hgoR2i18643R3R57R5y35:sounds%2FsndDestructionBuilding.mp3R59aR100hgoR2i32853R3R57R5y37:sounds%2FsndDestructionStronghold.mp3R59aR101hgoR2i5686R3R57R5y25:sounds%2FsndHitArrow1.mp3R59aR102hgoR2i8194R3R57R5y25:sounds%2FsndHitArrow2.mp3R59aR103hgoR2i12373R3R57R5y24:sounds%2FsndHitSiege.mp3R59aR104hgoR2i35361R3R57R5y24:sounds%2FsndSendBots.mp3R59aR105hgoR2i47900R3R57R5y25:sounds%2FsndSendCrowd.mp3R59aR106hgoR2i27420R3R57R5y26:sounds%2FsndSendHorses.mp3R59aR107hgoR2i19897R3R57R5y28:sounds%2FsndSendReptiles.mp3R59aR108hgoR2i37451R3R57R5y25:sounds%2FsndSendSiege.mp3R59aR109hgoR2i27002R3R57R5y28:sounds%2FsndSendSoldiers.mp3R59aR110hgoR2i54587R3R57R5y30:sounds%2FsndSpellDisentomb.mp3R59aR111hgoR2i37869R3R57R5y37:sounds%2FsndSpellFrostEnchantment.mp3R59aR112hgoR2i12791R3R57R5y29:sounds%2FsndSpellIceBlast.mp3R59aR113hgoR2i19061R3R57R5y35:sounds%2FsndSpellIceBlastLaunch.mp3R59aR114hgoR2i52079R3R57R5y35:sounds%2FsndSpellLordsJudgement.mp3R59aR115hgoR2i22404R3R57R5y37:sounds%2FsndSpellSummonStoneworms.mp3R59aR116hgoR2i34525R3R57R5y27:sounds%2FsndSpellTerror.mp3R59aR117hgoR2i15299R3R57R5y28:sounds%2FsndSquadLevelUp.mp3R59aR118hgoR2i73813R3R57R5y35:sounds%2FsndUltimateDeclaration.mp3R59aR119hgoR2i30764R3R57R5y37:sounds%2FsndUltimateDeclareAvatar.mp3R59aR120hgoR2i113519R3R57R5y40:sounds%2FsndUltimateDeclareCataclysm.mp3R59aR121hgoR2i34943R3R57R5y45:sounds%2FsndUltimateDeclareTransformation.mp3R59aR122hgoR2i67544R3R57R5y37:sounds%2FsndUltimateDeclareUndead.mp3R59aR123hgoR2i29510R3R57R5y26:sounds%2FsndUnitFeared.mp3R59aR124hgoR2i18643R3R57R5y26:sounds%2FsndUnitFrozen.mp3R59aR125hgoR2i46228R3R57R5y26:sounds%2FsndUnitHeroic.mp3R59aR126hgoR2i5686R3R57R5y27:sounds%2FsndWindowClose.mp3R59aR127hgh\",\"rootPath\":null,\"version\":2,\"libraryArgs\":[],\"libraryType\":null}";
 	var manifest = lime_utils_AssetManifest.parse(data,ManifestResources.rootPath);
 	var library = lime_utils_AssetLibrary.fromManifest(manifest);
 	lime_utils_Assets.registerLibrary("default",library);
@@ -9015,7 +9130,7 @@ lime_text_Font.prototype = {
 	}
 	,__class__: lime_text_Font
 };
-var _$_$ASSET_$_$fonts_$bebasneue_$book_$otf = $hx_exports["__ASSET__fonts_bebasneue_book_otf"] = function() {
+var _$_$ASSET_$_$fonts_$bebasneue_$book_$ttf = $hx_exports["__ASSET__fonts_bebasneue_book_ttf"] = function() {
 	this.ascender = 750;
 	this.descender = -250;
 	this.height = 1000;
@@ -9026,11 +9141,11 @@ var _$_$ASSET_$_$fonts_$bebasneue_$book_$otf = $hx_exports["__ASSET__fonts_bebas
 	this.name = "Bebas Neue Book";
 	lime_text_Font.call(this);
 };
-$hxClasses["__ASSET__fonts_bebasneue_book_otf"] = _$_$ASSET_$_$fonts_$bebasneue_$book_$otf;
-_$_$ASSET_$_$fonts_$bebasneue_$book_$otf.__name__ = "__ASSET__fonts_bebasneue_book_otf";
-_$_$ASSET_$_$fonts_$bebasneue_$book_$otf.__super__ = lime_text_Font;
-_$_$ASSET_$_$fonts_$bebasneue_$book_$otf.prototype = $extend(lime_text_Font.prototype,{
-	__class__: _$_$ASSET_$_$fonts_$bebasneue_$book_$otf
+$hxClasses["__ASSET__fonts_bebasneue_book_ttf"] = _$_$ASSET_$_$fonts_$bebasneue_$book_$ttf;
+_$_$ASSET_$_$fonts_$bebasneue_$book_$ttf.__name__ = "__ASSET__fonts_bebasneue_book_ttf";
+_$_$ASSET_$_$fonts_$bebasneue_$book_$ttf.__super__ = lime_text_Font;
+_$_$ASSET_$_$fonts_$bebasneue_$book_$ttf.prototype = $extend(lime_text_Font.prototype,{
+	__class__: _$_$ASSET_$_$fonts_$bebasneue_$book_$ttf
 });
 var _$_$ASSET_$_$fonts_$firasans_$bold_$ttf = $hx_exports["__ASSET__fonts_firasans_bold_ttf"] = function() {
 	this.ascender = 935;
@@ -9214,15 +9329,15 @@ openfl_text_Font.prototype = $extend(lime_text_Font.prototype,{
 	,__class__: openfl_text_Font
 	,__properties__: {set_fontName:"set_fontName",get_fontName:"get_fontName"}
 });
-var _$_$ASSET_$_$OPENFL_$_$fonts_$bebasneue_$book_$otf = $hx_exports["__ASSET__OPENFL__fonts_bebasneue_book_otf"] = function() {
-	this.__fromLimeFont(new _$_$ASSET_$_$fonts_$bebasneue_$book_$otf());
+var _$_$ASSET_$_$OPENFL_$_$fonts_$bebasneue_$book_$ttf = $hx_exports["__ASSET__OPENFL__fonts_bebasneue_book_ttf"] = function() {
+	this.__fromLimeFont(new _$_$ASSET_$_$fonts_$bebasneue_$book_$ttf());
 	openfl_text_Font.call(this);
 };
-$hxClasses["__ASSET__OPENFL__fonts_bebasneue_book_otf"] = _$_$ASSET_$_$OPENFL_$_$fonts_$bebasneue_$book_$otf;
-_$_$ASSET_$_$OPENFL_$_$fonts_$bebasneue_$book_$otf.__name__ = "__ASSET__OPENFL__fonts_bebasneue_book_otf";
-_$_$ASSET_$_$OPENFL_$_$fonts_$bebasneue_$book_$otf.__super__ = openfl_text_Font;
-_$_$ASSET_$_$OPENFL_$_$fonts_$bebasneue_$book_$otf.prototype = $extend(openfl_text_Font.prototype,{
-	__class__: _$_$ASSET_$_$OPENFL_$_$fonts_$bebasneue_$book_$otf
+$hxClasses["__ASSET__OPENFL__fonts_bebasneue_book_ttf"] = _$_$ASSET_$_$OPENFL_$_$fonts_$bebasneue_$book_$ttf;
+_$_$ASSET_$_$OPENFL_$_$fonts_$bebasneue_$book_$ttf.__name__ = "__ASSET__OPENFL__fonts_bebasneue_book_ttf";
+_$_$ASSET_$_$OPENFL_$_$fonts_$bebasneue_$book_$ttf.__super__ = openfl_text_Font;
+_$_$ASSET_$_$OPENFL_$_$fonts_$bebasneue_$book_$ttf.prototype = $extend(openfl_text_Font.prototype,{
+	__class__: _$_$ASSET_$_$OPENFL_$_$fonts_$bebasneue_$book_$ttf
 });
 var _$_$ASSET_$_$OPENFL_$_$fonts_$firasans_$bold_$ttf = $hx_exports["__ASSET__OPENFL__fonts_firasans_bold_ttf"] = function() {
 	this.__fromLimeFont(new _$_$ASSET_$_$fonts_$firasans_$bold_$ttf());
@@ -11349,6 +11464,7 @@ var Preloader = function() {
 	this.progress_bar_frame_ = null;
 	this.cont_ = null;
 	openfl_display_Sprite.call(this);
+	AdManager.init();
 	lime_utils_Assets.cache.enabled = false;
 	openfl_utils_Assets.cache.set_enabled(false);
 	this.cont_ = new openfl_display_Sprite();
@@ -11466,6 +11582,7 @@ Preloader.prototype = $extend(openfl_display_Sprite.prototype,{
 		this.addChild(btn);
 	}
 	,callBackForGameDistribution: function() {
+		window.h5api.playInterstitialAd();
 	}
 	,this_onAddedToStage: function(event) {
 		this.removeEventListener("addedToStage",$bind(this,this.this_onAddedToStage));
@@ -14878,6 +14995,25 @@ apiManager_AdGameDistribution.prototype = {
         }
       ;
 	}
+	// ,showAd: function() {
+	// 	this.isAdShowing = true;
+	// if(!this.initialized) {
+	// 	return;
+	// }
+	// // Use 4399 interstitial ad API instead of gdsdk
+	// if (typeof window !== "undefined" &&
+	// 	window.h5api &&
+	// 	typeof window.h5api.playInterstitialAd === "function") {
+	// 	try {
+	// 		window.h5api.playInterstitialAd();
+	// 	} catch (err) {
+	// 		console.log("h5api.playInterstitialAd error:", err);
+	// 		this.getSignalAd().emit(apiManager_AdEventType.ERROR);
+	// 	}
+	// } else {
+	// 	// 4399 API not available
+	// 	this.getSignalAd().emit(apiManager_AdEventType.ERROR);
+	// }
 	,showRewarded: function() {
 		if(!this.isPreloadedRewarded) {
 			this.getSignalAd().emit(apiManager_AdEventType.ERROR);
@@ -16050,6 +16186,12 @@ battle_CombotantData.constructArmyStatBonus = function(_armyState,bonuses) {
 	if(battle_unit_param_UnitProperties.hasAbility("Mechanism",_armyState.abilities)) {
 		asb.doubleDamagePercent = bonuses.getBonus(32);
 	}
+	if(battle_unit_param_UnitProperties.hasAbility("Undead",_armyState.abilities)) {
+		var undeadDamageBonus = bonuses.getBonus(45);
+		if(undeadDamageBonus > 0) {
+			asb.damageFactor = (asb.damageFactor || 1) * bonuses.getBonusAsFactor(45);
+		}
+	}
 	return asb;
 };
 battle_CombotantData.getSpellInfoList = function(_race) {
@@ -16341,7 +16483,14 @@ battle_CombotantData.prototype = {
 		case battle_ArmyStat.IMMORTALS_T2_D:
 			break;
 		default:
-			return _armyState.cost;
+			var baseCost = _armyState.cost;
+			if(battle_unit_param_UnitProperties.hasAbility("Undead",_armyState.abilities)) {
+				var undeadCostReduction = this.bonuses.getBonus(46);
+				if(undeadCostReduction > 0) {
+					return Math.round(baseCost * (1 - undeadCostReduction / 100));
+				}
+			}
+			return baseCost;
 		}
 		return Math.round(_armyState.cost * this.bonuses.getBonusAsFactor(28));
 	}
@@ -39824,7 +39973,9 @@ level_Level.prototype = $extend(level_LevelVisual.prototype,{
 		var race = _combotant.getRace();
 		var unitType;
 		var pos;
-		var count = battle_spell_SpellInfo.CALL_OF_THE_GRAVE.power | 0;
+		var baseCount = battle_spell_SpellInfo.CALL_OF_THE_GRAVE.power | 0;
+		var maxUnitsBonus = _combotant.bonuses.getBonus(44);
+		var count = maxUnitsBonus > 0 ? maxUnitsBonus : baseCount;
 		var randomCounter;
 		var saveRandomCounter;
 		var esq;
@@ -39924,18 +40075,48 @@ level_Level.prototype = $extend(level_LevelVisual.prototype,{
 		return sq;
 	}
 	,createSpellRaiseDead: function(_spell,_combotant) {
-		var armyStat = Math.random() > 0.5 ? battle_ArmyStat.UNDYING_ASSASSINS_T1_E : battle_ArmyStat.SHADES_T2_E;
+		var bonus15 = _combotant.bonuses.getBonus(15);
+		var armyStat = null;
 		var sq = null;
 		var pos = _spell.position;
-		if(_combotant.description == this.player().description) {
-			sq = this.manualCreateSquad(_spell.position,_combotant,armyStat);
-			this.sendSquadTo(sq,sq.getMainUnit().getPosition());
-		} else {
-			var kn = this.seekKeyNodeForSummon(_combotant);
-			pos = this.calcPointForKeyNodeSummon(kn);
-			sq = this.manualCreateSquad(pos,_combotant,armyStat);
-			this.sendToAttackFrom(kn,sq);
+		
+		// Helper function to select unit type
+		var selectUnitType = function() {
+			if(bonus15 >= 15) {
+				var rand = Math.random();
+				if(rand < 0.33) {
+					return Math.random() > 0.5 ? battle_ArmyStat.UNDYING_HORSEMEN_T1_E : battle_ArmyStat.DARK_KNIGHTS_T2_E;
+				} else if(rand < 0.66) {
+					return Math.random() > 0.5 ? battle_ArmyStat.UNDYING_ASSASSINS_T1_E : battle_ArmyStat.SHADES_T2_E;
+				} else {
+					return Math.random() > 0.5 ? battle_ArmyStat.UNDYING_WARRIORS_T1_E : battle_ArmyStat.UNDYING_WARRIORS_T1_E;
+				}
+			} else {
+				return Math.random() > 0.5 ? battle_ArmyStat.UNDYING_WARRIORS_T1_E : battle_ArmyStat.UNDYING_WARRIORS_T1_E;
+			}
+		};
+		
+		var createSquad = $bind(this,function(_pos,_combotant,_armyStat) {
+			var _sq = null;
+			if(_combotant.description == this.player().description) {
+				_sq = this.manualCreateSquad(_pos,_combotant,_armyStat);
+				this.sendSquadTo(_sq,_sq.getMainUnit().getPosition());
+			} else {
+				var kn = this.seekKeyNodeForSummon(_combotant);
+				var calcPos = this.calcPointForKeyNodeSummon(kn);
+				_sq = this.manualCreateSquad(calcPos,_combotant,_armyStat);
+				this.sendToAttackFrom(kn,_sq);
+			}
+			return _sq;
+		});
+		
+		// First upgrade: summon two batches if bonus >= 7
+		var numBatches = bonus15 >= 7 ? 2 : 1;
+		for(var i = 0; i < numBatches; i++) {
+			armyStat = selectUnitType();
+			sq = createSquad(pos,_combotant,armyStat);
 		}
+		
 		this.createSingleAnimEffect("RaiseDeadSpellEffectClass",pos.x,pos.y,3);
 		this.playSpellSound(_spell);
 	}
@@ -40192,9 +40373,9 @@ level_Level.prototype = $extend(level_LevelVisual.prototype,{
 		var lightningBonus = _combotant.bonuses.getBonus(10);
 		var transferChance = 0.01;
 		if(lightningBonus == 15) {
-			transferChance = 0.25;
+			transferChance = 0.15;
 		} else if(lightningBonus == 30) {
-			transferChance = 0.5;
+			transferChance = 0.3;
 		}
 		while(iter.hasNext()) {
 			sqd = iter.next();
@@ -112451,6 +112632,7 @@ ui_EdictsScr.prototype = $extend(GameScreen.prototype,{
 	}
 	,OnEdict: function(b) {
 		haxe_Log.trace("OnEdict",{ fileName : "src/ui/EdictsScr.hx", lineNumber : 332, className : "ui.EdictsScr", methodName : "OnEdict"});
+		window.h5api.playInterstitialAd();
 		this.onActivateIcon(b);
 	}
 	,ChangeChildsName: function() {
@@ -112615,6 +112797,7 @@ ui_EdictsScr.prototype = $extend(GameScreen.prototype,{
 		this.move_layout_.addItem(ui_Uih.WrapLayoutItem(iriysoft_helper_Fwh.GetChildC(this.scr_,["mcPlayerStats"]),layout_LayoutType.BOTTOM,layout_LayoutType.RIGHT),true,true,false);
 	}
 	,OnDone: function(_) {
+		window.h5api.playInterstitialAd();
 		this.map_scr_sg_.emit();
 	}
 	,customDispose: function() {
@@ -113164,6 +113347,14 @@ ui_MapScr.prototype = $extend(GameScreen.prototype,{
 		GameScreen.prototype.customDispose.call(this);
 	}
 	,customProcess: function(time_step) {
+		if(AdManager.Inited) {
+				if(AdManager.isShowing() && !GameApp.Is_Wait_Scr()) {
+					GameApp.instance_.CreateWaitScr();
+				}
+				if(!AdManager.isShowing() && GameApp.Is_Wait_Scr()) {
+					GameApp.instance_.HideWaitScr();
+				}
+			}
 		GameScreen.prototype.customProcess.call(this,time_step);
 	}
 	,processScreen: function(time_step) {
@@ -113290,9 +113481,18 @@ ui_MissionOverScr.prototype = $extend(GameScreen.prototype,{
 		return "";
 	}
 	,OnDone: function(_) {
+		window.h5api.playInterstitialAd();
 		this.map_scr_sg_.emit();
 	}
 	,customProcess: function(time_step) {
+		if(AdManager.Inited) {
+			if(AdManager.isShowing() && !GameApp.Is_Wait_Scr()) {
+				GameApp.instance_.CreateWaitScr();
+			}
+			if(!AdManager.isShowing() && GameApp.Is_Wait_Scr()) {
+				GameApp.instance_.HideWaitScr();
+			}
+		}
 		GameScreen.prototype.customProcess.call(this,time_step);
 	}
 	,customDispose: function() {
@@ -113389,12 +113589,14 @@ ui_PauseScr.prototype = $extend(GameScreen.prototype,{
 		return this.quit_sg_;
 	}
 	,OnResume: function(_) {
+		window.h5api.playInterstitialAd();
 		this.resume_sg_.emit(this);
 	}
 	,OnRestart: function(_) {
 		this.restart_sg_.emit(this);
 	}
 	,OnQuit: function(_) {
+		window.h5api.playInterstitialAd();
 		this.quit_sg_.emit(this);
 	}
 	,InitLayout: function() {
@@ -113569,6 +113771,16 @@ ui_StartScr.prototype = $extend(GameScreen.prototype,{
 		GameScreen.prototype.customDispose.call(this);
 	}
 	,customProcess: function(time_step) {
+		if(AdManager.Inited) {
+				if(AdManager.isShowing() && !GameApp.Is_Wait_Scr()) {
+					haxe_Log.trace("Is_Wait_Scr CreateWaitScr",{ fileName : "src/ui/StartScr.hx", lineNumber : 303, className : "ui.StartScr", methodName : "customProcess"});
+					GameApp.instance_.CreateWaitScr();
+				}
+				if(!AdManager.isShowing() && GameApp.Is_Wait_Scr()) {
+					haxe_Log.trace("Is_Wait_Scr HideWaitScr",{ fileName : "src/ui/StartScr.hx", lineNumber : 307, className : "ui.StartScr", methodName : "customProcess"});
+					GameApp.instance_.HideWaitScr();
+				}
+			}
 		GameScreen.prototype.customProcess.call(this,time_step);
 	}
 	,processScreen: function(time_step) {
@@ -113994,6 +114206,9 @@ openfl_ui_Multitouch.maxTouchPoints = 2;
 openfl_ui_Multitouch.supportedGestures = null;
 openfl_ui_Multitouch.supportsGestureEvents = false;
 openfl_ui_Multitouch.inputMode = 2;
+AdManager.Inited = false;
+AdManager.stingerShowed = false;
+AdManager.delayed = false;
 openfl__$Vector_Vector_$Impl_$.__meta__ = { statics : { toNullVector : { SuppressWarnings : ["checkstyle:Dynamic"]}}};
 openfl_display_DisplayObject.__meta__ = { fields : { __cairo : { SuppressWarnings : ["checkstyle:Dynamic"]}, addEventListener : { SuppressWarnings : ["checkstyle:Dynamic"]}, removeEventListener : { SuppressWarnings : ["checkstyle:Dynamic"]}}};
 openfl_display_DisplayObject.__broadcastEvents = new haxe_ds_StringMap();
@@ -114180,27 +114395,24 @@ battle_CombotantData.ULTIMATE_MAX_TIME = 200;
 battle_CombotantData.START_GOLD = 0;
 battle_CombotantData.START_MANA = 0;
 //// override the units here, 电脑的好像可以直接改battle_CombotantRace， 但是玩家的只能改数据库, 改了一堆这里
-battle_ArmyStat.UNDYING_WARRIORS_T1_E = new battle_ArmyStat("不死战士",27,battle_CombotantRace.TheEmpire,9,4,8,17,0,0,50,40,100,1,"Undead",1,battle_unit_CombatUnitType.Infantry,0.1,0,0,11,5);
+battle_ArmyStat.UNDYING_WARRIORS_T1_E = new battle_ArmyStat("不死战士",25,battle_CombotantRace.TheEmpire,9,3,6,17,0,0,50,40,100,1,"Undead",1,battle_unit_CombatUnitType.Infantry,0.1,0,0,11,5);
 battle_ArmyStat.armyStatBD.h[1].h[0].h[1] = battle_ArmyStat.UNDYING_WARRIORS_T1_E;
 battle_ArmyStat.WARRIORS_T1_D = new battle_ArmyStat("战士",18,battle_CombotantRace.TheKhaganate,9,3,4,15,0,0,50,50,100,1,"",1,battle_unit_CombatUnitType.Infantry,0.1,0,0,11,5);
 battle_ArmyStat.WARRIORS_T1_D = new battle_ArmyStat("战士",18,battle_CombotantRace.TheKhaganate,9,3,4,15,0,0,50,50,100,1,"",1,battle_unit_CombatUnitType.Infantry,0.1,0,0,11,5);
 battle_ArmyStat.armyStatBD.h[3].h[0].h[1] = battle_ArmyStat.WARRIORS_T1_D;
 
 battle_ArmyStat.REBELS_T1_B = new battle_ArmyStat("叛军",22,battle_CombotantRace.TheCult,9,1,5,16,0,0,50,50,100,1,"LongSpear 50",1,battle_unit_CombatUnitType.Infantry,0.1,0,0,11,5);
-battle_ArmyStat.UNDYING_WARRIORS_T1_E = new battle_ArmyStat("不死战士",20,battle_CombotantRace.TheEmpire,9,2,4,17,0,0,50,50,100,1,"Undead",1,battle_unit_CombatUnitType.Infantry,0.1,0,0,11,5);
+battle_ArmyStat.UNDYING_WARRIORS_T1_E = new battle_ArmyStat("不死战士",25,battle_CombotantRace.TheEmpire,9,2,6,17,0,0,50,50,100,1,"Undead",1,battle_unit_CombatUnitType.Infantry,0.1,0,0,11,5);
 battle_ArmyStat.WARRIORS_T1_D = new battle_ArmyStat("战士",18,battle_CombotantRace.TheKhaganate,9,3,4,15,0,0,50,50,100,1,"",1,battle_unit_CombatUnitType.Infantry,0.1,0,0,11,5);
 battle_ArmyStat.armyStatBD.h[0].h[0].h[1] = battle_ArmyStat.WARRIORS_T1_D;
 battle_ArmyStat.SWORDSMEN_T2_W = new battle_ArmyStat("剑士",36,battle_CombotantRace.Westaria,9,3,4,15,0,0,50,50,100,1,"ShieldWall 15",2,battle_unit_CombatUnitType.Infantry,0.1,0,0,11,5);
-battle_ArmyStat.UNDYING_WARRIORS_T1_E = new battle_ArmyStat("不死战士",28,battle_CombotantRace.TheEmpire,9,5,8,17,0,0,50,40,100,1,"Undead",1,battle_unit_CombatUnitType.Infantry,0.1,0,0,11,5);
-battle_ArmyStat.armyStatBD.h[1].h[0].h[2] = battle_ArmyStat.UNDYING_WARRIORS_T1_E;
+battle_ArmyStat.ZOMBIE_WARRIORS_T2_E = new battle_ArmyStat("僵尸战士",29,battle_CombotantRace.TheEmpire,9,4,7,17,0,0,50,50,100,1,"Undead",2,battle_unit_CombatUnitType.Infantry,0.1,0,0,11,5);
+battle_ArmyStat.armyStatBD.h[1].h[0].h[2] = battle_ArmyStat.ZOMBIE_WARRIORS_T2_E;
 battle_ArmyStat.IMMORTALS_T2_D = new battle_ArmyStat("不朽者",28,battle_CombotantRace.TheKhaganate,9,4,6,15,0,0,50,50,100,1,"Undead",2,battle_unit_CombatUnitType.Infantry,0.1,0,0,11,5);
-battle_ArmyStat.MYRMIDONS_T2_B = new battle_ArmyStat("冰霜战士",30,battle_CombotantRace.TheCult,9,2,7,16,0,0,50,50,100,1,"LongSpear 50",2,battle_unit_CombatUnitType.Infantry,0.1,0,0,11,5);
+battle_ArmyStat.MYRMIDONS_T2_B = new battle_ArmyStat("冰霜战士",28,battle_CombotantRace.TheCult,9,2,7,16,0,0,50,50,100,1,"LongSpear 50",2,battle_unit_CombatUnitType.Infantry,0.1,0,0,11,5);
 battle_ArmyStat.ZOMBIE_WARRIORS_T2_E = new battle_ArmyStat("僵尸战士",26,battle_CombotantRace.TheEmpire,9,3,5,17,0,0,50,50,100,1,"Undead",2,battle_unit_CombatUnitType.Infantry,0.1,0,0,11,5)
 battle_ArmyStat.IMMORTALS_T2_D = new battle_ArmyStat("不朽者",28,battle_CombotantRace.TheKhaganate,9,4,6,15,0,0,50,50,100,1,"Undead",2,battle_unit_CombatUnitType.Infantry,0.1,0,0,11,5);
 battle_ArmyStat.armyStatBD.h[0].h[0].h[2] = battle_ArmyStat.IMMORTALS_T2_D;
-battle_ArmyStat.LEGIONARIES_T3_W = new battle_ArmyStat("军团步兵",40,battle_CombotantRace.Westaria,9,4,5,15,0,0,50,50,100,1,"ShieldWall 20;Discipline",3,battle_unit_CombatUnitType.Infantry,0.1,0,0,11,5);
-battle_ArmyStat.UNDYING_WARRIORS_T1_E = new battle_ArmyStat("不死战士",36,battle_CombotantRace.TheEmpire,9,7,10,17,0,0,50,40,100,1,"Undead",1,battle_unit_CombatUnitType.Infantry,0.1,0,0,11,5);
-battle_ArmyStat.armyStatBD.h[1].h[0].h[3] = battle_ArmyStat.UNDYING_WARRIORS_T1_E;
 battle_ArmyStat.UNDYING_ARCHERS_T1_E = new battle_ArmyStat("不死弓手",18,battle_CombotantRace.TheEmpire,9,6,9,30,100,70,50,40,120,1,"Undead",1,battle_unit_CombatUnitType.Archers,0.1,0,0,11,10);
 battle_ArmyStat.armyStatBD.h[1].h[1].h[1] = battle_ArmyStat.UNDYING_ARCHERS_T1_E;
 battle_ArmyStat.HUNTERS_T1_D = new battle_ArmyStat("猎人",15,battle_CombotantRace.TheKhaganate,9,4,10,30,100,70,50,40,120,1,"Poisonous 1",1,battle_unit_CombatUnitType.Archers,0.1,0,0,11,10);
@@ -116010,16 +116222,19 @@ metagame_CombotantBonuses.GIANT_BOTS_REPARING = 40;
 metagame_CombotantBonuses.UNLOCK_TERROR = 41;
 metagame_CombotantBonuses.UNLOCK_RAISE_DEAD = 42;
 metagame_CombotantBonuses.UNLOCK_BANNER_OF_DESECRATION = 43;
-metagame_CombotantBonuses.BONUSES_COUNT = 44;
+metagame_CombotantBonuses.CALL_OF_THE_GRAVE_MAX_UNITS = 44;
+metagame_CombotantBonuses.UNDEAD_DAMAGE_BONUS = 45;
+metagame_CombotantBonuses.UNDEAD_COST_REDUCTION = 46;
+metagame_CombotantBonuses.BONUSES_COUNT = 47;
 metagame_Edict.W_THE_LORDS_CHURCH = new metagame_Edict("冥主暗堂-解锁魂祭之旗",[new metagame_EdictContent(5,1,"解锁魂祭之旗"),new metagame_EdictContent(6,25,"+25% 旗帜持续时间"),new metagame_EdictContent(6,50,"+50% 旗帜持续时间")],0,0);
 metagame_Edict.W_DUCAL_SOVEREIGNITY = new metagame_Edict("冥权统御-解锁基础亡灵",[new metagame_EdictContent(0,0,"解锁基础亡灵"),new metagame_EdictContent(8,75,"任务开始时 +75 金币"),new metagame_EdictContent(8,150,"任务开始时 +150 金币")],0,0);
-metagame_Edict.W_CALL_FOR_THE_CRUSADE = new metagame_Edict("暗影号令-解锁亡灵审判",[new metagame_EdictContent(9,1,"解锁冥雷审判"),new metagame_EdictContent(10,15,"+25% 概率直接转化敌方单位"),new metagame_EdictContent(10,30,"+50% 概率直接转化敌方单位")],4);
-metagame_Edict.W_TOWN_GUILDS = new metagame_Edict("亡城行会-卫兵转化为骸骨剑士",[new metagame_EdictContent(0,1,"将卫兵转化为骸骨剑士"),new metagame_EdictContent(11,15,"要塞生命值 +15%"),new metagame_EdictContent(11,30,"要塞生命值 +30%")],4);
+metagame_Edict.W_CALL_FOR_THE_CRUSADE = new metagame_Edict("暗影号令-解锁亡灵审判",[new metagame_EdictContent(9,1,"解锁冥雷审判"),new metagame_EdictContent(10,15,"+15% 概率直接转化敌方单位"),new metagame_EdictContent(10,30,"+30% 概率直接转化敌方单位")],4);
+metagame_Edict.W_TOWN_GUILDS = new metagame_Edict("亡城行会-卫兵转化为僵尸战士",[new metagame_EdictContent(0,1,"将卫兵转化为僵尸战士"),new metagame_EdictContent(11,15,"要塞生命值 +15%"),new metagame_EdictContent(11,30,"要塞生命值 +30%")],4);
 metagame_Edict.W_THE_ZEALOTS_ORDER = new metagame_Edict("冥徒教派-不死刺客转化为阴魂",[new metagame_EdictContent(4,1,"将侍僧转化为冥执者"),new metagame_EdictContent(12,-10,"终极技能冷却 -10%"),new metagame_EdictContent(12,-20,"终极技能冷却 -20%")],7);
 metagame_Edict.W_MECHANICS_RESEARCH = new metagame_Edict("亡械典籍-弓手改造为骷髅弩手",[new metagame_EdictContent(2,1,"将弓手改造为骨弩手"),new metagame_EdictContent(13,10,"弓箭 / 攻城武器伤害 +10%"),new metagame_EdictContent(13,20,"弓箭 / 攻城武器伤害 +20%")],7);
-metagame_Edict.W_HEROIC_EPOS = new metagame_Edict("亡灵大军-解锁亡灵召唤",[new metagame_EdictContent(14,1,"解锁亡灵大军"),new metagame_EdictContent(15,7,"部队基础士气 +7%"),new metagame_EdictContent(15,15,"部队基础士气 +15%")],11);
+metagame_Edict.W_HEROIC_EPOS = new metagame_Edict("亡灵大军-解锁亡灵召唤",[new metagame_EdictContent(14,1,"解锁亡灵大军"),new metagame_EdictContent(15,7,"召唤两批亡灵部队"),new metagame_EdictContent(15,15,"概率召唤骑兵和魔法士")],11);
 metagame_Edict.W_REGULAR_TOURNAMENTS = new metagame_Edict("暗影试炼-骑士堕化为地狱战骑",[new metagame_EdictContent(1,1,"将骑士堕化为地狱战骑"),new metagame_EdictContent(7,50,"骑兵冲锋造成 2.5 倍伤害"),new metagame_EdictContent(7,100,"骑兵冲锋造成 3 倍伤害")],11);
-metagame_Edict.W_LEGION = new metagame_Edict("亡灵军团-步兵转化为冥军尸卫",[new metagame_EdictContent(0,2,"将步兵转化为冥军尸卫"),new metagame_EdictContent(16,15,"步兵生命值 +15%"),new metagame_EdictContent(16,30,"步兵生命值 +30%")],15);
+metagame_Edict.W_LEGION = new metagame_Edict("帝国之怒，强化终极法术",[new metagame_EdictContent(44,4,"墓穴召唤可转化最多4个敌军"),new metagame_EdictContent(45,10,"所有亡灵单位攻击伤害 +10%"),new metagame_EdictContent(46,10,"所有亡灵单位成本 -10%")],15);
 
 
 metagame_Edict.H_BLOODLUST = new metagame_Edict("嗜血-解锁嗜血之旗",[new metagame_EdictContent(17,1,"解锁嗜血之旗"),new metagame_EdictContent(18,25,"对要塞伤害 +25%"),new metagame_EdictContent(18,50,"对要塞伤害 +50%")],0,0);
