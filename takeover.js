@@ -11578,7 +11578,7 @@ Preloader.prototype = $extend(openfl_display_Sprite.prototype,{
 		this.addChild(btn);
 	}
 	,callBackForGameDistribution: function() {
-		AdManager.showAd();
+		window.h5api.playInterstitialAd();
 	}
 	,this_onAddedToStage: function(event) {
 		this.removeEventListener("addedToStage",$bind(this,this.this_onAddedToStage));
@@ -112603,7 +112603,7 @@ ui_EdictsScr.prototype = $extend(GameScreen.prototype,{
 	}
 	,OnEdict: function(b) {
 		haxe_Log.trace("OnEdict",{ fileName : "src/ui/EdictsScr.hx", lineNumber : 332, className : "ui.EdictsScr", methodName : "OnEdict"});
-		AdManager.showAd();
+		window.h5api.playInterstitialAd();
 		this.onActivateIcon(b);
 	}
 	,ChangeChildsName: function() {
@@ -112768,7 +112768,7 @@ ui_EdictsScr.prototype = $extend(GameScreen.prototype,{
 		this.move_layout_.addItem(ui_Uih.WrapLayoutItem(iriysoft_helper_Fwh.GetChildC(this.scr_,["mcPlayerStats"]),layout_LayoutType.BOTTOM,layout_LayoutType.RIGHT),true,true,false);
 	}
 	,OnDone: function(_) {
-		AdManager.showAd();
+		window.h5api.playInterstitialAd();
 		this.map_scr_sg_.emit();
 	}
 	,customDispose: function() {
@@ -113452,7 +113452,7 @@ ui_MissionOverScr.prototype = $extend(GameScreen.prototype,{
 		return "";
 	}
 	,OnDone: function(_) {
-		AdManager.showAd();
+		window.h5api.playInterstitialAd();
 		this.map_scr_sg_.emit();
 	}
 	,customProcess: function(time_step) {
@@ -113560,14 +113560,14 @@ ui_PauseScr.prototype = $extend(GameScreen.prototype,{
 		return this.quit_sg_;
 	}
 	,OnResume: function(_) {
-		AdManager.showAd();
+		window.h5api.playInterstitialAd();
 		this.resume_sg_.emit(this);
 	}
 	,OnRestart: function(_) {
 		this.restart_sg_.emit(this);
 	}
 	,OnQuit: function(_) {
-		AdManager.showAd();
+		window.h5api.playInterstitialAd();
 		this.quit_sg_.emit(this);
 	}
 	,InitLayout: function() {
