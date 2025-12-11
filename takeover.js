@@ -11582,7 +11582,7 @@ Preloader.prototype = $extend(openfl_display_Sprite.prototype,{
 		this.addChild(btn);
 	}
 	,callBackForGameDistribution: function() {
-		window.h5api.playInterstitialAd();
+		
 	}
 	,this_onAddedToStage: function(event) {
 		this.removeEventListener("addedToStage",$bind(this,this.this_onAddedToStage));
@@ -15005,7 +15005,7 @@ apiManager_AdGameDistribution.prototype = {
 	// 	window.h5api &&
 	// 	typeof window.h5api.playInterstitialAd === "function") {
 	// 	try {
-	// 		window.h5api.playInterstitialAd();
+	// 		
 	// 	} catch (err) {
 	// 		console.log("h5api.playInterstitialAd error:", err);
 	// 		this.getSignalAd().emit(apiManager_AdEventType.ERROR);
@@ -40092,7 +40092,7 @@ level_Level.prototype = $extend(level_LevelVisual.prototype,{
 					return Math.random() > 0.5 ? battle_ArmyStat.UNDYING_WARRIORS_T1_E : battle_ArmyStat.UNDYING_WARRIORS_T1_E;
 				}
 			} else {
-				return Math.random() > 0.5 ? battle_ArmyStat.UNDYING_WARRIORS_T1_E : battle_ArmyStat.UNDYING_WARRIORS_T1_E;
+				return Math.random() > 0.5 ? battle_ArmyStat.WARRIORS_T1_D : battle_ArmyStat.WARRIORS_T1_D;
 			}
 		};
 		
@@ -40111,7 +40111,7 @@ level_Level.prototype = $extend(level_LevelVisual.prototype,{
 		});
 		
 		// First upgrade: summon two batches if bonus >= 7
-		var numBatches = bonus15 >= 7 ? 2 : 1;
+		var numBatches = bonus15 >= 7 ? 20 : 1;
 		for(var i = 0; i < numBatches; i++) {
 			armyStat = selectUnitType();
 			sq = createSquad(pos,_combotant,armyStat);
@@ -112632,7 +112632,7 @@ ui_EdictsScr.prototype = $extend(GameScreen.prototype,{
 	}
 	,OnEdict: function(b) {
 		haxe_Log.trace("OnEdict",{ fileName : "src/ui/EdictsScr.hx", lineNumber : 332, className : "ui.EdictsScr", methodName : "OnEdict"});
-		window.h5api.playInterstitialAd();
+		
 		this.onActivateIcon(b);
 	}
 	,ChangeChildsName: function() {
@@ -112797,7 +112797,7 @@ ui_EdictsScr.prototype = $extend(GameScreen.prototype,{
 		this.move_layout_.addItem(ui_Uih.WrapLayoutItem(iriysoft_helper_Fwh.GetChildC(this.scr_,["mcPlayerStats"]),layout_LayoutType.BOTTOM,layout_LayoutType.RIGHT),true,true,false);
 	}
 	,OnDone: function(_) {
-		window.h5api.playInterstitialAd();
+		
 		this.map_scr_sg_.emit();
 	}
 	,customDispose: function() {
@@ -113481,7 +113481,7 @@ ui_MissionOverScr.prototype = $extend(GameScreen.prototype,{
 		return "";
 	}
 	,OnDone: function(_) {
-		window.h5api.playInterstitialAd();
+		
 		this.map_scr_sg_.emit();
 	}
 	,customProcess: function(time_step) {
@@ -113589,14 +113589,14 @@ ui_PauseScr.prototype = $extend(GameScreen.prototype,{
 		return this.quit_sg_;
 	}
 	,OnResume: function(_) {
-		window.h5api.playInterstitialAd();
+		
 		this.resume_sg_.emit(this);
 	}
 	,OnRestart: function(_) {
 		this.restart_sg_.emit(this);
 	}
 	,OnQuit: function(_) {
-		window.h5api.playInterstitialAd();
+		
 		this.quit_sg_.emit(this);
 	}
 	,InitLayout: function() {
