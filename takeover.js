@@ -22885,7 +22885,7 @@ data_LevelInfo.prototype = {
 				bonusEmpire1.setBonus(41,1);
 				bonusEmpire1.setBonus(2,1);
 				bonusEmpire1.setBonus(0,1);
-				enemyPlayers.push(this.createCombotantByRace(battle_CombotantRace.TheEmpire,0,0,bonusEmpire1));
+				enemyPlayers.push(this.createCombotantByRace(battle_CombotantRace.TheCult,0,0,bonusIcedale1));
 				bonusHorde1.setBonus(17,1);
 				bonusHorde1.setBonus(1,1);
 				bonusHorde1.setBonus(20,1);
@@ -40092,7 +40092,7 @@ level_Level.prototype = $extend(level_LevelVisual.prototype,{
 					return Math.random() > 0.5 ? battle_ArmyStat.UNDYING_WARRIORS_T1_E : battle_ArmyStat.UNDYING_WARRIORS_T1_E;
 				}
 			} else {
-				return Math.random() > 0.5 ? battle_ArmyStat.WARRIORS_T1_D : battle_ArmyStat.WARRIORS_T1_D;
+				return Math.random() > 0.5 ? battle_ArmyStat.UNDYING_WARRIORS_T1_E : battle_ArmyStat.UNDYING_WARRIORS_T1_E;
 			}
 		};
 		
@@ -40111,7 +40111,7 @@ level_Level.prototype = $extend(level_LevelVisual.prototype,{
 		});
 		
 		// First upgrade: summon two batches if bonus >= 7
-		var numBatches = bonus15 >= 7 ? 20 : 1;
+		var numBatches = bonus15 >= 7 ? 2 : 1;
 		for(var i = 0; i < numBatches; i++) {
 			armyStat = selectUnitType();
 			sq = createSquad(pos,_combotant,armyStat);
