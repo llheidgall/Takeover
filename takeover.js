@@ -22856,7 +22856,7 @@ data_LevelInfo.prototype = {
 				bonusEmpire1.setBonus(41,1);
 				bonusEmpire1.setBonus(2,1);
 				bonusEmpire1.setBonus(0,1);
-				enemyPlayers.push(this.createCombotantByRace(battle_CombotantRace.TheEmpire,0,0,bonusEmpire1));
+				enemyPlayers.push(this.createCombotantByRace(battle_CombotantRace.TheCult,0,0,bonusIcedale1));
 				bonusHorde1.setBonus(17,1);
 				bonusHorde1.setBonus(1,1);
 				bonusHorde1.setBonus(20,1);
@@ -113560,7 +113560,7 @@ ui_PauseScr.prototype = $extend(GameScreen.prototype,{
 		return this.quit_sg_;
 	}
 	,OnResume: function(_) {
-		window.h5api.playInterstitialAd();
+		//window.h5api.playInterstitialAd();
 		this.resume_sg_.emit(this);
 	}
 	,OnRestart: function(_) {
