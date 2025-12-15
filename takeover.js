@@ -40056,14 +40056,14 @@ level_Level.prototype = $extend(level_LevelVisual.prototype,{
 			if(bonus15 >= 15) {
 				var rand = Math.random();
 				if(rand < 0.33) {
-					return Math.random() > 0.5 ? battle_ArmyStat.UNDYING_HORSEMEN_T1_E : battle_ArmyStat.DARK_KNIGHTS_T2_E;
+					return Math.random() > 0.5 ? battle_ArmyStat.DARK_KNIGHTS_T2_E : battle_ArmyStat.DARK_KNIGHTS_T2_E;
 				} else if(rand < 0.66) {
-					return Math.random() > 0.5 ? battle_ArmyStat.UNDYING_ASSASSINS_T1_E : battle_ArmyStat.SHADES_T2_E;
+					return Math.random() > 0.5 ? battle_ArmyStat.SHADES_T2_E : battle_ArmyStat.SHADES_T2_E;
 				} else {
-					return Math.random() > 0.5 ? battle_ArmyStat.UNDYING_WARRIORS_T1_E : battle_ArmyStat.UNDYING_WARRIORS_T1_E;
+					return Math.random() > 0.5 ? battle_ArmyStat.ZOMBIE_WARRIORS_T2_E : battle_ArmyStat.ZOMBIE_WARRIORS_T2_E;
 				}
 			} else {
-				return Math.random() > 0.5 ? battle_ArmyStat.UNDYING_WARRIORS_T1_E : battle_ArmyStat.UNDYING_WARRIORS_T1_E;
+				return Math.random() > 0.5 ? battle_ArmyStat.ZOMBIE_WARRIORS_T2_E : battle_ArmyStat.ZOMBIE_WARRIORS_T2_E;
 			}
 		};
 		
@@ -114460,7 +114460,7 @@ battle_spell_SpellInfo.TYPE_ULTIMATE = 2;
 battle_spell_SpellInfo.m_allSpells = [];
 battle_spell_SpellInfo.LORDS_JUDGEMENT = new battle_spell_SpellInfo(0,1,"亡灵审判",battle_CombotantRace.Westaria,0,75,75,60,30,"降低所选区域敌人士气，并可能直接转化为友方单位");
 battle_spell_SpellInfo.BANNER_OF_CONSECRATION = new battle_spell_SpellInfo(1,2,"魂祭之旗",battle_CombotantRace.Westaria,1,50,75,20,12,"以亡灵之力治愈不死大军");
-battle_spell_SpellInfo.BANNER_OF_HEROISM = new battle_spell_SpellInfo(2,3,"亡灵召唤",battle_CombotantRace.Westaria,0,125,75,2,12,"随机召唤一只亡灵军队在指定区域");
+battle_spell_SpellInfo.BANNER_OF_HEROISM = new battle_spell_SpellInfo(2,3,"亡灵召唤",battle_CombotantRace.Westaria,0,200,75,2,12,"随机召唤1到2队亡灵军队在指定区域");
 battle_spell_SpellInfo.SIGN_OF_THE_ADVENT = new battle_spell_SpellInfo(3,4,"墓穴召唤",battle_CombotantRace.Westaria,2,1,0,0,0,"将 1 至 3 个随机活体敌军转化为对应的亡灵单位");
 battle_spell_SpellInfo.SUMMON_STONEWORMS = new battle_spell_SpellInfo(4,1,"召唤石虫",battle_CombotantRace.TheKhaganate,0,100,75,8,10,"石虫会对选定区域内的敌军造成伤害");
 battle_spell_SpellInfo.DISENTOMB = new battle_spell_SpellInfo(5,2,"破墓",battle_CombotantRace.TheKhaganate,0,250,75,3,0,"召唤一支不朽者小队");
