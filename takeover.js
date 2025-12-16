@@ -36859,6 +36859,7 @@ var level_FKeyNodeContent = function(_resManager,_nodeData,_owner,_keyNodeType) 
 	this.mcShield = null;
 	this.mcStarIcon = null;
 	this.mcColor = null;
+	this.m_ownerCombatant = _owner;
 	if(_nodeData != null) {
 		level_KeyNodeContent.call(this,new level_NodeContentDescription(),_nodeData.description,_owner,_keyNodeType,_nodeData.pos.getCopy());
 		this.initKeyNode(_resManager,_nodeData,_owner,_keyNodeType);
@@ -37018,7 +37019,13 @@ level_FKeyNodeContent.prototype = $extend(level_KeyNodeContent.prototype,{
 	,__locationType: null
 	,changeView: function(_locationType) {
 		this.m_view.changeView(_locationType);
-		this.mcColor.gotoFrame(_locationType + 3);
+		var frameOffset = 1;
+		// Check if this node uses purple animations (TheEmpire, race index 1)
+		// XMLData.getColorID returns "Purple" for race index 1
+		if(_locationType == 1) {
+			frameOffset = 3;
+		}
+		this.mcColor.gotoFrame(_locationType + frameOffset);
 		this.__locationType = _locationType;
 		this.updateHealthBar(this.m_hp,this.getMaxHP());
 	}
