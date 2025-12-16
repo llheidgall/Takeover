@@ -11578,7 +11578,7 @@ Preloader.prototype = $extend(openfl_display_Sprite.prototype,{
 		this.addChild(btn);
 	}
 	,callBackForGameDistribution: function() {
-		window.h5api.playInterstitialAd();
+		//window.h5api.playInterstitialAd();
 	}
 	,this_onAddedToStage: function(event) {
 		this.removeEventListener("addedToStage",$bind(this,this.this_onAddedToStage));
@@ -14172,7 +14172,7 @@ WindowController.prototype = $extend(iriysoft_core_templates_BaseObject.prototyp
 					raceNameInChinese = "卡瑞米森部落";
 					break;
 				case "Icedales Cult":
-					raceNameInChinese = "艾斯得雷邪教";
+					raceNameInChinese = "艾斯得雷教会";
 					break;
 				case "n/a":
 					raceName = "无";
@@ -14222,7 +14222,7 @@ WindowController.prototype = $extend(iriysoft_core_templates_BaseObject.prototyp
 					raceNameInChinese = "卡瑞米森部落";
 					break;
 				case "Icedales Cult":
-					raceNameInChinese = "艾斯得雷邪教";
+					raceNameInChinese = "艾斯得雷教会";
 					break;
 				case "n/a":
 					raceName = "无";
@@ -14991,25 +14991,6 @@ apiManager_AdGameDistribution.prototype = {
         }
       ;
 	}
-	// ,showAd: function() {
-	// 	this.isAdShowing = true;
-	// if(!this.initialized) {
-	// 	return;
-	// }
-	// // Use 4399 interstitial ad API instead of gdsdk
-	// if (typeof window !== "undefined" &&
-	// 	window.h5api &&
-	// 	typeof window.h5api.playInterstitialAd === "function") {
-	// 	try {
-	// 		window.h5api.playInterstitialAd();
-	// 	} catch (err) {
-	// 		console.log("h5api.playInterstitialAd error:", err);
-	// 		this.getSignalAd().emit(apiManager_AdEventType.ERROR);
-	// 	}
-	// } else {
-	// 	// 4399 API not available
-	// 	this.getSignalAd().emit(apiManager_AdEventType.ERROR);
-	// }
 	,showRewarded: function() {
 		if(!this.isPreloadedRewarded) {
 			this.getSignalAd().emit(apiManager_AdEventType.ERROR);
@@ -112603,7 +112584,7 @@ ui_EdictsScr.prototype = $extend(GameScreen.prototype,{
 	}
 	,OnEdict: function(b) {
 		haxe_Log.trace("OnEdict",{ fileName : "src/ui/EdictsScr.hx", lineNumber : 332, className : "ui.EdictsScr", methodName : "OnEdict"});
-		window.h5api.playInterstitialAd();
+		//window.h5api.playInterstitialAd();
 		this.onActivateIcon(b);
 	}
 	,ChangeChildsName: function() {
@@ -112768,7 +112749,7 @@ ui_EdictsScr.prototype = $extend(GameScreen.prototype,{
 		this.move_layout_.addItem(ui_Uih.WrapLayoutItem(iriysoft_helper_Fwh.GetChildC(this.scr_,["mcPlayerStats"]),layout_LayoutType.BOTTOM,layout_LayoutType.RIGHT),true,true,false);
 	}
 	,OnDone: function(_) {
-		window.h5api.playInterstitialAd();
+		//window.h5api.playInterstitialAd();
 		this.map_scr_sg_.emit();
 	}
 	,customDispose: function() {
@@ -113548,6 +113529,7 @@ ui_PauseScr.prototype = $extend(GameScreen.prototype,{
 		this.gm_ctx_.InitSoundPanel(iriysoft_helper_Fwh.GetChildC(this.scr_,["mcSoundBlock"]),0.02,0.02);
 		Const.InitLogos(this.main_l_);
 		this.Resize();
+		window.h5api.playInterstitialAd();
 		GameScreen.prototype.initAfterLoading.call(this);
 	}
 	,resume_sg: function() {
@@ -113567,7 +113549,7 @@ ui_PauseScr.prototype = $extend(GameScreen.prototype,{
 		this.restart_sg_.emit(this);
 	}
 	,OnQuit: function(_) {
-		window.h5api.playInterstitialAd();
+		//window.h5api.playInterstitialAd();
 		this.quit_sg_.emit(this);
 	}
 	,InitLayout: function() {

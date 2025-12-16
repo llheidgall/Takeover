@@ -58243,7 +58243,7 @@
                                      {
                                         "matrix_b":0,
                                         "matrix_a":1,
-                                        "text":"艾斯得雷\r邪教\r",
+                                        "text":"艾斯得雷\r教会\r",
                                         "text_font":"Vollkorn-Bold",
                                         "text_height":84.25,
                                         "alpha":1,
@@ -58510,7 +58510,7 @@
                                      {
                                         "matrix_b":0,
                                         "matrix_a":1,
-                                        "text":"艾斯得雷\r邪教\r",
+                                        "text":"艾斯得雷\r教会\r",
                                         "text_font":"Vollkorn-Bold",
                                         "text_height":84.25,
                                         "alpha":1,
@@ -58787,7 +58787,7 @@
                                      {
                                         "matrix_b":0,
                                         "matrix_a":1,
-                                        "text":"艾斯得雷\r邪教\r",
+                                        "text":"艾斯得雷\r教会\r",
                                         "text_font":"Vollkorn-Bold",
                                         "text_height":84.25,
                                         "alpha":1,
@@ -59054,7 +59054,7 @@
                                      {
                                         "matrix_b":0,
                                         "matrix_a":1,
-                                        "text":"艾斯得雷\r邪教\r",
+                                        "text":"艾斯得雷\r教会\r",
                                         "text_font":"Vollkorn-Bold",
                                         "text_height":84.25,
                                         "alpha":1,
@@ -63678,7 +63678,7 @@
                       {
                          "matrix_b":0,
                          "matrix_a":1,
-                         "text":"Our generals recommend to attack the Magic Tower first. \rIt will be better to gather 2 or more squads.\rYou can select multiple squads by dragging the selection box over their icons.\r",
+                         "text":"我们的将军建议先进攻魔法塔\r建议招募至少两批军队\r你可以通过拖动选择框覆盖多个小队的图标来同时选中它们\r",
                          "text_font":"FiraSans-Bold",
                          "text_height":100.2,
                          "alpha":1,
