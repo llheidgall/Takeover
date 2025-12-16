@@ -22882,28 +22882,28 @@ data_LevelInfo.prototype = {
 		case 1:
 			switch(this.m_levelNum) {
 			case 0:
-				enemyPlayers.push(this.createCombotantByRace(battle_CombotantRace.TheEmpire,0,0));
+				enemyPlayers.push(this.createCombotantByRace(battle_CombotantRace.TheCult,0,0));
 				break;
 			case 1:
 				bonusWestaria1.setBonus(5,1);
 				enemyPlayers.push(this.createCombotantByRace(battle_CombotantRace.Westaria,0,0,bonusWestaria1));
 				break;
 			case 2:
-				bonusEmpire1.setBonus(43,1);
-				bonusEmpire1.setBonus(41,1);
-				enemyPlayers.push(this.createCombotantByRace(battle_CombotantRace.TheEmpire,0,0,bonusEmpire1));
+				bonusIcedale1.setBonus(43,1);
+				bonusIcedale1.setBonus(41,1);
+				enemyPlayers.push(this.createCombotantByRace(battle_CombotantRace.TheCult,0,0,bonusIcedale1));
 				break;
 			case 3:
-				bonusEmpire1.setBonus(43,1);
-				bonusEmpire1.setBonus(41,1);
-				enemyPlayers.push(this.createCombotantByRace(battle_CombotantRace.TheEmpire,0,0,bonusEmpire1));
+				bonusWestaria1.setBonus(43,1);
+				bonusWestaria1.setBonus(41,1);
+				enemyPlayers.push(this.createCombotantByRace(battle_CombotantRace.Westaria,0,0,bonusWestaria1));
 				break;
 			case 4:
-				bonusEmpire1.setBonus(43,1);
-				bonusEmpire1.setBonus(41,1);
-				bonusEmpire1.setBonus(2,1);
-				bonusEmpire1.setBonus(0,1);
-				enemyPlayers.push(this.createCombotantByRace(battle_CombotantRace.TheEmpire,0,0,bonusEmpire1));
+				bonusWestaria1.setBonus(43,1);
+				bonusWestaria1.setBonus(41,1);
+				bonusWestaria1.setBonus(2,1);
+				bonusWestaria1.setBonus(0,1);
+				enemyPlayers.push(this.createCombotantByRace(battle_CombotantRace.Westaria,0,0,bonusWestaria1));
 				bonusIcedale1.setBonus(29,1);
 				bonusIcedale1.setBonus(0,1);
 				bonusIcedale1.setBonus(2,1);
@@ -22917,14 +22917,14 @@ data_LevelInfo.prototype = {
 				enemyPlayers.push(this.createCombotantByRace(battle_CombotantRace.TheCult,0,0,bonusIcedale1));
 				break;
 			case 6:
-				bonusEmpire1.setBonus(43,1);
-				bonusEmpire1.setBonus(41,1);
-				bonusEmpire1.setBonus(2,1);
-				bonusEmpire1.setBonus(0,1);
-				bonusEmpire1.setBonus(25,1);
-				bonusEmpire1.setBonus(4,1);
-				bonusEmpire1.setBonus(3,1);
-				enemyPlayers.push(this.createCombotantByRace(battle_CombotantRace.TheEmpire,0,0,bonusEmpire1));
+				bonusWestaria1.setBonus(43,1);
+				bonusWestaria1.setBonus(41,1);
+				bonusWestaria1.setBonus(2,1);
+				bonusWestaria1.setBonus(0,1);
+				bonusWestaria1.setBonus(25,1);
+				bonusWestaria1.setBonus(4,1);
+				bonusWestaria1.setBonus(3,1);
+				enemyPlayers.push(this.createCombotantByRace(battle_CombotantRace.Westaria,0,0,bonusWestaria1));
 				bonusIcedale1.setBonus(29,1);
 				bonusIcedale1.setBonus(0,1);
 				bonusIcedale1.setBonus(2,1);
@@ -22933,12 +22933,7 @@ data_LevelInfo.prototype = {
 				enemyPlayers.push(this.createCombotantByRace(battle_CombotantRace.TheCult,0,0,bonusIcedale1));
 				break;
 			case 7:
-				bonusWestaria1.setBonus(5,1);
-				bonusWestaria1.setBonus(9,1);
-				bonusWestaria1.setBonus(0,2);
-				bonusWestaria1.setBonus(2,1);
-				bonusWestaria1.setBonus(1,1);
-				enemyPlayers.push(this.createCombotantByRace(battle_CombotantRace.Westaria,0,0,bonusWestaria1));
+				enemyPlayers.push(this.createCombotantByRace(battle_CombotantRace.TheCult,0,0));
 				break;
 			}
 			break;
@@ -22956,21 +22951,21 @@ data_LevelInfo.prototype = {
 				enemyPlayers.push(this.createCombotantByRace(battle_CombotantRace.Westaria,0,0,bonusWestaria1));
 				break;
 			case 3:
-				bonusEmpire1.setBonus(43,1);
-				bonusEmpire1.setBonus(41,1);
-				bonusEmpire1.setBonus(2,1);
-				enemyPlayers.push(this.createCombotantByRace(battle_CombotantRace.TheEmpire,0,0,bonusEmpire1));
+				bonusWestaria1.setBonus(43,1);
+				bonusWestaria1.setBonus(41,1);
+				bonusWestaria1.setBonus(2,1);
+				enemyPlayers.push(this.createCombotantByRace(battle_CombotantRace.Westaria,0,0,bonusWestaria1));
 				bonusHorde1.setBonus(17,1);
 				bonusHorde1.setBonus(1,1);
 				bonusHorde1.setBonus(20,1);
 				enemyPlayers.push(this.createCombotantByRace(battle_CombotantRace.TheKhaganate,0,0,bonusHorde1));
 				break;
 			case 4:
-				bonusEmpire1.setBonus(43,1);
-				bonusEmpire1.setBonus(41,1);
-				bonusEmpire1.setBonus(2,1);
-				bonusEmpire1.setBonus(0,1);
-				enemyPlayers.push(this.createCombotantByRace(battle_CombotantRace.TheEmpire,0,0,bonusEmpire1));
+				bonusWestaria1.setBonus(43,1);
+				bonusWestaria1.setBonus(41,1);
+				bonusWestaria1.setBonus(2,1);
+				bonusWestaria1.setBonus(0,1);
+				enemyPlayers.push(this.createCombotantByRace(battle_CombotantRace.Westaria,0,0,bonusWestaria1));
 				bonusHorde1.setBonus(17,1);
 				bonusHorde1.setBonus(1,1);
 				bonusHorde1.setBonus(20,1);
