@@ -39936,7 +39936,7 @@ level_Level.prototype = $extend(level_LevelVisual.prototype,{
 		switch(_combotant.getRace()._hx_index) {
 		////大招顺序： 亡灵， 绿， 红， 冰
 		case 1:
-			info = this.createGrandTransforamation(_combotant);
+			info = this.createSpellCataclysm(_combotant);
 			break;
 		case 2:
 			info = this.createCallToTheGrave(_combotant);////
@@ -40148,7 +40148,9 @@ level_Level.prototype = $extend(level_LevelVisual.prototype,{
 		splashData.position = new base_Position(position.x,position.y);
 		this.createSplashDamage(splashData,_spell.race,true,true);
 		this.createSplashDamageToKeyNode(position,_spell.radius,dmg / 2 | 0,null);
-		this.createSplashDamageToKeyNode(position,_spell.radius,dmg / 2 | 0,this.seekCombotantByRace(_spell.race).description);
+		////火国放大招bug
+		var combotant = this.seekCombotantByRace(_spell.race);
+		this.createSplashDamageToKeyNode(position,_spell.radius,dmg / 2 | 0,combotant != null ? combotant.description : null);
 		var anim = Hlp.WrapBattleDataV("CraterFromExplosionClass",position.x,position.y);
 		var vEff = new level_item_VisualEffect(level_item_VisualEffectDef.create(anim,7));
 		this.addVisualEffect(vEff,0);
