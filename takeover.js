@@ -39907,7 +39907,7 @@ level_Level.prototype = $extend(level_LevelVisual.prototype,{
 		switch(_combotant.getRace()._hx_index) {
 		////大招顺序： 亡灵， 绿， 红， 冰
 		case 1:
-			info = this.createGrandTransforamation(_combotant);
+			info = this.createSpellCataclysm(_combotant);
 			break;
 		case 2:
 			info = this.createCallToTheGrave(_combotant);////
@@ -40119,7 +40119,9 @@ level_Level.prototype = $extend(level_LevelVisual.prototype,{
 		splashData.position = new base_Position(position.x,position.y);
 		this.createSplashDamage(splashData,_spell.race,true,true);
 		this.createSplashDamageToKeyNode(position,_spell.radius,dmg / 2 | 0,null);
-		this.createSplashDamageToKeyNode(position,_spell.radius,dmg / 2 | 0,this.seekCombotantByRace(_spell.race).description);
+		////火国放大招bug
+		var combotant = this.seekCombotantByRace(_spell.race);
+		this.createSplashDamageToKeyNode(position,_spell.radius,dmg / 2 | 0,combotant != null ? combotant.description : null);
 		var anim = Hlp.WrapBattleDataV("CraterFromExplosionClass",position.x,position.y);
 		var vEff = new level_item_VisualEffect(level_item_VisualEffectDef.create(anim,7));
 		this.addVisualEffect(vEff,0);
@@ -114427,7 +114429,7 @@ battle_ArmyStat.armyStatBD.h[1].h[4].h[2] = battle_ArmyStat.SHADES_T2_E;
 battle_ArmyStat.WIZARDS_T2_B = new battle_ArmyStat("冰巫师",65,battle_CombotantRace.TheCult,6,12,18,25,100,50,50,40,150,1,"FreezeBlast 40",2,battle_unit_CombatUnitType.Magic,0.1,55,0,11,5);
 battle_ArmyStat.SHADES_T2_E = new battle_ArmyStat("阴魂",135,battle_CombotantRace.TheEmpire,3,12,20,15,0,0,50,40,150,1,"Undead;HorrificDash 4;Intimidiation 15",2,battle_unit_CombatUnitType.Magic,0.1,0,0,11,5);
 battle_ArmyStat.ASSASSINS_T1_D = new battle_ArmyStat("刺客",120,battle_CombotantRace.TheKhaganate,3,8,16,15,0,0,50,40,150,1,"HorrificDash 5;PoisonImmunity;Discipline",1,battle_unit_CombatUnitType.Magic,0.1,0,0,11,5);
-battle_ArmyStat.armyStatBD.h[0].h[4].h[1] = battle_ArmyStat.ASSASSINS_T1_D;
+battle_ArmyStat.armyStatBD.h[0].h[4].h[2] = battle_ArmyStat.ASSASSINS_T1_D;
 // Fix, idk why this one got overriden
 battle_ArmyStat.WARRIORS_T1_D = new battle_ArmyStat("战士",18,battle_CombotantRace.TheKhaganate,9,3,4,15,0,0,50,50,100,1,"",1,battle_unit_CombatUnitType.Infantry,0.1,0,0,11,5);
 battle_ArmyStat.armyStatBD.h[3].h[0].h[1] = battle_ArmyStat.WARRIORS_T1_D;
