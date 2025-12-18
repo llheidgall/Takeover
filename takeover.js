@@ -16138,6 +16138,7 @@ battle_CombotantData.constructArmyStatBonus = function(_armyState,bonuses) {
 	case 3:
 		asb.chargeFactor = bonuses.getBonusAsFactor(7);
 		asb.hpFactor = bonuses.getBonusAsFactor(39);
+		asb.lifeDrainPercent = bonuses.getBonus(48);
 		break;
 	case 4:
 		asb.damageFactor = bonuses.getBonusAsFactor(13);
@@ -16355,6 +16356,14 @@ battle_CombotantData.prototype = {
 	}
 	,youKillSquad: function(_squad) {
 		haxe_Log.trace("youKillSquad " + Std.string(this.m_race),{ fileName : "src/battle/CombotantData.hx", lineNumber : 194, className : "battle.CombotantData", methodName : "youKillSquad"});
+		var manaOnKill = this.bonuses.getBonus(47);
+		if(manaOnKill > 0) {
+			this.addMana(manaOnKill);
+		}
+		var goldOnKill = this.bonuses.getBonus(50);
+		if(goldOnKill > 0) {
+			this.addGold(goldOnKill);
+		}
 		this.missionStats.addStat(battle_stat_PlayerStats.ENEMY_SQUADS_DESTROYED,1);
 	}
 	,treasureCollect: function(_gold) {
@@ -16706,6 +16715,7 @@ var battle_ArmyStatBonus = function() {
 	this.doubleDamagePercent = 0;
 	this.freezeTargetPercent = 0;
 	this.freezeAddTime = 0;
+	this.lifeDrainPercent = 0;
 };
 $hxClasses["battle.ArmyStatBonus"] = battle_ArmyStatBonus;
 battle_ArmyStatBonus.__name__ = "battle.ArmyStatBonus";
@@ -16726,6 +16736,7 @@ battle_ArmyStatBonus.prototype = {
 	,doubleDamagePercent: null
 	,freezeTargetPercent: null
 	,freezeAddTime: null
+	,lifeDrainPercent: null
 	,getHP: function(_hp) {
 		return battle_ArmyStatBonus.getFactorValue(_hp,this.hpFactor);
 	}
@@ -17133,6 +17144,19 @@ battle_squad_UnitSet.prototype = $extend(base_BObject.prototype,{
 	}
 	,onEventDealDamage: function(_eventType,_obj,_param) {
 		this.m_generalParams.addMoraleForEnemyHit();
+		if(this.m_armyStatBonus != null && this.m_armyStatBonus.lifeDrainPercent > 0) {
+			var avgDamage = (this.m_armyStat.dmgMin + this.m_armyStat.dmgMax) / 2;
+			var healAmount = Math.floor(avgDamage * this.m_armyStatBonus.lifeDrainPercent / 100);
+			if(healAmount > 0) {
+				var u = this.m_units.iterator();
+				while(u.hasNext()) {
+					var u1 = u.next();
+					if(u1.isDie() == false && u1.getHealth() < u1.getHealthMax()) {
+						u1.addHealth(healAmount);
+					}
+				}
+			}
+		}
 	}
 	,onChangeMorale: function(_eventType,_obj,_param) {
 		var morale = js_Boot.__cast(_param , battle_squad_MoraleStatus);
@@ -36680,7 +36704,6 @@ level_KeyNodeContent.prototype = $extend(level_NodeContent.prototype,{
 			this.unitTypeForBy = [0,4];
 			break;
 		}
-		this.m_maxHP = Math.round(this.m_maxHP * _owner.bonuses.getBonusAsFactor(11));
 		this.m_hp = this.m_maxHP;
 	}
 	,m_stateActive: null
@@ -42067,12 +42090,25 @@ level_item_BannerHeal.prototype = $extend(level_item_AnimationEffect.prototype,{
 		var rad = this.m_def_stone.spellData.radius;
 		var pos = this.m_def_stone.spellData.position;
 		var power = this.m_def_stone.spellData.power | 0;
+		var corruptionActive = this.m_def_stone.ref_player.bonuses.getBonus(49) > 0;
+		var corruptionDamage = 0.25;
 		while(iter.hasNext()) {
 			sqd = iter.next();
-			//// 得改一下要不然自己派的亡灵兵不被旗帜加血
-			if((sqd.getRace() == race || sqd.getRace() == battle_CombotantRace.TheEmpire)) {
-				if(sqd.checkUnitAtRadius(pos,rad)) {
+			if(sqd.checkUnitAtRadius(pos,rad)) {
+				//// 得改一下要不然自己派的亡灵兵不被旗帜加血
+				if((sqd.getRace() == race || sqd.getRace() == battle_CombotantRace.TheEmpire)) {
 					sqd.repair(power);
+				} else if(corruptionActive && !this.m_def_stone.ref_player.checkAllySquad(sqd)) {
+					var units = sqd.getUnits();
+					var u = units.iterator();
+					while(u.hasNext()) {
+						var u1 = u.next();
+						if(u1.isDie() == false) {
+							var effSet = [];
+							effSet.push(new battle_unit_param_UnitPropertyEffectPerSecond(u1.getObjectID(),"BANNER_CORRUPTION",battle_unit_param_UnitParams.PRP_HP,1,corruptionDamage,500));
+							u1.m_unitProps.addEffects(effSet);
+						}
+					}
 				}
 			}
 		}
@@ -116182,15 +116218,19 @@ metagame_CombotantBonuses.UNLOCK_BANNER_OF_DESECRATION = 43;
 metagame_CombotantBonuses.CALL_OF_THE_GRAVE_MAX_UNITS = 44;
 metagame_CombotantBonuses.UNDEAD_DAMAGE_BONUS = 45;
 metagame_CombotantBonuses.UNDEAD_COST_REDUCTION = 46;
-metagame_CombotantBonuses.BONUSES_COUNT = 47;
-metagame_Edict.W_THE_LORDS_CHURCH = new metagame_Edict("冥主暗堂-解锁魂祭之旗",[new metagame_EdictContent(5,1,"解锁魂祭之旗"),new metagame_EdictContent(6,25,"+25% 旗帜持续时间"),new metagame_EdictContent(6,50,"+50% 旗帜持续时间")],0,0);
-metagame_Edict.W_DUCAL_SOVEREIGNITY = new metagame_Edict("冥权统御-解锁基础亡灵",[new metagame_EdictContent(0,0,"解锁基础亡灵"),new metagame_EdictContent(8,75,"任务开始时 +75 金币"),new metagame_EdictContent(8,150,"任务开始时 +150 金币")],0,0);
+metagame_CombotantBonuses.MANA_ON_KILL = 47;
+metagame_CombotantBonuses.LIFE_DRAIN_BONUS = 48;
+metagame_CombotantBonuses.BANNER_CORRUPTION_DAMAGE = 49;
+metagame_CombotantBonuses.GOLD_ON_ENEMY_DEATH = 50;
+metagame_CombotantBonuses.BONUSES_COUNT = 51;
+metagame_Edict.W_THE_LORDS_CHURCH = new metagame_Edict("冥主暗堂-解锁魂祭之旗",[new metagame_EdictContent(5,1,"解锁魂祭之旗"),new metagame_EdictContent(6,30,"+30% 旗帜持续时间"),new metagame_EdictContent(49,1,"腐蚀范围内敌军")],0,0);
+metagame_Edict.W_DUCAL_SOVEREIGNITY = new metagame_Edict("冥权统御-解锁基础亡灵",[new metagame_EdictContent(0,0,"解锁基础亡灵"),new metagame_EdictContent(50,20,"亡灵军队击杀敌军小队时 +20 金币"),new metagame_EdictContent(50,40,"亡灵军队击杀敌军小队时 +40 金币")],0,0);
 metagame_Edict.W_CALL_FOR_THE_CRUSADE = new metagame_Edict("暗影号令-解锁亡灵审判",[new metagame_EdictContent(9,1,"解锁冥雷审判"),new metagame_EdictContent(10,15,"+15% 概率直接转化敌方单位"),new metagame_EdictContent(10,30,"+30% 概率直接转化敌方单位")],4);
-metagame_Edict.W_TOWN_GUILDS = new metagame_Edict("亡城行会-步兵转化为僵尸战士",[new metagame_EdictContent(0,1,"将卫兵转化为僵尸战士"),new metagame_EdictContent(11,15,"要塞生命值 +15%"),new metagame_EdictContent(11,30,"要塞生命值 +30%")],4);
+metagame_Edict.W_TOWN_GUILDS = new metagame_Edict("死亡馈能-步兵转化为僵尸战士",[new metagame_EdictContent(0,1,"将卫兵转化为僵尸战士"),new metagame_EdictContent(47,10,"亡灵军队击杀敌军小队时 +10 法力"),new metagame_EdictContent(47,20,"亡灵军队击杀敌军小队时 +20 法力")],4);
 metagame_Edict.W_THE_ZEALOTS_ORDER = new metagame_Edict("冥徒教派-不死刺客转化为阴魂",[new metagame_EdictContent(4,1,"将侍僧转化为冥执者"),new metagame_EdictContent(12,-10,"终极技能冷却 -10%"),new metagame_EdictContent(12,-20,"终极技能冷却 -20%")],7);
 metagame_Edict.W_MECHANICS_RESEARCH = new metagame_Edict("亡械典籍-弓手改造为骷髅弩手",[new metagame_EdictContent(2,1,"将弓手改造为骨弩手"),new metagame_EdictContent(13,10,"弓箭 / 攻城武器伤害 +10%"),new metagame_EdictContent(13,20,"弓箭 / 攻城武器伤害 +20%")],7);
 metagame_Edict.W_HEROIC_EPOS = new metagame_Edict("亡者集结-解锁亡灵召唤",[new metagame_EdictContent(14,1,"解锁亡灵大军"),new metagame_EdictContent(15,7,"召唤两批亡灵部队"),new metagame_EdictContent(15,15,"概率召唤骑兵和魔法士")],11);
-metagame_Edict.W_REGULAR_TOURNAMENTS = new metagame_Edict("暗影试炼-骑士堕化为地狱战骑",[new metagame_EdictContent(1,1,"将骑士堕化为地狱战骑"),new metagame_EdictContent(7,50,"骑兵冲锋造成 2.5 倍伤害"),new metagame_EdictContent(7,100,"骑兵冲锋造成 3 倍伤害")],11);
+metagame_Edict.W_REGULAR_TOURNAMENTS = new metagame_Edict("暗影试炼-骑士堕化为地狱战骑",[new metagame_EdictContent(1,1,"将骑士堕化为地狱战骑"),new metagame_EdictContent(48,25,"攻击附带生命吸取 +25%"),new metagame_EdictContent(7,50,"骑兵冲锋伤害 +50%"),new metagame_EdictContent(48,40,"生命吸取 +40%"),new metagame_EdictContent(7,60,"骑兵冲锋伤害 +60%")],11);
 metagame_Edict.W_LEGION = new metagame_Edict("帝国之怒，强化终极法术， 最多可转化4个敌军",[new metagame_EdictContent(44,4,"墓穴召唤可转化最多4个敌军"),new metagame_EdictContent(45,10,"所有亡灵单位攻击伤害 +10%"),new metagame_EdictContent(46,10,"所有亡灵单位成本 -10%")],15);
 
 
