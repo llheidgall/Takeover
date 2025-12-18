@@ -18845,9 +18845,8 @@ battle_squad_SquadIcon.getIconColorFrame = function(_race) {
 	switch(_race._hx_index) {
 	case 0:
 		throw new js__$Boot_HaxeError("Incompatible type");
-	//// 很难搞，目前唯一方法先把电脑亡灵改成火国， case 1 是亡灵
 	case 1:
-		frameColor = 4; //// 改了这， 把所有电脑亡灵城邦全换成火
+		frameColor = 1; //// change the fream color on edicts page
 		break;
 	case 2:
 		frameColor = 4; 
