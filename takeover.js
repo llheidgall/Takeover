@@ -22973,14 +22973,7 @@ data_LevelInfo.prototype = {
 				enemyPlayers.push(this.createCombotantByRace(battle_CombotantRace.TheCult,0,0,bonusIcedale1));
 				break;
 			case 6:
-				bonusWestaria1.setBonus(43,1);
-				bonusWestaria1.setBonus(41,1);
-				bonusWestaria1.setBonus(2,1);
-				bonusWestaria1.setBonus(0,1);
-				bonusWestaria1.setBonus(25,1);
-				bonusWestaria1.setBonus(4,1);
-				bonusWestaria1.setBonus(3,1);
-				enemyPlayers.push(this.createCombotantByRace(battle_CombotantRace.Westaria,0,0,bonusWestaria1));
+				enemyPlayers.push(this.createCombotantByRace(battle_CombotantRace.Westaria,0,0));
 				bonusIcedale1.setBonus(29,1);
 				bonusIcedale1.setBonus(0,1);
 				bonusIcedale1.setBonus(2,1);
