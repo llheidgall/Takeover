@@ -13915,7 +13915,7 @@ WindowController.getSquadLevelDescription = function(_squadLevel) {
 	}
 	return "Have no any rank bonuses";
 };
-WindowController.initUnitHint = function(_armyStat,_armyStatBonus,hintUnitWindow,_level) {
+WindowController.initUnitHint = function(_armyStat,_armyStatBonus,hintUnitWindow,_level,_squad) {
 	if(_level == null) {
 		_level = 0;
 	}
@@ -13926,8 +13926,34 @@ WindowController.initUnitHint = function(_armyStat,_armyStatBonus,hintUnitWindow
 	}
 	var hintText = "";
 	var name = _armyStat.name.toUpperCase();
+	// Use actual squad data if available, otherwise use template values
 	var unitsCount = _armyStat.unitsCount + _armyStatBonus.addUnit;
+	var currentUnitsCount = unitsCount;
 	var hp = battle_unit_param_UnitParams.calcMaxHealth(_armyStat,_armyStatBonus,_level);
+	var currentHp = hp;
+	var totalHp = hp * unitsCount;
+	if(_squad != null) {
+		// Count alive units
+		currentUnitsCount = 0;
+		var units = _squad.getUnits();
+		var unitIter = units.iterator();
+		while(unitIter.hasNext()) {
+			var unit = unitIter.next();
+			if(unit.isStateDead() == false) {
+				currentUnitsCount++;
+			}
+		}
+		// Get current total HP from squad
+		if(_squad.m_curHealth != null) {
+			totalHp = Math.round(_squad.m_curHealth);
+			// Calculate average HP per unit if we have alive units
+			if(currentUnitsCount > 0) {
+				currentHp = Math.round(totalHp / currentUnitsCount);
+			} else {
+				currentHp = 0;
+			}
+		}
+	}
 	var minDMG = battle_unit_param_UnitParams.calcDmgMin(_armyStat,_armyStatBonus,_level);
 	var maxDMG = battle_unit_param_UnitParams.calcDmgMax(_armyStat,_armyStatBonus,_level);
 	var attackSpd = _armyStat.attackSpeed;
@@ -13946,12 +13972,12 @@ WindowController.initUnitHint = function(_armyStat,_armyStatBonus,hintUnitWindow
 	}
 	iriysoft_helper_Fwh.GetChildT(hintImage,["textUnitName"]).set_htmlText(name);
 	iriysoft_helper_Fwh.GetChildT(hintImage,["textSupplyPts"]).set_htmlText("-" + _armyStat.upkeep);
-	iriysoft_helper_Fwh.GetChildT(hintImage,["textUnitsNum"]).set_htmlText(unitsCount + "单位");
-	iriysoft_helper_Fwh.ChildGotoAndStop(hintImage,["mcUnitNumber"],unitsCount);
-	iriysoft_helper_Fwh.GetChildT(hintImage,["textHp"]).set_htmlText(WindowController.squadLevelColor(_level,hp == null ? "null" : "" + hp));
-	iriysoft_helper_Fwh.GetChildT(hintImage,["textTotalHp"]).set_htmlText(Std.string(hp * unitsCount));
+	iriysoft_helper_Fwh.GetChildT(hintImage,["textUnitsNum"]).set_htmlText(currentUnitsCount + "单位");
+	iriysoft_helper_Fwh.ChildGotoAndStop(hintImage,["mcUnitNumber"],currentUnitsCount);
+	iriysoft_helper_Fwh.GetChildT(hintImage,["textHp"]).set_htmlText(WindowController.squadLevelColor(_level,currentHp == null ? "null" : "" + currentHp));
+	iriysoft_helper_Fwh.GetChildT(hintImage,["textTotalHp"]).set_htmlText(Std.string(totalHp));
 	iriysoft_helper_Fwh.GetChildT(hintImage,["textDamage"]).set_htmlText(WindowController.squadLevelColor(_level,minDMG + " - " + maxDMG));
-	iriysoft_helper_Fwh.GetChildT(hintImage,["textTotalDamage"]).set_htmlText(minDMG * unitsCount + " - " + maxDMG * unitsCount);
+	iriysoft_helper_Fwh.GetChildT(hintImage,["textTotalDamage"]).set_htmlText(minDMG * currentUnitsCount + " - " + maxDMG * currentUnitsCount);
 	var attackSpdText = battle_squad_FSquad.getAttackSpeedText(attackSpd);
 	if(attackSpdText != "" && attackSpdText != null) {
 		var _g2 = iriysoft_helper_Fwh.GetChildT(hintImage,["textDamage"]);
@@ -14018,8 +14044,11 @@ WindowController.prototype = $extend(iriysoft_core_templates_BaseObject.prototyp
 	}
 	,update: function(_timeElapsed) {
 		if(this.m_curWindow != null) {
-			if(this.ref_level.guiMustUpdate() && this.ref_level.player().description.compare(this.m_curWindow.combotantDescription)) {
-				this.m_curWindow.curWindow.updateStats();
+			// Always update stats when GUI needs update to ensure hover info is current
+			if(this.ref_level.guiMustUpdate()) {
+				if(this.ref_level.player().description.compare(this.m_curWindow.combotantDescription)) {
+					this.m_curWindow.curWindow.updateStats();
+				}
 			}
 			if(this.m_curWindow.refreshKNodeState()) {
 				this.clickAtNodeContent(this.m_curWindow.nodeContent,this.ref_level.getCombotants().getObject(this.m_curWindow.combotantDescription));
