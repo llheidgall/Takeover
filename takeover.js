@@ -16142,6 +16142,7 @@ battle_CombotantData.constructArmyStatBonus = function(_armyState,bonuses) {
 	case 3:
 		asb.chargeFactor = bonuses.getBonusAsFactor(7);
 		asb.hpFactor = bonuses.getBonusAsFactor(39);
+		asb.lifeDrainPercent = bonuses.getBonus(48);
 		break;
 	case 4:
 		asb.damageFactor = bonuses.getBonusAsFactor(13);
@@ -16384,6 +16385,14 @@ battle_CombotantData.prototype = {
 	}
 	,youKillSquad: function(_squad) {
 		haxe_Log.trace("youKillSquad " + Std.string(this.m_race),{ fileName : "src/battle/CombotantData.hx", lineNumber : 194, className : "battle.CombotantData", methodName : "youKillSquad"});
+		var manaOnKill = this.bonuses.getBonus(47);
+		if(manaOnKill > 0) {
+			this.addMana(manaOnKill);
+		}
+		var goldOnKill = this.bonuses.getBonus(50);
+		if(goldOnKill > 0) {
+			this.addGold(goldOnKill);
+		}
 		this.missionStats.addStat(battle_stat_PlayerStats.ENEMY_SQUADS_DESTROYED,1);
 	}
 	,treasureCollect: function(_gold) {
@@ -16735,6 +16744,7 @@ var battle_ArmyStatBonus = function() {
 	this.doubleDamagePercent = 0;
 	this.freezeTargetPercent = 0;
 	this.freezeAddTime = 0;
+	this.lifeDrainPercent = 0;
 };
 $hxClasses["battle.ArmyStatBonus"] = battle_ArmyStatBonus;
 battle_ArmyStatBonus.__name__ = "battle.ArmyStatBonus";
@@ -16755,6 +16765,7 @@ battle_ArmyStatBonus.prototype = {
 	,doubleDamagePercent: null
 	,freezeTargetPercent: null
 	,freezeAddTime: null
+	,lifeDrainPercent: null
 	,getHP: function(_hp) {
 		return battle_ArmyStatBonus.getFactorValue(_hp,this.hpFactor);
 	}
@@ -17162,6 +17173,19 @@ battle_squad_UnitSet.prototype = $extend(base_BObject.prototype,{
 	}
 	,onEventDealDamage: function(_eventType,_obj,_param) {
 		this.m_generalParams.addMoraleForEnemyHit();
+		if(this.m_armyStatBonus != null && this.m_armyStatBonus.lifeDrainPercent > 0) {
+			var avgDamage = (this.m_armyStat.dmgMin + this.m_armyStat.dmgMax) / 2;
+			var healAmount = Math.floor(avgDamage * this.m_armyStatBonus.lifeDrainPercent / 100);
+			if(healAmount > 0) {
+				var u = this.m_units.iterator();
+				while(u.hasNext()) {
+					var u1 = u.next();
+					if(u1.isDie() == false && u1.getHealth() < u1.getHealthMax()) {
+						u1.addHealth(healAmount);
+					}
+				}
+			}
+		}
 	}
 	,onChangeMorale: function(_eventType,_obj,_param) {
 		var morale = js_Boot.__cast(_param , battle_squad_MoraleStatus);
@@ -18850,9 +18874,8 @@ battle_squad_SquadIcon.getIconColorFrame = function(_race) {
 	switch(_race._hx_index) {
 	case 0:
 		throw new js__$Boot_HaxeError("Incompatible type");
-	//// 很难搞，目前唯一方法先把电脑亡灵改成火国， case 1 是亡灵
 	case 1:
-		frameColor = 4; //// 改了这， 把所有电脑亡灵城邦全换成火
+		frameColor = 1; //// change the fream color on edicts page
 		break;
 	case 2:
 		frameColor = 4; 
@@ -22946,14 +22969,7 @@ data_LevelInfo.prototype = {
 				enemyPlayers.push(this.createCombotantByRace(battle_CombotantRace.TheCult,0,0,bonusIcedale1));
 				break;
 			case 6:
-				bonusWestaria1.setBonus(43,1);
-				bonusWestaria1.setBonus(41,1);
-				bonusWestaria1.setBonus(2,1);
-				bonusWestaria1.setBonus(0,1);
-				bonusWestaria1.setBonus(25,1);
-				bonusWestaria1.setBonus(4,1);
-				bonusWestaria1.setBonus(3,1);
-				enemyPlayers.push(this.createCombotantByRace(battle_CombotantRace.Westaria,0,0,bonusWestaria1));
+				enemyPlayers.push(this.createCombotantByRace(battle_CombotantRace.Westaria,0,0));
 				bonusIcedale1.setBonus(29,1);
 				bonusIcedale1.setBonus(0,1);
 				bonusIcedale1.setBonus(2,1);
@@ -36709,7 +36725,6 @@ level_KeyNodeContent.prototype = $extend(level_NodeContent.prototype,{
 			this.unitTypeForBy = [0,4];
 			break;
 		}
-		this.m_maxHP = Math.round(this.m_maxHP * _owner.bonuses.getBonusAsFactor(11));
 		this.m_hp = this.m_maxHP;
 	}
 	,m_stateActive: null
@@ -42096,12 +42111,25 @@ level_item_BannerHeal.prototype = $extend(level_item_AnimationEffect.prototype,{
 		var rad = this.m_def_stone.spellData.radius;
 		var pos = this.m_def_stone.spellData.position;
 		var power = this.m_def_stone.spellData.power | 0;
+		var corruptionActive = this.m_def_stone.ref_player.bonuses.getBonus(49) > 0;
+		var corruptionDamage = 0.25;
 		while(iter.hasNext()) {
 			sqd = iter.next();
-			//// 得改一下要不然自己派的亡灵兵不被旗帜加血
-			if((sqd.getRace() == race || sqd.getRace() == battle_CombotantRace.TheEmpire)) {
-				if(sqd.checkUnitAtRadius(pos,rad)) {
+			if(sqd.checkUnitAtRadius(pos,rad)) {
+				//// 得改一下要不然自己派的亡灵兵不被旗帜加血
+				if((sqd.getRace() == race || sqd.getRace() == battle_CombotantRace.TheEmpire)) {
 					sqd.repair(power);
+				} else if(corruptionActive && !this.m_def_stone.ref_player.checkAllySquad(sqd)) {
+					var units = sqd.getUnits();
+					var u = units.iterator();
+					while(u.hasNext()) {
+						var u1 = u.next();
+						if(u1.isDie() == false) {
+							var effSet = [];
+							effSet.push(new battle_unit_param_UnitPropertyEffectPerSecond(u1.getObjectID(),"BANNER_CORRUPTION",battle_unit_param_UnitParams.PRP_HP,1,corruptionDamage,500));
+							u1.m_unitProps.addEffects(effSet);
+						}
+					}
 				}
 			}
 		}
@@ -114380,33 +114408,33 @@ battle_CombotantData.ULTIMATE_MAX_TIME = 200;
 battle_CombotantData.START_GOLD = 0;
 battle_CombotantData.START_MANA = 0;
 //// override the units here, 电脑的好像可以直接改battle_CombotantRace， 但是玩家的只能改数据库, 改了一堆这里
-battle_ArmyStat.UNDYING_WARRIORS_T1_E = new battle_ArmyStat("不死战士",23,battle_CombotantRace.TheEmpire,9,2,5,17,0,0,50,40,100,1,"Undead",1,battle_unit_CombatUnitType.Infantry,0.1,0,0,11,5);
+battle_ArmyStat.UNDYING_WARRIORS_T1_E = new battle_ArmyStat("不死战士",21,battle_CombotantRace.TheEmpire,9,2,5,15,0,0,50,40,100,1,"Undead",1,battle_unit_CombatUnitType.Infantry,0.1,0,0,11,5);
 battle_ArmyStat.armyStatBD.h[1].h[0].h[1] = battle_ArmyStat.UNDYING_WARRIORS_T1_E;
 battle_ArmyStat.WARRIORS_T1_D = new battle_ArmyStat("战士",18,battle_CombotantRace.TheKhaganate,9,3,4,15,0,0,50,50,100,1,"",1,battle_unit_CombatUnitType.Infantry,0.1,0,0,11,5);
 battle_ArmyStat.WARRIORS_T1_D = new battle_ArmyStat("战士",18,battle_CombotantRace.TheKhaganate,9,3,4,15,0,0,50,50,100,1,"",1,battle_unit_CombatUnitType.Infantry,0.1,0,0,11,5);
 battle_ArmyStat.armyStatBD.h[3].h[0].h[1] = battle_ArmyStat.WARRIORS_T1_D;
 
 battle_ArmyStat.REBELS_T1_B = new battle_ArmyStat("叛军",22,battle_CombotantRace.TheCult,9,1,5,16,0,0,50,50,100,1,"LongSpear 50",1,battle_unit_CombatUnitType.Infantry,0.1,0,0,11,5);
-battle_ArmyStat.UNDYING_WARRIORS_T1_E = new battle_ArmyStat("不死战士",23,battle_CombotantRace.TheEmpire,9,2,5,17,0,0,50,50,100,1,"Undead",1,battle_unit_CombatUnitType.Infantry,0.1,0,0,11,5);
+battle_ArmyStat.UNDYING_WARRIORS_T1_E = new battle_ArmyStat("不死战士",21,battle_CombotantRace.TheEmpire,9,2,5,17,0,0,50,50,100,1,"Undead",1,battle_unit_CombatUnitType.Infantry,0.1,0,0,11,5);
 battle_ArmyStat.WARRIORS_T1_D = new battle_ArmyStat("战士",18,battle_CombotantRace.TheKhaganate,9,3,4,15,0,0,50,50,100,1,"",1,battle_unit_CombatUnitType.Infantry,0.1,0,0,11,5);
 battle_ArmyStat.armyStatBD.h[0].h[0].h[1] = battle_ArmyStat.WARRIORS_T1_D;
 battle_ArmyStat.SWORDSMEN_T2_W = new battle_ArmyStat("剑士",36,battle_CombotantRace.Westaria,9,3,4,15,0,0,50,50,100,1,"ShieldWall 15",2,battle_unit_CombatUnitType.Infantry,0.1,0,0,11,5);
-battle_ArmyStat.ZOMBIE_WARRIORS_T2_E = new battle_ArmyStat("僵尸战士",28,battle_CombotantRace.TheEmpire,9,4,7,17,0,0,50,50,100,1,"Undead",2,battle_unit_CombatUnitType.Infantry,0.1,0,0,11,5);
+battle_ArmyStat.ZOMBIE_WARRIORS_T2_E = new battle_ArmyStat("僵尸战士",27,battle_CombotantRace.TheEmpire,9,4,6,17,0,0,50,50,100,1,"Undead",2,battle_unit_CombatUnitType.Infantry,0.1,0,0,11,5);
 battle_ArmyStat.armyStatBD.h[1].h[0].h[2] = battle_ArmyStat.ZOMBIE_WARRIORS_T2_E;
 battle_ArmyStat.IMMORTALS_T2_D = new battle_ArmyStat("不朽者",28,battle_CombotantRace.TheKhaganate,9,4,6,15,0,0,50,50,100,1,"Undead",2,battle_unit_CombatUnitType.Infantry,0.1,0,0,11,5);
 battle_ArmyStat.MYRMIDONS_T2_B = new battle_ArmyStat("冰霜战士",28,battle_CombotantRace.TheCult,9,2,7,16,0,0,50,50,100,1,"LongSpear 50",2,battle_unit_CombatUnitType.Infantry,0.1,0,0,11,5);
-battle_ArmyStat.ZOMBIE_WARRIORS_T2_E = new battle_ArmyStat("僵尸战士",26,battle_CombotantRace.TheEmpire,9,3,5,17,0,0,50,50,100,1,"Undead",2,battle_unit_CombatUnitType.Infantry,0.1,0,0,11,5)
+battle_ArmyStat.ZOMBIE_WARRIORS_T2_E = new battle_ArmyStat("僵尸战士",27,battle_CombotantRace.TheEmpire,9,4,6,16,0,0,50,50,100,1,"Undead",2,battle_unit_CombatUnitType.Infantry,0.1,0,0,11,5)
 battle_ArmyStat.IMMORTALS_T2_D = new battle_ArmyStat("不朽者",28,battle_CombotantRace.TheKhaganate,9,4,6,15,0,0,50,50,100,1,"Undead",2,battle_unit_CombatUnitType.Infantry,0.1,0,0,11,5);
 battle_ArmyStat.armyStatBD.h[0].h[0].h[2] = battle_ArmyStat.IMMORTALS_T2_D;
-battle_ArmyStat.UNDYING_ARCHERS_T1_E = new battle_ArmyStat("不死弓手",17,battle_CombotantRace.TheEmpire,9,5,9,30,100,70,50,40,120,1,"Undead",1,battle_unit_CombatUnitType.Archers,0.1,0,0,11,10);
+battle_ArmyStat.UNDYING_ARCHERS_T1_E = new battle_ArmyStat("不死弓手",16,battle_CombotantRace.TheEmpire,9,5,9,30,100,70,50,40,120,1,"Undead",1,battle_unit_CombatUnitType.Archers,0.1,0,0,11,10);
 battle_ArmyStat.armyStatBD.h[1].h[1].h[1] = battle_ArmyStat.UNDYING_ARCHERS_T1_E;
 battle_ArmyStat.HUNTERS_T1_D = new battle_ArmyStat("猎人",15,battle_CombotantRace.TheKhaganate,9,4,10,30,100,70,50,40,120,1,"Poisonous 1",1,battle_unit_CombatUnitType.Archers,0.1,0,0,11,10);
 battle_ArmyStat.GUNSMITHS_T1_B = new battle_ArmyStat("火枪兵",14,battle_CombotantRace.TheCult,9,2,8,20,115,70,50,40,120,1,"",1,battle_unit_CombatUnitType.Archers,0.05,25,25,11,3);
-battle_ArmyStat.UNDYING_ARCHERS_T1_E = new battle_ArmyStat("不死弓手",12,battle_CombotantRace.TheEmpire,9,4,8,30,100,70,50,40,120,1,"Undead",1,battle_unit_CombatUnitType.Archers,0.1,0,0,11,10);
+battle_ArmyStat.UNDYING_ARCHERS_T1_E = new battle_ArmyStat("不死弓手",12,battle_CombotantRace.TheEmpire,9,4,8,26,100,70,50,40,120,1,"Undead",1,battle_unit_CombatUnitType.Archers,0.1,0,0,11,10);
 battle_ArmyStat.HUNTERS_T1_D = new battle_ArmyStat("猎人",15,battle_CombotantRace.TheKhaganate,9,4,10,30,100,70,50,40,120,1,"Poisonous 1",1,battle_unit_CombatUnitType.Archers,0.1,0,0,11,10);
 battle_ArmyStat.armyStatBD.h[0].h[1].h[1] = battle_ArmyStat.HUNTERS_T1_D;
 battle_ArmyStat.CROSSBOWMEN_T2_W = new battle_ArmyStat("弩手",22,battle_CombotantRace.Westaria,9,8,10,30,100,70,50,40,120,1,"",2,battle_unit_CombatUnitType.Archers,0.1,0,0,11,10);
-battle_ArmyStat.SKELETON_ARCHERS_T2_E = new battle_ArmyStat("骷髅射手",20,battle_CombotantRace.TheEmpire,9,7,13,30,100,70,50,40,120,1,"Undead",2,battle_unit_CombatUnitType.Archers,0.1,0,0,11,10);
+battle_ArmyStat.SKELETON_ARCHERS_T2_E = new battle_ArmyStat("骷髅射手",19,battle_CombotantRace.TheEmpire,9,7,12,25,100,70,50,40,120,1,"Undead",2,battle_unit_CombatUnitType.Archers,0.1,0,0,11,10);
 battle_ArmyStat.armyStatBD.h[1].h[1].h[2] = battle_ArmyStat.SKELETON_ARCHERS_T2_E;
 battle_ArmyStat.SERPENT_ARCHERS_T2_D = new battle_ArmyStat("蛇弓手",18,battle_CombotantRace.TheKhaganate,9,7,14,30,100,70,50,40,120,1,"Poisonous 2",2,battle_unit_CombatUnitType.Archers,0.1,0,0,11,10);
 battle_ArmyStat.GUNBOTS_T2_B = new battle_ArmyStat("机器射手",27,battle_CombotantRace.TheCult,6,8,14,20,115,70,50,40,120,1,"Mechanism",2,battle_unit_CombatUnitType.Archers,0.15,25,10,11,3);
@@ -114415,7 +114443,7 @@ battle_ArmyStat.SERPENT_ARCHERS_T2_D = new battle_ArmyStat("蛇弓手",18,battle
 battle_ArmyStat.armyStatBD.h[0].h[1].h[2] = battle_ArmyStat.SERPENT_ARCHERS_T2_D;
 battle_ArmyStat.GIANTBOTS_T3_B = new battle_ArmyStat("巨型机械",200,battle_CombotantRace.TheCult,1,30,50,10,115,0,50,40,120,1,"Mechanism;MartialArtists",3,battle_unit_CombatUnitType.Archers,0.15,55,15,11,3);
 battle_ArmyStat.KNIGHTS_T1_W = new battle_ArmyStat("骑士",58,battle_CombotantRace.Westaria,5,5,8,15,0,0,50,60,180,1,"Charge 2",1,battle_unit_CombatUnitType.Cavalry,0.01,0,0,15.5,5);
-battle_ArmyStat.UNDYING_HORSEMEN_T1_E = new battle_ArmyStat("不死骑兵",60,battle_CombotantRace.TheEmpire,5,6,10,17,0,0,50,60,180,1,"Charge 2;Undead",1,battle_unit_CombatUnitType.Cavalry,0.01,0,0,15.5,5);
+battle_ArmyStat.UNDYING_HORSEMEN_T1_E = new battle_ArmyStat("不死骑兵",58,battle_CombotantRace.TheEmpire,5,6,9,17,0,0,50,60,180,1,"Charge 2;Undead",1,battle_unit_CombatUnitType.Cavalry,0.01,0,0,15.5,5);
 battle_ArmyStat.armyStatBD.h[1].h[2].h[1] = battle_ArmyStat.UNDYING_HORSEMEN_T1_E;
 battle_ArmyStat.NOMADS_T1_D = new battle_ArmyStat("游牧骑兵",40,battle_CombotantRace.TheKhaganate,7,4,7,15,0,0,50,60,180,1,"Charge 2",1,battle_unit_CombatUnitType.Cavalry,0.01,0,0,15.5,5);
 battle_ArmyStat.LANCERS_T1_B = new battle_ArmyStat("枪骑兵",54,battle_CombotantRace.TheCult,5,4,10,17,0,0,50,60,180,1,"Charge 2",1,battle_unit_CombatUnitType.Cavalry,0.01,0,0,15.5,5);
@@ -114423,11 +114451,11 @@ battle_ArmyStat.UNDYING_HORSEMEN_T1_E = new battle_ArmyStat("不死骑兵",54,ba
 battle_ArmyStat.NOMADS_T1_D = new battle_ArmyStat("游牧骑兵",40,battle_CombotantRace.TheKhaganate,7,4,7,15,0,0,50,60,180,1,"Charge 2",1,battle_unit_CombatUnitType.Cavalry,0.01,0,0,15.5,5);
 battle_ArmyStat.armyStatBD.h[0].h[2].h[1] = battle_ArmyStat.NOMADS_T1_D;
 battle_ArmyStat.CHAMPIONS_T2_W = new battle_ArmyStat("冠军骑兵",72,battle_CombotantRace.Westaria,5,6,9,15,0,0,50,60,180,1,"Charge 2",2,battle_unit_CombatUnitType.Cavalry,0.01,0,0,15.5,5);
-battle_ArmyStat.DARK_KNIGHTS_T2_E = new battle_ArmyStat("地狱战骑",76,battle_CombotantRace.TheEmpire,5,9,12,17,0,0,50,60,180,1,"Charge 2;Undead",2,battle_unit_CombatUnitType.Cavalry,0.01,0,0,15.5,5);
+battle_ArmyStat.DARK_KNIGHTS_T2_E = new battle_ArmyStat("地狱战骑",75,battle_CombotantRace.TheEmpire,5,8,12,17,0,0,50,60,180,1,"Charge 2;Undead",2,battle_unit_CombatUnitType.Cavalry,0.01,0,0,15.5,5);
 battle_ArmyStat.armyStatBD.h[1].h[2].h[2] = battle_ArmyStat.DARK_KNIGHTS_T2_E;
 battle_ArmyStat.RAIDERS_T2_D = new battle_ArmyStat("掠夺者骑兵",48,battle_CombotantRace.TheKhaganate,7,5,8,15,0,0,50,60,180,1,"Charge 2;Intimidiation 20",2,battle_unit_CombatUnitType.Cavalry,0.01,0,0,15.5,5);
 battle_ArmyStat.DRAGON_LANCERS_T2_B = new battle_ArmyStat("龙骑士",67,battle_CombotantRace.TheCult,5,6,11,17,0,0,50,60,180,1,"Charge 2",2,battle_unit_CombatUnitType.Cavalry,0.01,0,0,15.5,5);
-battle_ArmyStat.DARK_KNIGHTS_T2_E = new battle_ArmyStat("地狱战骑",67,battle_CombotantRace.TheEmpire,5,6,10,17,0,0,50,60,180,1,"Charge 2;Undead",2,battle_unit_CombatUnitType.Cavalry,0.01,0,0,15.5,5);
+battle_ArmyStat.DARK_KNIGHTS_T2_E = new battle_ArmyStat("地狱战骑",75,battle_CombotantRace.TheEmpire,5,8,12,17,0,0,50,60,180,1,"Charge 2;Undead",2,battle_unit_CombatUnitType.Cavalry,0.01,0,0,15.5,5);
 battle_ArmyStat.RAIDERS_T2_D = new battle_ArmyStat("掠夺者骑兵",48,battle_CombotantRace.TheKhaganate,7,5,8,15,0,0,50,60,180,1,"Charge 2;Intimidiation 20",2,battle_unit_CombatUnitType.Cavalry,0.01,0,0,15.5,5);
 battle_ArmyStat.armyStatBD.h[0].h[2].h[2] = battle_ArmyStat.RAIDERS_T2_D;
 battle_ArmyStat.ANCIENT_RAIDERS_T3_D = new battle_ArmyStat("古代亡骑",75,battle_CombotantRace.TheKhaganate,5,7,12,15,0,0,50,60,180,1,"Charge 2;Intimidiation 20;Undead",3,battle_unit_CombatUnitType.Cavalry,0.001,0,0,15.5,5);
@@ -114441,7 +114469,7 @@ battle_ArmyStat.POISON_CATAPULT_T2_D = new battle_ArmyStat("毒性投石机",600
 battle_ArmyStat.POISON_CATAPULT_T2_E = new battle_ArmyStat("毒性投石机",600,battle_CombotantRace.TheEmpire,1,20,35,50,200,100,50,20,200,1,"Mechanism;SplashDamage 25;SiegeWeapon 50;Poisonous 2",2,battle_unit_CombatUnitType.Siege,0.3,50,0,11,10);
 battle_ArmyStat.POISON_CATAPULT_T2_D = new battle_ArmyStat("毒性投石机",600,battle_CombotantRace.TheKhaganate,1,20,35,50,200,100,50,20,200,2,"Mechanism;SplashDamage 25;SiegeWeapon 50;Poisonous 2",2,battle_unit_CombatUnitType.Siege,0.3,50,0,11,10);
 battle_ArmyStat.armyStatBD.h[0].h[3].h[2] = battle_ArmyStat.POISON_CATAPULT_T2_D;
-battle_ArmyStat.POISON_CATAPULT_T2_E = new battle_ArmyStat("毒性投石机",600,battle_CombotantRace.TheEmpire,1,20,35,50,200,100,50,20,200,1,"Mechanism;SplashDamage 25;SiegeWeapon 50;Poisonous 2",2,battle_unit_CombatUnitType.Siege,0.3,50,0,11,10);
+battle_ArmyStat.POISON_CATAPULT_T2_E = new battle_ArmyStat("毒性投石机",600,battle_CombotantRace.TheEmpire,1,20,35,50,200,100,50,20,200,2,"Mechanism;SplashDamage 25;SiegeWeapon 50;Poisonous 2",2,battle_unit_CombatUnitType.Siege,0.3,50,0,11,10);
 battle_ArmyStat.armyStatBD.h[1].h[3].h[1] = battle_ArmyStat.POISON_CATAPULT_T2_E;
 battle_ArmyStat.MONKS_T1_W = new battle_ArmyStat("僧侣",65,battle_CombotantRace.Westaria,6,5,6,15,0,0,50,40,150,1,"DivinePresence 10",1,battle_unit_CombatUnitType.Magic,0.1,0,0,11,5);
 battle_ArmyStat.UNDYING_ASSASSINS_T1_E = new battle_ArmyStat("不死刺客",125,battle_CombotantRace.TheEmpire,3,6,12,15,0,0,50,40,150,1,"Undead;HorrificDash 8;Intimidiation 10",1,battle_unit_CombatUnitType.Magic,0.1,0,0,11,5);
@@ -114455,10 +114483,10 @@ battle_ArmyStat.ZEALOTS_T2_W = new battle_ArmyStat("狂热信徒",75,battle_Comb
 battle_ArmyStat.SHADES_T2_E = new battle_ArmyStat("阴魂",135,battle_CombotantRace.TheEmpire,3,11,18,15,0,0,50,40,150,1,"Undead;HorrificDash 4;Intimidiation 15",2,battle_unit_CombatUnitType.Magic,0.1,0,0,11,5);
 battle_ArmyStat.armyStatBD.h[1].h[4].h[2] = battle_ArmyStat.SHADES_T2_E;
 battle_ArmyStat.WIZARDS_T2_B = new battle_ArmyStat("冰巫师",65,battle_CombotantRace.TheCult,6,12,18,25,100,50,50,40,150,1,"FreezeBlast 40",2,battle_unit_CombatUnitType.Magic,0.1,55,0,11,5);
-battle_ArmyStat.SHADES_T2_E = new battle_ArmyStat("阴魂",135,battle_CombotantRace.TheEmpire,3,12,20,15,0,0,50,40,150,1,"Undead;HorrificDash 4;Intimidiation 15",2,battle_unit_CombatUnitType.Magic,0.1,0,0,11,5);
+battle_ArmyStat.SHADES_T2_E = new battle_ArmyStat("阴魂",135,battle_CombotantRace.TheEmpire,3,11,18,15,0,0,50,40,150,1,"Undead;HorrificDash 4;Intimidiation 15",2,battle_unit_CombatUnitType.Magic,0.1,0,0,11,5);
 battle_ArmyStat.ASSASSINS_T1_D = new battle_ArmyStat("刺客",120,battle_CombotantRace.TheKhaganate,3,8,16,15,0,0,50,40,150,1,"HorrificDash 5;PoisonImmunity;Discipline",1,battle_unit_CombatUnitType.Magic,0.1,0,0,11,5);
 battle_ArmyStat.armyStatBD.h[0].h[4].h[2] = battle_ArmyStat.ASSASSINS_T1_D;
-// Fix, idk why these ones got overriden
+// Fix, idk why this one got overriden
 battle_ArmyStat.WARRIORS_T1_D = new battle_ArmyStat("战士",18,battle_CombotantRace.TheKhaganate,9,3,4,15,0,0,50,50,100,1,"",1,battle_unit_CombatUnitType.Infantry,0.1,0,0,11,5);
 battle_ArmyStat.armyStatBD.h[3].h[0].h[1] = battle_ArmyStat.WARRIORS_T1_D;
 battle_ArmyStat.POISON_CATAPULT_T2_D = new battle_ArmyStat("毒性投石机",600,battle_CombotantRace.TheKhaganate,1,20,35,50,200,100,50,20,200,2,"Mechanism;SplashDamage 25;SiegeWeapon 50;Poisonous 2",2,battle_unit_CombatUnitType.Siege,0.3,50,0,11,10);
@@ -116210,15 +116238,19 @@ metagame_CombotantBonuses.UNLOCK_BANNER_OF_DESECRATION = 43;
 metagame_CombotantBonuses.CALL_OF_THE_GRAVE_MAX_UNITS = 44;
 metagame_CombotantBonuses.UNDEAD_DAMAGE_BONUS = 45;
 metagame_CombotantBonuses.UNDEAD_COST_REDUCTION = 46;
-metagame_CombotantBonuses.BONUSES_COUNT = 47;
-metagame_Edict.W_THE_LORDS_CHURCH = new metagame_Edict("冥主暗堂-解锁魂祭之旗",[new metagame_EdictContent(5,1,"解锁魂祭之旗"),new metagame_EdictContent(6,25,"+25% 旗帜持续时间"),new metagame_EdictContent(6,50,"+50% 旗帜持续时间")],0,0);
-metagame_Edict.W_DUCAL_SOVEREIGNITY = new metagame_Edict("冥权统御-解锁基础亡灵",[new metagame_EdictContent(0,0,"解锁基础亡灵"),new metagame_EdictContent(8,75,"任务开始时 +75 金币"),new metagame_EdictContent(8,150,"任务开始时 +150 金币")],0,0);
+metagame_CombotantBonuses.MANA_ON_KILL = 47;
+metagame_CombotantBonuses.LIFE_DRAIN_BONUS = 48;
+metagame_CombotantBonuses.BANNER_CORRUPTION_DAMAGE = 49;
+metagame_CombotantBonuses.GOLD_ON_ENEMY_DEATH = 50;
+metagame_CombotantBonuses.BONUSES_COUNT = 51;
+metagame_Edict.W_THE_LORDS_CHURCH = new metagame_Edict("冥主暗堂-解锁魂祭之旗",[new metagame_EdictContent(5,1,"解锁魂祭之旗"),new metagame_EdictContent(6,30,"+30% 旗帜持续时间"),new metagame_EdictContent(49,1,"腐蚀范围内敌军")],0,0);
+metagame_Edict.W_DUCAL_SOVEREIGNITY = new metagame_Edict("冥权统御-解锁基础亡灵",[new metagame_EdictContent(0,0,"解锁基础亡灵"),new metagame_EdictContent(50,20,"亡灵军队击杀敌军小队时 +20 金币"),new metagame_EdictContent(50,40,"亡灵军队击杀敌军小队时 +40 金币")],0,0);
 metagame_Edict.W_CALL_FOR_THE_CRUSADE = new metagame_Edict("暗影号令-解锁亡灵审判",[new metagame_EdictContent(9,1,"解锁冥雷审判"),new metagame_EdictContent(10,15,"+15% 概率直接转化敌方单位"),new metagame_EdictContent(10,30,"+30% 概率直接转化敌方单位")],4);
-metagame_Edict.W_TOWN_GUILDS = new metagame_Edict("亡城行会-步兵转化为僵尸战士",[new metagame_EdictContent(0,1,"将卫兵转化为僵尸战士"),new metagame_EdictContent(11,15,"要塞生命值 +15%"),new metagame_EdictContent(11,30,"要塞生命值 +30%")],4);
+metagame_Edict.W_TOWN_GUILDS = new metagame_Edict("死亡馈能-步兵转化为僵尸战士",[new metagame_EdictContent(0,1,"将卫兵转化为僵尸战士"),new metagame_EdictContent(47,10,"亡灵军队击杀敌军小队时 +10 法力"),new metagame_EdictContent(47,20,"亡灵军队击杀敌军小队时 +20 法力")],4);
 metagame_Edict.W_THE_ZEALOTS_ORDER = new metagame_Edict("冥徒教派-不死刺客转化为阴魂",[new metagame_EdictContent(4,1,"将侍僧转化为冥执者"),new metagame_EdictContent(12,-10,"终极技能冷却 -10%"),new metagame_EdictContent(12,-20,"终极技能冷却 -20%")],7);
 metagame_Edict.W_MECHANICS_RESEARCH = new metagame_Edict("亡械典籍-弓手改造为骷髅弩手",[new metagame_EdictContent(2,1,"将弓手改造为骨弩手"),new metagame_EdictContent(13,10,"弓箭 / 攻城武器伤害 +10%"),new metagame_EdictContent(13,20,"弓箭 / 攻城武器伤害 +20%")],7);
 metagame_Edict.W_HEROIC_EPOS = new metagame_Edict("亡者集结-解锁亡灵召唤",[new metagame_EdictContent(14,1,"解锁亡灵大军"),new metagame_EdictContent(15,7,"召唤两批亡灵部队"),new metagame_EdictContent(15,15,"概率召唤骑兵和魔法士")],11);
-metagame_Edict.W_REGULAR_TOURNAMENTS = new metagame_Edict("暗影试炼-骑士堕化为地狱战骑",[new metagame_EdictContent(1,1,"将骑士堕化为地狱战骑"),new metagame_EdictContent(7,50,"骑兵冲锋造成 2.5 倍伤害"),new metagame_EdictContent(7,100,"骑兵冲锋造成 3 倍伤害")],11);
+metagame_Edict.W_REGULAR_TOURNAMENTS = new metagame_Edict("暗影试炼-骑士堕化为地狱战骑",[new metagame_EdictContent(1,1,"将骑士堕化为地狱战骑"),new metagame_EdictContent(48,25,"攻击附带生命吸取 +25%"),new metagame_EdictContent(7,50,"骑兵冲锋伤害 +50%"),new metagame_EdictContent(48,40,"生命吸取 +40%"),new metagame_EdictContent(7,60,"骑兵冲锋伤害 +60%")],11);
 metagame_Edict.W_LEGION = new metagame_Edict("帝国之怒，强化终极法术， 最多可转化4个敌军",[new metagame_EdictContent(44,4,"墓穴召唤可转化最多4个敌军"),new metagame_EdictContent(45,10,"所有亡灵单位攻击伤害 +10%"),new metagame_EdictContent(46,10,"所有亡灵单位成本 -10%")],15);
 
 
