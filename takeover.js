@@ -8477,11 +8477,8 @@ Hlp.playDeadSound = function(_unitArmyStat) {
 	case battle_ArmyStat.DRAGON_LANCERS_T2_B:
 		return Hlp.playSoundID(124);
 	case battle_ArmyStat.GIANTBOTS_T3_B:
-		return Hlp.playSoundID(125);
 	case battle_ArmyStat.GUNBOTS_T2_B:
-		break;
-	case battle_ArmyStat.IMMORTALS_T2_D:
-		break;
+		return Hlp.playSoundID(125);
 	case battle_ArmyStat.OGRE_T1_N:
 		return Hlp.playSoundID(129);
 	case battle_ArmyStat.SKELETON_ARCHERS_T2_E:
@@ -8511,9 +8508,8 @@ Hlp.playSendSound = function(_unitArmyStat) {
 	case battle_ArmyStat.DRAGON_LANCERS_T2_B:
 		return Hlp.playSoundID(137);
 	case battle_ArmyStat.GIANTBOTS_T3_B:
-		return Hlp.playSoundID(135);
 	case battle_ArmyStat.GUNBOTS_T2_B:
-		break;
+		return Hlp.playSoundID(135);
 	default:
 	}
 	switch(_unitArmyStat.unitType._hx_index) {
@@ -8605,7 +8601,7 @@ Hlp.playMoraleSound = function(_unitArmyStat,_moraleStatus) {
 	return -1;
 };
 Hlp.playSupplyBuildSound = function(_type,_race) {
-	if(_type == level_SupplyBuildingType.Village && _race == battle_CombotantRace.TheEmpire) {
+	if(_type == level_SupplyBuildingType.Village && _race == battle_CombotantRace.Westaria) {
 		return Hlp.playSoundID(163);
 	}
 	switch(_type._hx_index) {
