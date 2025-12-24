@@ -22869,7 +22869,7 @@ data_LevelInfo.prototype = {
 				bonusHorde1.setBonus(1,1);
 				bonusHorde1.setBonus(20,1);
 				bonusHorde1.setBonus(0,1);
-				bonusHorde1.serBonus(2,1);
+				bonusHorde1.setBonus(2,1);
 				enemyPlayers.push(this.createCombotantByRace(battle_CombotantRace.TheKhaganate,100,0,bonusHorde1));
 				break;
 			case 6:
