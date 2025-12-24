@@ -38007,7 +38007,10 @@ level_LevelData.prototype = $extend(base_BObject.prototype,{
 	,onEventCreateSplashDamage: function(_eventType,_obj,_param) {
 		this.createSplashDamage(_param,null);
 	}
-	,createSplashDamageToKeyNode: function(_position,_radius,_damage,_plrDesr) {
+	,createSplashDamageToKeyNode: function(_position,_radius,_damage,_plrDesr,_excludeRed) {
+		if(_excludeRed == null) {
+			_excludeRed = false;
+		}
 		var plrDesr = _plrDesr;
 		var p = _position;
 		var dist2;
@@ -38017,6 +38020,12 @@ level_LevelData.prototype = $extend(base_BObject.prototype,{
 			var kn1 = kn.next();
 			if(kn1.isDie() || _plrDesr != null && plrDesr.compare(kn1.owner)) {
 				continue;
+			}
+			if(_excludeRed) {
+				var keyNodeOwner = this.m_combotants.getObject(kn1.owner);
+				if(keyNodeOwner != null && keyNodeOwner.getRace() == battle_CombotantRace.TheKhaganate) {
+					continue;
+				}
 			}
 			dist2 = p.getDistanceTo(kn1.getPosition(),true) - kn1.getRadius() * kn1.getRadius();
 			if(dist2 <= radius2) {
@@ -38091,12 +38100,15 @@ level_LevelData.prototype = $extend(base_BObject.prototype,{
 			}
 		}
 	}
-	,createSplashDamage: function(_splData,_race,_lockPush,_unlockSelfDamage) {
+	,createSplashDamage: function(_splData,_race,_lockPush,_unlockSelfDamage,_excludeRed) {
 		if(_unlockSelfDamage == null) {
 			_unlockSelfDamage = false;
 		}
 		if(_lockPush == null) {
 			_lockPush = false;
+		}
+		if(_excludeRed == null) {
+			_excludeRed = false;
 		}
 		var unitOwner = js_Boot.__cast(base_BObject.getObjectPtr(_splData.ownerID) , battle_unit_CombatUnit);
 		var squadOwnerID = -1;
@@ -38115,6 +38127,9 @@ level_LevelData.prototype = $extend(base_BObject.prototype,{
 		while(sqd1.hasNext()) {
 			var sqd2 = sqd1.next();
 			if(_unlockSelfDamage == false && sqd2.getRace() == squadOwnerRace) {
+				continue;
+			}
+			if(_excludeRed && sqd2.getRace() == battle_CombotantRace.TheKhaganate) {
 				continue;
 			}
 			var u = sqd2.getUnits().iterator();
@@ -40151,11 +40166,11 @@ level_Level.prototype = $extend(level_LevelVisual.prototype,{
 		splashData.ownerID = -1;
 		splashData.radius = _spell.radius;
 		splashData.position = new base_Position(position.x,position.y);
-		this.createSplashDamage(splashData,_spell.race,true,true);
-		this.createSplashDamageToKeyNode(position,_spell.radius,dmg / 2 | 0,null);
+		this.createSplashDamage(splashData,_spell.race,true,true,true);
+		this.createSplashDamageToKeyNode(position,_spell.radius,dmg / 2 | 0,null,true);
 		////火国放大招bug
 		var combotant = this.seekCombotantByRace(_spell.race);
-		this.createSplashDamageToKeyNode(position,_spell.radius,dmg / 2 | 0,combotant != null ? combotant.description : null);
+		this.createSplashDamageToKeyNode(position,_spell.radius,dmg / 2 | 0,combotant != null ? combotant.description : null,true);
 		var anim = Hlp.WrapBattleDataV("CraterFromExplosionClass",position.x,position.y);
 		var vEff = new level_item_VisualEffect(level_item_VisualEffectDef.create(anim,7));
 		this.addVisualEffect(vEff,0);
