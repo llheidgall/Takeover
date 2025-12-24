@@ -22834,67 +22834,70 @@ data_LevelInfo.prototype = {
 				enemyPlayers.push(this.createCombotantByRace(battle_CombotantRace.TheEmpire,0,0));
 				break;
 			case 1:
-				bonusHorde1.setBonus(17,0);
+				bonusHorde1.setBonus(17,2);
 				enemyPlayers.push(this.createCombotantByRace(battle_CombotantRace.TheKhaganate,0,0));
 				break;
 			case 2:
-				bonusEmpire1.setBonus(41,1);
-				enemyPlayers.push(this.createCombotantByRace(battle_CombotantRace.TheEmpire,0,0,bonusEmpire1));
+				bonusHorde1.setBonus(17,2);
+				bonusHorde1.setBonus(20,2);
+				enemyPlayers.push(this.createCombotantByRace(battle_CombotantRace.TheKhaganate,0,0,bonusHorde1));
 				break;
 			case 3:
-				bonusEmpire1.setBonus(43,1);
-				bonusEmpire1.setBonus(41,1);
-				bonusEmpire1.setBonus(2,1);
-				enemyPlayers.push(this.createCombotantByRace(battle_CombotantRace.TheEmpire,0,0,bonusEmpire1));
+				bonusHorde1.setBonus(17,2);
+				bonusHorde1.setBonus(20,2);
+				bonusHorde1.setBonus(1,1);
+				bonusHorde1.setBonus(0,1);
+				enemyPlayers.push(this.createCombotantByRace(battle_CombotantRace.TheKhaganate,0,0,bonusHorde1));
 				bonusIcedale1.setBonus(29,1);
 				bonusIcedale1.setBonus(0,1);
 				bonusIcedale1.setBonus(2,1);
 				enemyPlayers.push(this.createCombotantByRace(battle_CombotantRace.TheCult,0,0,bonusIcedale1));
 				break;
 			case 4:
-				bonusEmpire1.setBonus(43,1);
-				bonusEmpire1.setBonus(41,1);
-				bonusEmpire1.setBonus(2,1);
-				bonusEmpire1.setBonus(0,1);
-				enemyPlayers.push(this.createCombotantByRace(battle_CombotantRace.TheCult,0,0,bonusIcedale1));
+				bonusIcedale1.setBonus(29,1);
+				bonusIcedale1.setBonus(0,1);
+				bonusIcedale1.setBonus(2,1);
+				enemyPlayers.push(this.createCombotantByRace(battle_CombotantRace.TheCult,100,0,bonusIcedale1));
 				bonusHorde1.setBonus(17,1);
 				bonusHorde1.setBonus(1,1);
 				bonusHorde1.setBonus(20,1);
-				enemyPlayers.push(this.createCombotantByRace(battle_CombotantRace.TheKhaganate,0,0,bonusHorde1));
+				bonusHorde1.setBonus(0,1);
+				enemyPlayers.push(this.createCombotantByRace(battle_CombotantRace.TheKhaganate,100,0,bonusHorde1));
 				break;
 			case 5:
 				bonusHorde1.setBonus(17,1);
 				bonusHorde1.setBonus(1,1);
 				bonusHorde1.setBonus(20,1);
 				bonusHorde1.setBonus(0,1);
-				enemyPlayers.push(this.createCombotantByRace(battle_CombotantRace.TheKhaganate,0,0,bonusHorde1));
+				bonusHorde1.serBonus(2,1);
+				enemyPlayers.push(this.createCombotantByRace(battle_CombotantRace.TheKhaganate,100,0,bonusHorde1));
 				break;
 			case 6:
-				bonusEmpire1.setBonus(43,1);
-				bonusEmpire1.setBonus(41,1);
-				bonusEmpire1.setBonus(2,1);
-				bonusEmpire1.setBonus(0,1);
-				bonusEmpire1.setBonus(25,1);
-				bonusEmpire1.setBonus(4,1);
-				bonusEmpire1.setBonus(3,1);
-				enemyPlayers.push(this.createCombotantByRace(battle_CombotantRace.TheEmpire,0,0,bonusEmpire1));
+				bonusHorde1.setBonus(17,2);
+				bonusHorde1.setBonus(20,2);
+				bonusHorde1.setBonus(1,1);
+				bonusHorde1.setBonus(0,1);
+				bonusHorde1.setBonus(2,1);
+				enemyPlayers.push(this.createCombotantByRace(battle_CombotantRace.TheKhaganate,100,0,bonusHorde1));
 				bonusIcedale1.setBonus(29,1);
 				bonusIcedale1.setBonus(0,1);
-				bonusIcedale1.setBonus(2,1);
+				bonusIcedale1.setBonus(2,2);
 				bonusIcedale1.setBonus(34,1);
 				bonusIcedale1.setBonus(4,1);
-				enemyPlayers.push(this.createCombotantByRace(battle_CombotantRace.TheCult,0,0,bonusIcedale1));
+				bonusIcedale1.setBonus(1,1);
+				enemyPlayers.push(this.createCombotantByRace(battle_CombotantRace.TheCult,100,0,bonusIcedale1));
 				break;
 			case 7:
-				bonusEmpire1.setBonus(43,1);
-				bonusEmpire1.setBonus(41,1);
-				bonusEmpire1.setBonus(2,1);
-				bonusEmpire1.setBonus(0,1);
-				bonusEmpire1.setBonus(25,1);
-				bonusEmpire1.setBonus(4,1);
-				bonusEmpire1.setBonus(3,1);
-				bonusEmpire1.setBonus(1,1);
-				enemyPlayers.push(this.createCombotantByRace(battle_CombotantRace.TheEmpire,0,0,bonusEmpire1));
+				bonusHorde1.setBonus(17,1);
+				bonusHorde1.setBonus(19,1);
+				bonusHorde1.setBonus(20,1);
+				bonusHorde1.setBonus(20,1);
+				bonusHorde1.setBonus(21,1);
+				bonusHorde1.setBonus(1,2);
+				bonusHorde1.setBonus(0,1);
+				bonusHorde1.setBonus(2,1);
+				bonusHorde1.setBonus(3,1);
+				enemyPlayers.push(this.createCombotantByRace(battle_CombotantRace.TheKhaganate,100,0,bonusHorde1));
 				break;
 			}
 			break;
@@ -22913,8 +22916,9 @@ data_LevelInfo.prototype = {
 				enemyPlayers.push(this.createCombotantByRace(battle_CombotantRace.TheCult,0,0,bonusIcedale1));
 				break;
 			case 3:
-				bonusWestaria1.setBonus(43,1);
-				bonusWestaria1.setBonus(41,1);
+				bonusWestaria1.setBonus(5,1);
+				bonusWestaria1.setBonus(9,1);
+				bonusWestaria1.setBonus(2,1);
 				enemyPlayers.push(this.createCombotantByRace(battle_CombotantRace.Westaria,0,0,bonusWestaria1));
 				break;
 			case 4:
@@ -22933,19 +22937,31 @@ data_LevelInfo.prototype = {
 				bonusIcedale1.setBonus(0,1);
 				bonusIcedale1.setBonus(2,1);
 				bonusIcedale1.setBonus(34,1);
-				enemyPlayers.push(this.createCombotantByRace(battle_CombotantRace.TheCult,0,0,bonusIcedale1));
+				enemyPlayers.push(this.createCombotantByRace(battle_CombotantRace.TheCult,100,0,bonusIcedale1));
 				break;
 			case 6:
-				enemyPlayers.push(this.createCombotantByRace(battle_CombotantRace.Westaria,0,0));
+				bonusWestaria1.setBonus(5,1);
+				bonusWestaria1.setBonus(1,1);
+				bonusWestaria1.setBonus(2,1);
+				bonusWestaria1.setBonus(9,2);
+				bonusWestaria1.setBonus(0,1);
+				enemyPlayers.push(this.createCombotantByRace(battle_CombotantRace.Westaria,100,0,bonusWestaria1));
 				bonusIcedale1.setBonus(29,1);
 				bonusIcedale1.setBonus(0,1);
-				bonusIcedale1.setBonus(2,1);
+				bonusIcedale1.setBonus(2,2);
 				bonusIcedale1.setBonus(34,1);
 				bonusIcedale1.setBonus(4,1);
-				enemyPlayers.push(this.createCombotantByRace(battle_CombotantRace.TheCult,0,0,bonusIcedale1));
+				bonusIcedale1.setBonus(1,1);
+				enemyPlayers.push(this.createCombotantByRace(battle_CombotantRace.TheCult,100,0,bonusIcedale1));
 				break;
 			case 7:
-				enemyPlayers.push(this.createCombotantByRace(battle_CombotantRace.TheCult,0,0));
+				bonusIcedale1.setBonus(29,1);
+				bonusIcedale1.setBonus(0,1);
+				bonusIcedale1.setBonus(2,2);
+				bonusIcedale1.setBonus(34,1);
+				bonusIcedale1.setBonus(4,1);
+				bonusIcedale1.setBonus(1,1);
+				enemyPlayers.push(this.createCombotantByRace(battle_CombotantRace.TheCult,100,0,bonusIcedale1));
 				break;
 			}
 			break;
@@ -22955,61 +22971,68 @@ data_LevelInfo.prototype = {
 				enemyPlayers.push(this.createCombotantByRace(battle_CombotantRace.TheEmpire,0,0));
 				break;
 			case 1:
-				enemyPlayers.push(this.createCombotantByRace(battle_CombotantRace.TheEmpire,0,0,bonusEmpire1));
+				enemyPlayers.push(this.createCombotantByRace(battle_CombotantRace.TheEmpire,0,0));
 				break;
 			case 2:
 				bonusWestaria1.setBonus(5,1);
 				bonusWestaria1.setBonus(0,1);
+				bonusWestaria1.setBonus(9,1);
 				enemyPlayers.push(this.createCombotantByRace(battle_CombotantRace.Westaria,0,0,bonusWestaria1));
 				break;
 			case 3:
-				bonusWestaria1.setBonus(43,1);
-				bonusWestaria1.setBonus(41,1);
-				bonusWestaria1.setBonus(2,1);
-				enemyPlayers.push(this.createCombotantByRace(battle_CombotantRace.Westaria,0,0,bonusWestaria1));
-				bonusHorde1.setBonus(17,1);
-				bonusHorde1.setBonus(1,1);
-				bonusHorde1.setBonus(20,1);
-				enemyPlayers.push(this.createCombotantByRace(battle_CombotantRace.TheKhaganate,0,0,bonusHorde1));
-				break;
-			case 4:
-				bonusWestaria1.setBonus(43,1);
-				bonusWestaria1.setBonus(41,1);
+				bonusWestaria1.setBonus(5,1);
+				bonusWestaria1.setBonus(9,1);
 				bonusWestaria1.setBonus(2,1);
 				bonusWestaria1.setBonus(0,1);
 				enemyPlayers.push(this.createCombotantByRace(battle_CombotantRace.Westaria,0,0,bonusWestaria1));
 				bonusHorde1.setBonus(17,1);
 				bonusHorde1.setBonus(1,1);
 				bonusHorde1.setBonus(20,1);
+				bonusHorde1.setBonus(0,1);
 				enemyPlayers.push(this.createCombotantByRace(battle_CombotantRace.TheKhaganate,0,0,bonusHorde1));
+				break;
+			case 4:
+				bonusWestaria1.setBonus(5,1);
+				bonusWestaria1.setBonus(9,1);
+				bonusWestaria1.setBonus(2,1);
+				bonusWestaria1.setBonus(0,1);
+				enemyPlayers.push(this.createCombotantByRace(battle_CombotantRace.Westaria,0,0,bonusWestaria1));
+				bonusHorde1.setBonus(17,1);
+				bonusHorde1.setBonus(1,1);
+				bonusHorde1.setBonus(20,1);
+				bonusHorde1.setBonus(0,1);
+				enemyPlayers.push(this.createCombotantByRace(battle_CombotantRace.TheKhaganate,100,0,bonusHorde1));
 				break;
 			case 5:
 				bonusHorde1.setBonus(17,1);
 				bonusHorde1.setBonus(0,1);
 				bonusHorde1.setBonus(1,1);
 				bonusHorde1.setBonus(20,1);
-				enemyPlayers.push(this.createCombotantByRace(battle_CombotantRace.TheKhaganate,0,0,bonusHorde1));
+				bonusHorde1.setBonus(2,1);
+				enemyPlayers.push(this.createCombotantByRace(battle_CombotantRace.TheKhaganate,100,0,bonusHorde1));
 				break;
 			case 6:
-				bonusEmpire1.setBonus(43,1);
-				bonusEmpire1.setBonus(41,1);
-				bonusEmpire1.setBonus(2,1);
-				bonusEmpire1.setBonus(0,1);
-				bonusEmpire1.setBonus(25,1);
-				bonusEmpire1.setBonus(4,1);
-				bonusEmpire1.setBonus(3,1);
-				enemyPlayers.push(this.createCombotantByRace(battle_CombotantRace.TheEmpire,0,0,bonusEmpire1));
+				bonusHorde1.setBonus(17,1);
+				bonusHorde1.setBonus(19,1);
+				bonusHorde1.setBonus(20,1);
+				bonusHorde1.setBonus(20,1);
+				bonusHorde1.setBonus(21,1);
+				bonusHorde1.setBonus(1,1);
+				bonusHorde1.setBonus(0,1);
+				bonusHorde1.setBonus(2,1);
+				enemyPlayers.push(this.createCombotantByRace(battle_CombotantRace.TheKhaganate,100,0,bonusHorde1));
 				break;
 			case 7:
-				bonusEmpire1.setBonus(43,1);
-				bonusEmpire1.setBonus(41,1);
-				bonusEmpire1.setBonus(2,1);
-				bonusEmpire1.setBonus(0,1);
-				bonusEmpire1.setBonus(25,1);
-				bonusEmpire1.setBonus(4,1);
-				bonusEmpire1.setBonus(3,1);
-				bonusEmpire1.setBonus(1,1);
-				enemyPlayers.push(this.createCombotantByRace(battle_CombotantRace.TheEmpire,0,0,bonusEmpire1));
+				bonusHorde1.setBonus(17,1);
+				bonusHorde1.setBonus(19,1);
+				bonusHorde1.setBonus(20,1);
+				bonusHorde1.setBonus(20,1);
+				bonusHorde1.setBonus(21,1);
+				bonusHorde1.setBonus(1,2);
+				bonusHorde1.setBonus(0,1);
+				bonusHorde1.setBonus(2,1);
+				bonusHorde1.setBonus(3,1);
+				enemyPlayers.push(this.createCombotantByRace(battle_CombotantRace.TheKhaganate,100,0,bonusHorde1));
 				break;
 			}
 			break;
@@ -40339,10 +40362,10 @@ level_Level.prototype = $extend(level_LevelVisual.prototype,{
 		var isPurple;
 		var lightningBonus = _combotant.bonuses.getBonus(10);
 		var transferChance = 0.01;
-		if(lightningBonus == 15) {
-			transferChance = 0.15;
-		} else if(lightningBonus == 30) {
-			transferChance = 0.3;
+		if(lightningBonus == 12) {
+			transferChance = 0.12;
+		} else if(lightningBonus == 25) {
+			transferChance = 0.25;
 		}
 		while(iter.hasNext()) {
 			sqd = iter.next();
@@ -116211,15 +116234,15 @@ metagame_CombotantBonuses.LIFE_DRAIN_BONUS = 48;
 metagame_CombotantBonuses.BANNER_CORRUPTION_DAMAGE = 49;
 metagame_CombotantBonuses.GOLD_ON_ENEMY_DEATH = 50;
 metagame_CombotantBonuses.BONUSES_COUNT = 51;
-metagame_Edict.W_THE_LORDS_CHURCH = new metagame_Edict("冥主暗堂-解锁魂祭之旗",[new metagame_EdictContent(5,1,"解锁魂祭之旗"),new metagame_EdictContent(6,30,"+30% 旗帜持续时间"),new metagame_EdictContent(49,1,"腐蚀范围内敌军")],0,0);
+metagame_Edict.W_THE_LORDS_CHURCH = new metagame_Edict("冥主暗堂-解锁魂祭之旗",[new metagame_EdictContent(5,1,"解锁魂祭之旗"),new metagame_EdictContent(6,25,"+25% 旗帜持续时间"),new metagame_EdictContent(49,1,"腐蚀范围内敌军")],0,0);
 metagame_Edict.W_DUCAL_SOVEREIGNITY = new metagame_Edict("冥权统御-解锁基础亡灵",[new metagame_EdictContent(0,0,"解锁基础亡灵"),new metagame_EdictContent(50,20,"亡灵军队击杀敌军小队时 +20 金币"),new metagame_EdictContent(50,40,"亡灵军队击杀敌军小队时 +40 金币")],0,0);
-metagame_Edict.W_CALL_FOR_THE_CRUSADE = new metagame_Edict("暗影号令-解锁亡灵审判",[new metagame_EdictContent(9,1,"解锁冥雷审判"),new metagame_EdictContent(10,15,"+15% 概率直接转化敌方单位"),new metagame_EdictContent(10,30,"+30% 概率直接转化敌方单位")],4);
+metagame_Edict.W_CALL_FOR_THE_CRUSADE = new metagame_Edict("暗影号令-解锁亡灵审判",[new metagame_EdictContent(9,1,"解锁冥雷审判"),new metagame_EdictContent(10,12,"+12% 概率直接转化敌方单位"),new metagame_EdictContent(10,25,"+25% 概率直接转化敌方单位")],4);
 metagame_Edict.W_TOWN_GUILDS = new metagame_Edict("死亡馈能-步兵转化为僵尸战士",[new metagame_EdictContent(0,1,"将卫兵转化为僵尸战士"),new metagame_EdictContent(47,10,"亡灵军队击杀敌军小队时 +10 法力"),new metagame_EdictContent(47,20,"亡灵军队击杀敌军小队时 +20 法力")],4);
 metagame_Edict.W_THE_ZEALOTS_ORDER = new metagame_Edict("冥徒教派-不死刺客转化为阴魂",[new metagame_EdictContent(4,1,"将侍僧转化为冥执者"),new metagame_EdictContent(12,-10,"终极技能冷却 -10%"),new metagame_EdictContent(12,-20,"终极技能冷却 -20%")],7);
-metagame_Edict.W_MECHANICS_RESEARCH = new metagame_Edict("亡械典籍-弓手改造为骷髅弩手",[new metagame_EdictContent(2,1,"将弓手改造为骨弩手"),new metagame_EdictContent(13,10,"弓箭 / 攻城武器伤害 +10%"),new metagame_EdictContent(13,20,"弓箭 / 攻城武器伤害 +20%")],7);
+metagame_Edict.W_MECHANICS_RESEARCH = new metagame_Edict("亡械典籍-弓手改造为骷髅弩手",[new metagame_EdictContent(2,1,"将弓手改造为骨弩手"),new metagame_EdictContent(13,10,"弓箭 / 攻城武器伤害 +10%"),new metagame_EdictContent(13,15,"弓箭 / 攻城武器伤害 +15%")],7);
 metagame_Edict.W_HEROIC_EPOS = new metagame_Edict("亡者集结-解锁亡灵召唤",[new metagame_EdictContent(14,1,"解锁亡灵大军"),new metagame_EdictContent(15,7,"召唤两批亡灵部队"),new metagame_EdictContent(15,15,"概率召唤骑兵和魔法士")],11);
 metagame_Edict.W_REGULAR_TOURNAMENTS = new metagame_Edict("暗影试炼-骑士堕化为地狱战骑",[new metagame_EdictContent(1,1,"将骑士堕化为地狱战骑"),new metagame_EdictContent(48,20,"攻击附带生命吸取 +20%"),new metagame_EdictContent(7,50,"骑兵冲锋伤害 +50%")],11);
-metagame_Edict.W_LEGION = new metagame_Edict("帝国之怒，强化终极法术， 最多可转化4个敌军",[new metagame_EdictContent(44,4,"墓穴召唤可转化最多4个敌军"),new metagame_EdictContent(45,10,"所有亡灵单位攻击伤害 +10%"),new metagame_EdictContent(46,10,"所有亡灵单位成本 -10%")],15);
+metagame_Edict.W_LEGION = new metagame_Edict("帝国之怒，强化终极法术， 最多可转化3个敌军",[new metagame_EdictContent(44,3,"墓穴召唤可转化最多4个敌军"),new metagame_EdictContent(45,8,"所有亡灵单位攻击伤害 +8%"),new metagame_EdictContent(46,8,"所有亡灵单位成本 -8%")],15);
 
 
 metagame_Edict.H_BLOODLUST = new metagame_Edict("嗜血-解锁嗜血之旗",[new metagame_EdictContent(17,1,"解锁嗜血之旗"),new metagame_EdictContent(18,25,"对要塞伤害 +25%"),new metagame_EdictContent(18,50,"对要塞伤害 +50%")],0,0);
