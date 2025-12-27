@@ -113316,7 +113316,6 @@ ui_MapScr.prototype = $extend(GameScreen.prototype,{
 		}
 		var sel_comp = this.gm_ctx_.profile.selectedCompany();
 		var btn = iriysoft_helper_Fwh.GetChildB(this.main_l_,[scenario_s,"button_level" + level + "_"]);
-
 		if(btn == null) {
 			return false;
 		}
@@ -113330,7 +113329,7 @@ ui_MapScr.prototype = $extend(GameScreen.prototype,{
 			iriysoft_helper_Fwh.ButtonSetVisible(btn,"_r_" + 3,false);
 			iriysoft_helper_Fwh.ButtonSetVisible(btn,"_r_" + sel_comp.levels()[level].completeStatus,true);
 		} else {
-			btn.set_visible(true);
+			btn.set_visible(flase);
 		}
 		return true;
 	}
