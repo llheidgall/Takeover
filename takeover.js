@@ -22615,7 +22615,9 @@ data_LevelInfo.prototype = {
 					return "血战到底"; // Chaos of Battle
 				
 				case 7:
-					return "亡灵帝国的重生！"; // Hail the Empire!		
+					return "亡灵帝国的重生！"; // Hail the Empire!	
+				case 8:
+					return "亡灵帝国的重生！";	
 			}		
 			break;
 		case 1:
@@ -22689,6 +22691,8 @@ data_LevelInfo.prototype = {
 					return "   在袭击首都前，我们必须完成左翼包抄。在这片冰雪之地，深红部落正与北方教团交战。是时候一举歼灭这两个异端势力了！";
 				
 				case 7:
+					return "   瑞瓦迪斯帝国必须清除所有逆贼的残余并再次崛起。向新帝国致敬，向新皇帝致敬！为了亡灵之主！";	
+				case 8:
 					return "   瑞瓦迪斯帝国必须清除所有逆贼的残余并再次崛起。向新帝国致敬，向新皇帝致敬！为了亡灵之主！";	
 			}			
 			break;
@@ -22768,6 +22772,8 @@ data_LevelInfo.prototype = {
 			return 5000;
 		case 7:
 			return 7500;
+		case 8:
+			return 10000
 		}
 		return 0;
 	}
@@ -22928,6 +22934,25 @@ data_LevelInfo.prototype = {
 				bonusHorde1.setBonus(3,1);
 				enemyPlayers.push(this.createCombotantByRace(battle_CombotantRace.TheKhaganate,100,0,bonusHorde1));
 				break;
+			case 8:
+					bonusHorde1.setBonus(17,1);
+					bonusHorde1.setBonus(19,1);
+					bonusHorde1.setBonus(20,1);
+					bonusHorde1.setBonus(20,1);
+					bonusHorde1.setBonus(21,1);
+					bonusHorde1.setBonus(1,2);
+					bonusHorde1.setBonus(0,1);
+					bonusHorde1.setBonus(2,1);
+					bonusHorde1.setBonus(3,1);
+					enemyPlayers.push(this.createCombotantByRace(battle_CombotantRace.TheKhaganate,100,0,bonusHorde1));
+					bonusIcedale1.setBonus(29,1);
+				bonusIcedale1.setBonus(0,1);
+				bonusIcedale1.setBonus(2,2);
+				bonusIcedale1.setBonus(34,1);
+				bonusIcedale1.setBonus(4,1);
+				bonusIcedale1.setBonus(1,1);
+				enemyPlayers.push(this.createCombotantByRace(battle_CombotantRace.TheCult,100,0,bonusIcedale1));
+					break;
 			}
 			break;
 		case 1:
@@ -111523,14 +111548,14 @@ progress_CompanyProgress.prototype = $extend(base_BObject.prototype,{
 		var _g1 = this.m_levels.length;
 		while(_g < _g1) {
 			var i = _g++;
-			if(i >= 8) {
+			if(i >= 9) {
 				break;
 			}
 			if(this.m_levels[i].completeStatus == 0) {
 				return i + 1;
 			}
 		}
-		return Math.min(this.m_levels.length,8) | 0;
+		return Math.min(this.m_levels.length,9) | 0;
 	}
 	,getCompletedCount: function() {
 		var _g = 0;
@@ -111565,6 +111590,7 @@ progress_CompanyProgress.prototype = $extend(base_BObject.prototype,{
 		this.m_levels[5] = new progress_LevelProgress();
 		this.m_levels[6] = new progress_LevelProgress();
 		this.m_levels[7] = new progress_LevelProgress();
+		this.m_levels[8] = new progress_LevelProgress();
 	}
 	,disposeLevelBlock: function() {
 		if(this.m_levels != null) {
@@ -113095,7 +113121,7 @@ var ui_MapScr = function(game_context) {
 	this.gm_ctx_ = null;
 	this.blue_territory_colors_ = [[3,2,2,2,4,1,4,1,2,2,1,1,2,1,1,1,1,1],[3,2,2,2,4,1,3,1,2,2,4,1,2,1,1,1,1,1],[3,2,2,2,3,1,3,1,2,2,4,1,2,1,1,1,1,1],[3,2,2,3,3,4,3,1,2,2,4,1,2,1,1,1,1,1],[3,2,2,3,3,3,3,4,2,2,4,4,2,1,1,4,1,1],[3,2,2,3,3,3,3,3,2,2,4,1,2,4,4,4,4,1],[3,2,2,3,3,3,3,3,2,2,4,3,2,2,2,4,4,1],[3,2,2,3,3,3,3,3,2,2,4,3,2,2,2,2,3,1],[3,2,2,3,3,3,3,3,2,2,3,3,2,2,2,2,3,1]];
 	this.red_territory_colors_ = [[3,2,2,2,3,2,3,3,2,2,2,3,2,2,4,4,4,1],[3,2,2,2,3,2,3,3,2,2,2,4,2,2,1,4,4,1],[3,2,2,2,3,4,3,3,2,2,2,4,2,1,1,4,4,1],[3,2,2,2,3,4,3,3,2,2,2,3,2,1,1,1,4,1],[3,2,2,2,3,4,3,3,2,2,2,3,2,1,1,1,1,1],[3,2,2,2,3,4,3,3,2,2,2,1,2,1,1,1,1,1],[3,2,2,2,3,4,4,1,2,2,2,1,2,1,1,1,1,1],[3,2,2,2,4,1,4,1,2,2,2,1,2,1,1,1,1,1],[3,2,2,2,4,1,4,1,2,2,1,1,2,1,1,1,1,1]];
-	this.green_territory_colors_ = [[3,2,4,4,4,4,4,4,4,4,4,4,2,2,4,4,4,1],[3,1,4,4,4,4,3,4,2,4,4,4,2,1,1,4,4,1],[3,2,4,4,3,4,3,4,2,4,4,4,2,1,1,4,4,1],[3,2,2,3,3,4,3,4,2,4,4,4,2,4,1,4,4,1],[3,2,2,2,3,4,3,4,2,3,4,4,2,1,1,4,4,1],[3,2,2,2,3,4,3,4,2,2,4,3,2,1,1,4,4,1],[3,2,2,2,3,4,3,4,2,2,4,3,2,2,1,4,4,1],[3,2,2,2,3,2,3,3,2,2,4,3,2,2,4,4,4,1],[3,2,2,2,3,2,3,3,2,2,2,3,2,2,4,4,4,1]];
+	this.green_territory_colors_ = [[3,2,4,4,4,4,4,4,4,4,4,4,2,2,4,4,4,1],[3,1,4,4,4,4,3,4,2,4,4,4,2,1,1,4,4,1],[3,2,4,4,3,4,3,4,2,4,4,4,2,1,1,4,4,1],[3,2,2,3,3,4,3,4,2,4,4,4,2,4,1,4,4,1],[3,2,2,2,3,4,3,4,2,3,4,4,2,1,1,4,4,1],[3,2,2,2,3,4,3,4,2,2,4,3,2,1,1,4,4,1],[3,2,2,2,3,4,3,4,2,2,4,3,2,2,1,4,4,1],[3,2,2,2,3,2,3,3,2,2,4,3,2,2,4,4,4,1],[3,2,2,2,3,2,3,3,2,2,2,3,2,2,4,4,4,1],[3,2,4,4,4,4,4,4,4,4,4,4,2,2,4,4,4,1]];
 	GameScreen.call(this,game_context.vs_mgr,[]);
 	this.gm_ctx_ = game_context;
 };
@@ -113290,6 +113316,7 @@ ui_MapScr.prototype = $extend(GameScreen.prototype,{
 		}
 		var sel_comp = this.gm_ctx_.profile.selectedCompany();
 		var btn = iriysoft_helper_Fwh.GetChildB(this.main_l_,[scenario_s,"button_level" + level + "_"]);
+
 		if(btn == null) {
 			return false;
 		}
@@ -113303,7 +113330,7 @@ ui_MapScr.prototype = $extend(GameScreen.prototype,{
 			iriysoft_helper_Fwh.ButtonSetVisible(btn,"_r_" + 3,false);
 			iriysoft_helper_Fwh.ButtonSetVisible(btn,"_r_" + sel_comp.levels()[level].completeStatus,true);
 		} else {
-			btn.set_visible(false);
+			btn.set_visible(true);
 		}
 		return true;
 	}
@@ -117375,7 +117402,7 @@ progress_CompanyProgress.SAVE_VER = 1;
 progress_CompanyProgress.SKILL_POINTS_PER_RANK = 2;
 progress_CompanyProgress.MAX_SKILL_POINTS = 27;
 progress_CompanyProgress.EDICTS_FORMAT_ID = 1;
-progress_CompanyProgress.LEVEL_COUNT = 8;
+progress_CompanyProgress.LEVEL_COUNT = 9;
 progress_LevelProgress.RANK_NEW = 0;
 progress_LevelProgress.RANK_BRONZE = 1;
 progress_LevelProgress.RANK_SILVER = 2;
