@@ -104932,7 +104932,7 @@
                                   "type":"sprite"
                                },
                                "alpha":1,
-                               "matrix_ty":267,
+                               "matrix_ty":367,
                                "button_down":{
                                   "matrix_b":0,
                                   "name":"instance26449",
@@ -105226,7 +105226,7 @@
                                   "matrix_ty":0,
                                   "type":"sprite"
                                },
-                               "matrix_tx":72,
+                               "matrix_tx":379,
                                "matrix_d":1,
                                "button_up":{
                                   "matrix_b":0,
