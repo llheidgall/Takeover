@@ -39696,6 +39696,10 @@ level_LevelVisual.prototype = $extend(level_LevelLogic.prototype,{
 		if(level_LevelVisual.mode.checkState(4)) {
 			return true;
 		}
+		//// Remove control of Green (Westaria) units in first campaign
+		if(_race == battle_CombotantRace.Westaria && GameApp.gm_ctx_ != null && GameApp.gm_ctx_.profile != null && GameApp.gm_ctx_.profile.selectedCompany() != null && GameApp.gm_ctx_.profile.selectedCompany().curLevel() == 0) {
+			return false;
+		}
 		//// 上帝视角，直接控制所有电脑派的亡灵兵， 可以加控制其他的
 		if(this.player().getRace() == battle_CombotantRace.Westaria && _race == battle_CombotantRace.TheEmpire) {
 			return true;
@@ -40953,6 +40957,9 @@ level_Level.prototype = $extend(level_LevelVisual.prototype,{
 			if(!isPlayerSquad && this.player().getRace() == battle_CombotantRace.Westaria && sq.getRace() == battle_CombotantRace.TheEmpire) {
 				isPlayerSquad = true;
 			}
+			if(this.player().getRace() == battle_CombotantRace.Westaria && sq.getRace() == battle_CombotantRace.Westaria) {
+				isPlayerSquad = false;
+			}
 			if(isPlayerSquad) {
 				if(selectFrame.contains(sq.icon().get_x(),sq.icon().get_y())) {
 					sq.select2SquadIcon(true,this.m_multiSelectedFilters);
@@ -40972,6 +40979,9 @@ level_Level.prototype = $extend(level_LevelVisual.prototype,{
 			if(!isPlayerSquad && this.player().getRace() == battle_CombotantRace.Westaria && sq.getRace() == battle_CombotantRace.TheEmpire) {
 				isPlayerSquad = true;
 			}
+			if(this.player().getRace() == battle_CombotantRace.Westaria && sq.getRace() == battle_CombotantRace.Westaria) {
+				isPlayerSquad = false;
+			}
 			if(isPlayerSquad) {
 				sq.select2SquadIcon(false,null);
 			}
@@ -40988,6 +40998,9 @@ level_Level.prototype = $extend(level_LevelVisual.prototype,{
 			//// 允许派 Allow Westaria to command Empire units 
 			if(!isPlayerSquad && this.player().getRace() == battle_CombotantRace.Westaria && sq.getRace() == battle_CombotantRace.TheEmpire) {
 				isPlayerSquad = true;
+			}
+			if(this.player().getRace() == battle_CombotantRace.Westaria && sq.getRace() == battle_CombotantRace.Westaria) {
+				isPlayerSquad = false;
 			}
 			if(isPlayerSquad && sq.isSelected2() && sq != _squad) {
 				selectedSquads.push(sq);
@@ -41042,6 +41055,9 @@ level_Level.prototype = $extend(level_LevelVisual.prototype,{
 			////所有动作都加，是上面延续 Allow Westaria to draw arrows for Empire units
 			if(!isPlayerSquad && this.player().getRace() == battle_CombotantRace.Westaria && sq.getRace() == battle_CombotantRace.TheEmpire) {
 				isPlayerSquad = true;
+			}
+			if(this.player().getRace() == battle_CombotantRace.Westaria && sq.getRace() == battle_CombotantRace.Westaria) {
+				isPlayerSquad = false;
 			}
 			if(isPlayerSquad && sq.isSelected2() && sq != _squad) {
 				this.drawTargetArrow(_graphics,new base_Position(sq.icon().get_x(),sq.icon().get_y()),_aimPosition);
@@ -41192,6 +41208,9 @@ level_Level.prototype = $extend(level_LevelVisual.prototype,{
 				//// Allow Westaria to draw paths for Empire units (for database override)
 				if(!isPlayerSquad && this.player().getRace() == battle_CombotantRace.Westaria && sq.getRace() == battle_CombotantRace.TheEmpire) {
 					isPlayerSquad = true;
+				}
+				if(this.player().getRace() == battle_CombotantRace.Westaria && sq.getRace() == battle_CombotantRace.Westaria) {
+					isPlayerSquad = false;
 				}
 				if(isPlayerSquad && sq.isSelected2() && sq != _squad) {
 					var pp = this.getPathSuperAdv(sq.getMainUnit().getPosition(),_target,3600);
@@ -42122,7 +42141,7 @@ level_item_BannerHeal.prototype = $extend(level_item_AnimationEffect.prototype,{
 			sqd = iter.next();
 			if(sqd.checkUnitAtRadius(pos,rad)) {
 				//// 得改一下要不然自己派的亡灵兵不被旗帜加血
-				if((sqd.getRace() == race || sqd.getRace() == battle_CombotantRace.TheEmpire)) {
+				if((sqd.getRace() == battle_CombotantRace.TheEmpire)) {
 					sqd.repair(power);
 				} else if(corruptionActive && !this.m_def_stone.ref_player.checkAllySquad(sqd)) {
 					var units = sqd.getUnits();
