@@ -60825,10 +60825,12 @@ metagame_CombotantBonuses.prototype = {
 	}
 	,__class__: metagame_CombotantBonuses
 };
-var metagame_EdictContent = function(_id,_bonusVal,_hint) {
+var metagame_EdictContent = function(_id,_bonusVal,_hint,_id2,_bonusVal2) {
 	this.combBonusID = _id;
 	this.bonusVal = _bonusVal;
 	this.hint = _hint;
+	this.combBonusID2 = _id2 != null ? _id2 : null;
+	this.bonusVal2 = _bonusVal2 != null ? _bonusVal2 : null;
 };
 $hxClasses["metagame.EdictContent"] = metagame_EdictContent;
 metagame_EdictContent.__name__ = "metagame.EdictContent";
@@ -60836,6 +60838,8 @@ metagame_EdictContent.prototype = {
 	hint: null
 	,combBonusID: null
 	,bonusVal: null
+	,combBonusID2: null
+	,bonusVal2: null
 	,__class__: metagame_EdictContent
 };
 var metagame_Edict = function(_name,_contents,_issuesToUnlock,_defaultPoints) {
@@ -60882,6 +60886,9 @@ metagame_Edict.prototype = {
 		while(_g < _g1) {
 			var i = _g++;
 			_bns.setBonus(this.m_contents[i].combBonusID,this.m_contents[i].bonusVal);
+			if(this.m_contents[i].combBonusID2 != null && this.m_contents[i].bonusVal2 != null) {
+				_bns.setBonus(this.m_contents[i].combBonusID2,this.m_contents[i].bonusVal2);
+			}
 		}
 	}
 	,__class__: metagame_Edict
@@ -114547,8 +114554,10 @@ battle_ArmyStat.POISON_CATAPULT_T2_D = new battle_ArmyStat("毒性投石机",600
 battle_ArmyStat.POISON_CATAPULT_T2_E = new battle_ArmyStat("毒性投石机",600,battle_CombotantRace.TheEmpire,1,20,35,50,200,100,50,20,200,1,"Mechanism;SplashDamage 25;SiegeWeapon 50;Poisonous 2",2,battle_unit_CombatUnitType.Siege,0.3,50,0,11,10);
 battle_ArmyStat.POISON_CATAPULT_T2_D = new battle_ArmyStat("毒性投石机",600,battle_CombotantRace.TheKhaganate,1,20,35,50,200,100,50,20,200,2,"Mechanism;SplashDamage 25;SiegeWeapon 50;Poisonous 2",2,battle_unit_CombatUnitType.Siege,0.3,50,0,11,10);
 battle_ArmyStat.armyStatBD.h[0].h[3].h[2] = battle_ArmyStat.POISON_CATAPULT_T2_D;
+battle_ArmyStat.TREBUCHET_T1_E = new battle_ArmyStat("投石车",400,battle_CombotantRace.TheEmpire,1,15,25,50,200,100,50,20,200,2,"Mechanism;SplashDamage 25;SiegeWeapon 50",1,battle_unit_CombatUnitType.Siege,0.01,100,0,11,10);
+battle_ArmyStat.armyStatBD.h[1].h[3].h[1] = battle_ArmyStat.TREBUCHET_T1_E;
 battle_ArmyStat.POISON_CATAPULT_T2_E = new battle_ArmyStat("毒性投石机",600,battle_CombotantRace.TheEmpire,1,20,35,50,200,100,50,20,200,2,"Mechanism;SplashDamage 25;SiegeWeapon 50;Poisonous 2",2,battle_unit_CombatUnitType.Siege,0.3,50,0,11,10);
-battle_ArmyStat.armyStatBD.h[1].h[3].h[1] = battle_ArmyStat.POISON_CATAPULT_T2_E;
+battle_ArmyStat.armyStatBD.h[1].h[3].h[2] = battle_ArmyStat.POISON_CATAPULT_T2_E;
 battle_ArmyStat.MONKS_T1_W = new battle_ArmyStat("僧侣",65,battle_CombotantRace.Westaria,6,5,6,15,0,0,50,40,150,1,"DivinePresence 10",1,battle_unit_CombatUnitType.Magic,0.1,0,0,11,5);
 battle_ArmyStat.UNDYING_ASSASSINS_T1_E = new battle_ArmyStat("不死刺客",125,battle_CombotantRace.TheEmpire,3,6,12,15,0,0,50,40,150,1,"Undead;HorrificDash 8;Intimidiation 10",1,battle_unit_CombatUnitType.Magic,0.1,0,0,11,5);
 battle_ArmyStat.armyStatBD.h[1].h[4].h[1] = battle_ArmyStat.UNDYING_ASSASSINS_T1_E;
@@ -116324,9 +116333,9 @@ metagame_CombotantBonuses.BONUSES_COUNT = 51;
 metagame_Edict.W_THE_LORDS_CHURCH = new metagame_Edict("冥主暗堂-解锁魂祭之旗",[new metagame_EdictContent(5,1,"解锁魂祭之旗"),new metagame_EdictContent(6,25,"+25% 旗帜持续时间"),new metagame_EdictContent(49,1,"腐蚀范围内敌军")],0,0);
 metagame_Edict.W_DUCAL_SOVEREIGNITY = new metagame_Edict("冥权统御-解锁基础亡灵",[new metagame_EdictContent(0,0,"解锁基础亡灵"),new metagame_EdictContent(50,20,"亡灵军队击杀敌军小队时 +20 金币"),new metagame_EdictContent(50,40,"亡灵军队击杀敌军小队时 +40 金币")],0,0);
 metagame_Edict.W_CALL_FOR_THE_CRUSADE = new metagame_Edict("暗影号令-解锁亡灵审判",[new metagame_EdictContent(9,1,"解锁冥雷审判"),new metagame_EdictContent(10,10,"+10% 概率直接转化敌方单位"),new metagame_EdictContent(10,20,"+20% 概率直接转化敌方单位")],4);
-metagame_Edict.W_TOWN_GUILDS = new metagame_Edict("死亡馈能-步兵转化为僵尸战士",[new metagame_EdictContent(0,1,"将卫兵转化为僵尸战士"),new metagame_EdictContent(47,10,"亡灵军队击杀敌军小队时 +10 法力"),new metagame_EdictContent(47,20,"亡灵军队击杀敌军小队时 +20 法力")],4);
+metagame_Edict.W_TOWN_GUILDS = new metagame_Edict("死亡馈能-步兵死影法则转化为僵尸战士",[new metagame_EdictContent(0,1,"将卫兵转化为僵尸战士"),new metagame_EdictContent(47,10,"亡灵军队击杀敌军小队时 +10 法力"),new metagame_EdictContent(47,20,"亡灵军队击杀敌军小队时 +20 法力")],4);
 metagame_Edict.W_THE_ZEALOTS_ORDER = new metagame_Edict("冥徒教派-不死刺客转化为阴魂",[new metagame_EdictContent(4,1,"将侍僧转化为冥执者"),new metagame_EdictContent(12,-7,"终极技能冷却 -7%"),new metagame_EdictContent(12,-15,"终极技能冷却 -15%")],7);
-metagame_Edict.W_MECHANICS_RESEARCH = new metagame_Edict("亡械典籍-弓手改造为骷髅弩手",[new metagame_EdictContent(2,1,"将弓手改造为骨弩手"),new metagame_EdictContent(13,7,"弓箭 / 攻城武器伤害 +7%"),new metagame_EdictContent(13,15,"弓箭 / 攻城武器伤害 +15%")],7);
+metagame_Edict.W_MECHANICS_RESEARCH = new metagame_Edict("亡械典籍-堕化射手和攻城机械",[new metagame_EdictContent(2,1,"将弓手改造为骨弩手",3,1),new metagame_EdictContent(13,7,"弓箭 / 攻城武器伤害 +7%"),new metagame_EdictContent(13,15,"弓箭 / 攻城武器伤害 +15%")],7);
 metagame_Edict.W_HEROIC_EPOS = new metagame_Edict("亡者集结-解锁亡灵召唤",[new metagame_EdictContent(14,1,"解锁亡灵大军"),new metagame_EdictContent(15,7,"召唤两批亡灵部队"),new metagame_EdictContent(15,15,"概率召唤骑兵和魔法士")],11);
 metagame_Edict.W_REGULAR_TOURNAMENTS = new metagame_Edict("暗影试炼-骑士堕化为地狱战骑",[new metagame_EdictContent(1,1,"将骑士堕化为地狱战骑"),new metagame_EdictContent(48,15,"攻击附带生命吸取 +15%"),new metagame_EdictContent(7,50,"骑兵冲锋伤害 +50%")],11);
 metagame_Edict.W_LEGION = new metagame_Edict("帝国之怒，强化终极法术， 最多可转化3个敌军",[new metagame_EdictContent(44,3,"墓穴召唤可转化最多4个敌军"),new metagame_EdictContent(45,8,"所有亡灵单位攻击伤害 +8%"),new metagame_EdictContent(46,8,"所有亡灵单位成本 -8%")],15);
