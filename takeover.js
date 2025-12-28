@@ -14109,7 +14109,7 @@ WindowController.prototype = $extend(iriysoft_core_templates_BaseObject.prototyp
 		switch(this.ref_level.seekNodeContentOwner(_nodeDescription).getRace()._hx_index) {
 		//// 点看城邦之后的框架， 顺序亡灵绿红冰
 		case 1:
-			frameColor = 4;
+			frameColor = 1;
 			break;
 		case 2:
 			frameColor = 4;
@@ -37054,10 +37054,13 @@ level_FKeyNodeContent.prototype = $extend(level_KeyNodeContent.prototype,{
 	,changeView: function(_locationType) {
 		this.m_view.changeView(_locationType);
 		var frameOffset = 1;
-		// Check if this node uses purple animations (TheEmpire, race index 1)
-		// XMLData.getColorID returns "Purple" for race index 1
+		//// Check if this node uses purple animations (TheEmpire, race index 1)
+		//// XMLData.getColorID returns "Purple" for race index 1
 		if(_locationType == 1) {
 			frameOffset = 3;
+		}
+		if(_locationType == 3) {
+			frameOffset = -1;
 		}
 		this.mcColor.gotoFrame(_locationType + frameOffset);
 		this.__locationType = _locationType;
@@ -37088,14 +37091,21 @@ level_FKeyNodeContent.prototype = $extend(level_KeyNodeContent.prototype,{
 		this.txtStatus.set_text(Std.string(Math.ceil(_hp / 100)));
 	}
 	,updateHealthIcon: function(_id) {
+		var frameOffset = 1;
+		if(this.__locationType == 1) {
+			frameOffset = 3;
+		}
+		if(this.__locationType == 3) {
+			frameOffset = -1;
+		}
 		switch(_id) {
 		case 1:
-			this.mcShield.gotoFrame(this.__locationType + 1);
+			this.mcShield.gotoFrame(this.__locationType + frameOffset);
 			this.mcShield.set_visible(true);
 			this.mcRebuild.set_visible(false);
 			break;
 		case 2:
-			this.mcRebuild.gotoFrame(this.__locationType + 1);
+			this.mcRebuild.gotoFrame(this.__locationType + frameOffset);
 			this.mcShield.set_visible(false);
 			this.mcRebuild.set_visible(true);
 			break;
@@ -41357,7 +41367,15 @@ level_LevelLand.prototype = $extend(iriysoft_core_templates_DisposableObject.pro
 	}
 	,updateLandObjectsView: function(_mapContent,_landID,_typeID) {
 		var layerNames = ["mcArea","mcRoads"];
-		var frame = _typeID + 1;
+		////改地貌
+		var frameOffset = 1;
+		if(_typeID == 1) {
+			frameOffset = 3;
+		}
+		else if (_typeID == 3) {
+			frameOffset = -1
+		}
+		var frame = _typeID + frameOffset;
 		var _g = 0;
 		var _g1 = layerNames.length;
 		while(_g < _g1) {
@@ -114913,7 +114931,7 @@ iriysoft_ui_UiSideType.RIGHT = new iriysoft_ui_UiSideType();
 iriysoft_ui_UiSideType.TOP = new iriysoft_ui_UiSideType();
 iriysoft_ui_UiSideType.BOTTOM = new iriysoft_ui_UiSideType();
 //// 就下面这行，把绿国所有建筑（农场金矿之类）改成亡灵的
-level_BuildPlace.RESOURCE_NAMES = [[["BuildHereTopClass",null,0],["BuildHereTopClass",null,0],["BuildHereTopClass",null,0],["BuildHereTopClass",null,0]],[["VillageRedClass","VillageRedAnimClass",0],["VillagePurpleClass","VillagePurpleAnimClass",1],["VillageBlueClass","VillageBlueAnimClass",0],["VillagePurpleClass","VillagePurpleAnimClass",2.5]],[["MineRedClass","MineRedAnimClass",0],["MinePurpleClass","MinePurpleAnimClass",0],["MineBlueClass","MineBlueAnimClass",0],["MinePurpleClass","MinePurpleAnimClass",0]],[["ObeliskRedClass","ObeliskRedAnimClass",1],["ObeliskPurpleClass","ObeliskPurpleAnimClass",1],["ObeliskBlueClass","ObeliskBlueAnimClass",1],["ObeliskPurpleClass","ObeliskPurpleAnimClass",1]]];
+level_BuildPlace.RESOURCE_NAMES = [[["BuildHereTopClass",null,0],["BuildHereTopClass",null,0],["BuildHereTopClass",null,0],["BuildHereTopClass",null,0]],[["VillageRedClass","VillageRedAnimClass",0],["VillagePurpleClass","VillagePurpleAnimClass",1],["VillageBlueClass","VillageBlueAnimClass",0],["VillageGreenClass","VillageGreenAnimClass",2.5]],[["MineRedClass","MineRedAnimClass",0],["MinePurpleClass","MinePurpleAnimClass",0],["MineBlueClass","MineBlueAnimClass",0],["MineGreenClass","MineGreenAnimClass",0]],[["ObeliskRedClass","ObeliskRedAnimClass",1],["ObeliskPurpleClass","ObeliskPurpleAnimClass",1],["ObeliskBlueClass","ObeliskBlueAnimClass",1],["ObeliskGreenClass","ObeliskGreenAnimClass",1]]];
 level_ItemContent.TREASURE_REVARD = 500;
 level_KeyNodeContent.m_eventActivate = new level_knodelogic_KnodeEvent(1000);
 level_KeyNodeContent.m_eventDeactivate = new level_knodelogic_KnodeEvent(1000);
@@ -114921,7 +114939,7 @@ level_KeyNodeContent.m_eventGotoActiveState = new level_knodelogic_KnodeEvent(99
 level_KeyNodeContent.m_eventGotoRizeState = new level_knodelogic_KnodeEvent(9999);
 level_KeyNodeContent.EMPTY_ACTION = new base_fsm_EmptyFSMAction();
 //// 这行改所有绿国城堡， （greenclass -> purple class)
-level_FKeyNodeContentView.RESOURCE_NAMES = [[[["CastleRedClass","CastleRedAnimClass",6],["CastleRedRazeClass","CastleRedRazeAnimClass",0]],[["CastlePurpleClass","CastlePurpleAnimClass",6],["CastlePurpleRazeClass","CastlePurpleRazeAnimClass",0]],[["CastleBlueClass","CastleBlueAnimClass",6],["CastleBlueRazeClass","CastleBlueRazeAnimClass",0]],[["CastlePurpleClass","CastlePurpleAnimClass",6],["CastlePurpleRazeClass","CastlePurpleRazeAnimClass",0]]],[[["MageTowerRedClass",null,0],["MageTowerRedRazedClass",null,0]],[["MageTowerPurpleClass",null,0],["MageTowerPurpleRazedClass",null,0]],[["MageTowerBlueClass",null,0],["MageTowerBlueRazedClass",null,0]],[["MageTowerPurpleClass",null,0],["MageTowerPurpleRazedClass",null,0]]],[[["TownRedClass","TownRedAnimClass",4],["TownRedRazeClass","TownRedRazeAnimClass",0]],[["TownPurpleClass","TownPurpleAnimClass",6],["TownPurpleRazeClass",null,0]],[["TownBlueClass","TownBlueAnimClass",6],["TownBlueRazeClass","TownBlueRazeAnimClass",0]],[["TownPurpleClass","TownPurpleAnimClass",6],["TownPurpleRazeClass",null,0]]],[[["WarcampRedClass",null,0],["WarcampRedRazeClass",null,0]],[["WarcampPurpleClass",null,0],["WarcampPurpleRazeClass",null,0]],[["WarcampBlueClass",null,0],["WarcampBlueRazeClass",null,0]],[["WarcampPurpleClass",null,0],["WarcampPurpleRazeClass",null,0]]]];
+level_FKeyNodeContentView.RESOURCE_NAMES = [[[["CastleRedClass","CastleRedAnimClass",6],["CastleRedRazeClass","CastleRedRazeAnimClass",0]],[["CastlePurpleClass","CastlePurpleAnimClass",6],["CastlePurpleRazeClass","CastlePurpleRazeAnimClass",0]],[["CastleBlueClass","CastleBlueAnimClass",6],["CastleBlueRazeClass","CastleBlueRazeAnimClass",0]],[["CastleGreenClass","CastleGreenAnimClass",6],["CastleGreenRazeClass","CastleGreenRazeAnimClass",0]]],[[["MageTowerRedClass",null,0],["MageTowerRedRazedClass",null,0]],[["MageTowerPurpleClass",null,0],["MageTowerPurpleRazedClass",null,0]],[["MageTowerBlueClass",null,0],["MageTowerBlueRazedClass",null,0]],[["MageTowerGreenClass",null,0],["MageTowerGreenRazedClass",null,0]]],[[["TownRedClass","TownRedAnimClass",4],["TownRedRazeClass","TownRedRazeAnimClass",0]],[["TownPurpleClass","TownPurpleAnimClass",6],["TownPurpleRazeClass",null,0]],[["TownBlueClass","TownBlueAnimClass",6],["TownBlueRazeClass","TownBlueRazeAnimClass",0]],[["TownGreenClass","TownGreenAnimClass",6],["TownGreenRazeClass",null,0]]],[[["WarcampRedClass",null,0],["WarcampRedRazeClass",null,0]],[["WarcampPurpleClass",null,0],["WarcampPurpleRazeClass",null,0]],[["WarcampBlueClass",null,0],["WarcampBlueRazeClass",null,0]],[["WarcampGreenClass",null,0],["WarcampGreenRazeClass",null,0]]]];
 level_FKeyNodeContentView.INNER_RAD = 40;
 level_FKeyNodeContentView.INNER_RAD2 = 1600.;
 level_LevelVisual.ST_CHEAT_MODE = 2;
