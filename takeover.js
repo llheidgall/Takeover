@@ -112430,6 +112430,8 @@ var ui_EdictsScr = function(game_context) {
 	this.main_l_ = null;
 	this.scr_ = null;
 	this.gm_ctx_ = null;
+	this.ad_button_ = null;
+	this.can_play_ad_ = false;
 	GameScreen.call(this,game_context.vs_mgr,[]);
 	this.gm_ctx_ = game_context;
 };
@@ -112452,6 +112454,7 @@ ui_EdictsScr.prototype = $extend(GameScreen.prototype,{
 		this.ChangeChildsName();
 		this.InitEdicts();
 		this.InitIcons();
+		this.InitAdButton();
 		this.Update();
 		this.InitLayout();
 		this.InitHints();
@@ -112723,6 +112726,9 @@ ui_EdictsScr.prototype = $extend(GameScreen.prototype,{
 		Hlp.UpdatePlayerPanel(iriysoft_helper_Fwh.GetChildC(this.scr_,["mcPlayerStats"]));
 		this.reset_b_.set_enable(edictCount != 0);
 		this.updateUnitIconAvailabe();
+		if(this.ad_button_ != null) {
+			this.CheckAdAvailability();
+		}
 	}
 	,UpdateEdict: function(edict_ui,_edictCount) {
 		var icon = edict_ui.edict_c;
@@ -112814,6 +112820,70 @@ ui_EdictsScr.prototype = $extend(GameScreen.prototype,{
 		this.move_layout_.addItem(ui_Uih.WrapLayoutItem(iriysoft_helper_Fwh.GetChildC(this.scr_,["button_done_"]),layout_LayoutType.BOTTOM,layout_LayoutType.RIGHT),true,true,false);
 		this.move_layout_.addItem(ui_Uih.WrapLayoutItem(iriysoft_helper_Fwh.GetChildC(this.scr_,["mcPlayerStats"]),layout_LayoutType.BOTTOM,layout_LayoutType.RIGHT),true,true,false);
 	}
+	,InitAdButton: function() {
+		try {
+			var ad_button_ = iriysoft_helper_Fwh.ButtonInitByName(
+				this.scr_,
+				"button_ads_",
+				$bind(this,this.OnWatchAd),
+				this.gm_ctx_.gui_snd,
+				"看广告快速升级加点"
+			  );
+		} catch(e) {
+			console.log("sth went wrong")
+		}
+		if(this.ad_button_ != null) {
+			this.CheckAdAvailability();
+		}
+	}
+	,CheckAdAvailability: function() {
+		// if(this.ad_button_ == null || typeof window.h5api == "undefined" || typeof window.h5api.canPlayAd != "function") {
+		// 	if(this.ad_button_ != null) {
+		// 		this.ad_button_.set_visible(false);
+		// 	}
+		// 	return;
+		// }
+		var _g = this;
+		window.h5api.canPlayAd(function(data) {
+			_g.can_play_ad_ = data.canPlayAd;
+			if(_g.ad_button_ != null) {
+				_g.ad_button_.set_visible(data.canPlayAd);
+				_g.ad_button_.set_enable(data.canPlayAd);
+			}
+		});
+	}
+	,OnWatchAd: function(_) {
+		// if(!this.can_play_ad_ || typeof window.h5api == "undefined" || typeof window.h5api.playAd != "function") {
+		// 	return;
+		// }
+		var _g = this;
+		// if(this.ad_button_ != null) {
+		// 	this.ad_button_.set_enable(false);
+		// }
+		console.log("try playing ads");
+		window.h5api.playAd(function(obj) {
+			if(obj.code === 10000) {
+				console.log("广告开始播放");
+			} else if(obj.code === 10001) {
+				console.log("广告播放结束");
+				_g.OnAdReward();
+				_g.CheckAdAvailability();
+			} else {
+				console.log("广告异常: " + obj.message);
+				_g.CheckAdAvailability();
+			}
+		});
+	}
+	,OnAdReward: function() {
+		var company = this.gm_ctx_.profile.selectedCompany();
+		if(company != null) {
+			var currentXP = company.xp();
+			var rewardXP = 5000;
+			company.set_xp(currentXP + rewardXP);
+			this.Update();
+			this.gm_ctx_.Save();
+		}
+	}
 	,OnDone: function(_) {
 		//window.h5api.playInterstitialAd();
 		this.map_scr_sg_.emit();
@@ -112848,6 +112918,8 @@ ui_EdictsScr.prototype = $extend(GameScreen.prototype,{
 	,hint_layer_: null
 	,unit_hint_: null
 	,spell_hint_: null
+	,ad_button_: null
+	,can_play_ad_: false
 	,__class__: ui_EdictsScr
 });
 var ui_EdictUi = function(edict_,edict_c_) {
