@@ -113597,7 +113597,7 @@ ui_MapScr.prototype = $extend(GameScreen.prototype,{
 			iriysoft_helper_Fwh.ButtonSetVisible(btn,"_r_" + 3,false);
 			iriysoft_helper_Fwh.ButtonSetVisible(btn,"_r_" + sel_comp.levels()[level].completeStatus,true);
 		} else {
-			btn.set_visible(flase);
+			btn.set_visible(false);
 		}
 		return true;
 	}
