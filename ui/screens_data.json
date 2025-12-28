@@ -51669,141 +51669,7 @@
                                "matrix_ty":312.45,
                                "type":"sprite"
                             },
-                            {
-                              "matrix_b":0,
-                              "name":"mcUnitIcon_3T1",
-                              "alpha":1,
-                              "matrix_a":1,
-                              "matrix_tx":337,
-                              "matrix_d":1,
-                              "childs":[
-                                 {
-                                    "matrix_b":0,
-                                    "name":"disabled_",
-                                    "alpha":1,
-                                    "matrix_a":1,
-                                    "matrix_tx":0,
-                                    "matrix_d":1,
-                                    "childs":[
-                                       {
-                                          "matrix_b":0,
-                                          "name":"mcColor",
-                                          "alpha":1,
-                                          "matrix_a":1,
-                                          "matrix_tx":0,
-                                          "class_name":"edicts_unit_icon_disabled_back",
-                                          "matrix_d":1,
-                                          "matrix_c":0,
-                                          "matrix_ty":0,
-                                          "type":"anim"
-                                       },
-                                       {
-                                          "matrix_b":0,
-                                          "name":"over_",
-                                          "alpha":1,
-                                          "matrix_a":3.4000244140625,
-                                          "matrix_tx":-17,
-                                          "class_name":"spell_icon_highlight",
-                                          "matrix_d":3.399993896484375,
-                                          "matrix_c":0,
-                                          "matrix_ty":-16,
-                                          "type":"anim"
-                                       },
-                                       {
-                                          "matrix_b":0,
-                                          "name":"instance14972",
-                                          "alpha":1,
-                                          "matrix_a":1,
-                                          "matrix_tx":0,
-                                          "class_name":"edicts_unit_icon_normal_frame",
-                                          "matrix_d":1,
-                                          "matrix_c":0,
-                                          "matrix_ty":0,
-                                          "type":"anim"
-                                       },
-                                       {
-                                          "matrix_b":0,
-                                          "name":"instance14974",
-                                          "alpha":1,
-                                          "matrix_a":1,
-                                          "matrix_tx":0,
-                                          "class_name":"edicts_unit_icon_light",
-                                          "matrix_d":1,
-                                          "matrix_c":0,
-                                          "matrix_ty":0,
-                                          "type":"anim"
-                                       }
-                                    ],
-                                    "matrix_c":0,
-                                    "matrix_ty":0,
-                                    "type":"sprite"
-                                 },
-                                 {
-                                    "matrix_b":0,
-                                    "name":"normal_",
-                                    "alpha":1,
-                                    "matrix_a":1,
-                                    "matrix_tx":0,
-                                    "matrix_d":1,
-                                    "childs":[
-                                       {
-                                          "matrix_b":0,
-                                          "name":"mcColor",
-                                          "alpha":1,
-                                          "matrix_a":1,
-                                          "matrix_tx":0,
-                                          "class_name":"edicts_unit_icon_normal_back",
-                                          "matrix_d":1,
-                                          "matrix_c":0,
-                                          "matrix_ty":0,
-                                          "type":"anim"
-                                       },
-                                       {
-                                          "matrix_b":0,
-                                          "name":"over_",
-                                          "alpha":1,
-                                          "matrix_a":3.4000244140625,
-                                          "matrix_tx":-17,
-                                          "class_name":"spell_icon_highlight",
-                                          "matrix_d":3.399993896484375,
-                                          "matrix_c":0,
-                                          "matrix_ty":-16,
-                                          "type":"anim"
-                                       },
-                                       {
-                                          "matrix_b":0,
-                                          "name":"instance14978",
-                                          "alpha":1,
-                                          "matrix_a":1,
-                                          "matrix_tx":0,
-                                          "class_name":"edicts_unit_icon_normal_frame",
-                                          "matrix_d":1,
-                                          "matrix_c":0,
-                                          "matrix_ty":0,
-                                          "type":"anim"
-                                       },
-                                       {
-                                          "matrix_b":0,
-                                          "name":"instance14980",
-                                          "alpha":1,
-                                          "matrix_a":1,
-                                          "matrix_tx":0,
-                                          "class_name":"edicts_unit_icon_light",
-                                          "matrix_d":1,
-                                          "matrix_c":0,
-                                          "matrix_ty":0,
-                                          "type":"anim"
-                                       }
-                                    ],
-                                    "matrix_c":0,
-                                    "matrix_ty":0,
-                                    "type":"sprite"
-                                 }
-                              ],
-                              "matrix_c":0,
-                              "matrix_ty":312.45,
-                              "type":"sprite"
-                           },
+
                             {
                                "matrix_b":0,
                                "name":"mcUnitIcon_2T1",
@@ -51944,7 +51810,7 @@
                                "name":"mcUnitIcon_3T1",
                                "alpha":1,
                                "matrix_a":1,
-                               "matrix_tx":354,
+                               "matrix_tx":336,
                                "matrix_d":1,
                                "childs":[
                                   {
@@ -52071,7 +51937,7 @@
                                   }
                                ],
                                "matrix_c":0,
-                               "matrix_ty":622.45,
+                               "matrix_ty":312.79,
                                "type":"sprite"
                             },
                             {
