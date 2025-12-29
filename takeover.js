@@ -22972,11 +22972,10 @@ data_LevelInfo.prototype = {
 				enemyPlayers.push(this.createCombotantByRace(battle_CombotantRace.TheCult,0,0,bonusIcedale1));
 				break;
 			case 5:
-				bonusIcedale1.setBonus(29,1);
-				bonusIcedale1.setBonus(0,1);
-				bonusIcedale1.setBonus(2,1);
-				bonusIcedale1.setBonus(34,1);
-				enemyPlayers.push(this.createCombotantByRace(battle_CombotantRace.TheCult,100,0,bonusIcedale1));
+				bonusEmpire1.setBonus(41,1);
+				bonusEmpire1.setBonus(43,2);
+				bonusEmpire1.setBonus(0,1);
+				enemyPlayers.push(this.createCombotantByRace(battle_CombotantRace.TheEmpire,0,0,bonusEmpire1));
 				break;
 			case 6:
 				bonusWestaria1.setBonus(5,1);
@@ -22994,13 +22993,13 @@ data_LevelInfo.prototype = {
 				enemyPlayers.push(this.createCombotantByRace(battle_CombotantRace.TheCult,100,0,bonusIcedale1));
 				break;
 			case 7:
-				bonusIcedale1.setBonus(29,1);
-				bonusIcedale1.setBonus(0,1);
-				bonusIcedale1.setBonus(2,2);
-				bonusIcedale1.setBonus(34,1);
-				bonusIcedale1.setBonus(4,1);
-				bonusIcedale1.setBonus(1,1);
-				enemyPlayers.push(this.createCombotantByRace(battle_CombotantRace.TheCult,100,0,bonusIcedale1));
+				bonusEmpire1.setBonus(41,1);
+				bonusEmpire1.setBonus(43,2);
+				bonusEmpire1.setBonus(0,2);
+				bonusEmpire1.setBonus(1,1);
+				bonusEmpire1.setBonus(2,1);
+				bonusEmpire1.setBonus(4,1);
+				enemyPlayers.push(this.createCombotantByRace(battle_CombotantRace.TheEmpire,1,500,bonusEmpire1));
 				break;
 			}
 			break;
@@ -114667,7 +114666,7 @@ battle_CombotantData.START_MANA = 0;
 //// override the units here, 电脑的好像可以直接改battle_CombotantRace， 但是玩家的只能改数据库, 改了一堆这里
 battle_ArmyStat.GUARDS_T1_W = new battle_ArmyStat("卫兵",26,battle_CombotantRace.Westaria,9,2,3,15,0,0,50,40,100,1,"",1,battle_unit_CombatUnitType.Infantry,0.1,0,0,11,5);
 battle_ArmyStat.UNDYING_WARRIORS_T1_E = new battle_ArmyStat("不死战士",21,battle_CombotantRace.TheEmpire,9,2,5,15,0,0,50,40,100,1,"Undead",1,battle_unit_CombatUnitType.Infantry,0.1,0,0,11,5);
-battle_ArmyStat.WARRIORS_T1_D = new battle_ArmyStat("战士",18,battle_CombotantRace.TheKhaganate,9,3,4,15,0,0,50,50,100,1,"",1,battle_unit_CombatUnitType.Infantry,0.1,0,0,11,5);
+battle_ArmyStat.WARRIORS_T1_D = new battle_ArmyStat("战士",18,battle_CombotantRace.TheKhaganate,9,300,400,15,0,0,50,50,100,1,"",1,battle_unit_CombatUnitType.Infantry,0.1,0,0,11,5);
 battle_ArmyStat.REBELS_T1_B = new battle_ArmyStat("叛军",22,battle_CombotantRace.TheCult,9,1,5,16,0,0,50,50,100,1,"LongSpear 50",1,battle_unit_CombatUnitType.Infantry,0.1,0,0,11,5);
 battle_ArmyStat.SWORDSMEN_T2_W = new battle_ArmyStat("剑士",36,battle_CombotantRace.Westaria,9,3,4,15,0,0,50,50,100,1,"ShieldWall 15",2,battle_unit_CombatUnitType.Infantry,0.1,0,0,11,5);
 battle_ArmyStat.ZOMBIE_WARRIORS_T2_E = new battle_ArmyStat("僵尸战士",27,battle_CombotantRace.TheEmpire,9,4,6,17,0,0,50,50,100,1,"Undead",2,battle_unit_CombatUnitType.Infantry,0.1,0,0,11,5);
