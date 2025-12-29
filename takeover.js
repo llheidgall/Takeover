@@ -18836,7 +18836,7 @@ battle_squad_SquadIcon.getIcon = function(_unitType,_race,_techLevel) {
 	var iconName = "IconT" + (_techLevel == null ? "null" : "" + _techLevel) + raceChar + battle_unit_CombatUnitData.getCombatUnitTypeName(_unitType) + "Class";
 	return iconName;
 };
-battle_squad_SquadIcon.getIconNPC = function(_unitType,_race,_techLevel) {
+battle_squad_SquadIcon.getIconNPC = function(_unitType,_race,_techLevel) {//// FOR WESTARIA ICON
 	var raceChar = "";
 	switch(_race._hx_index) {
 	case 1:
@@ -36305,7 +36305,7 @@ level_NodeContent.prototype = $extend(base_BObject.prototype,{
 		case 1:
 			this.goldSpeed = 0;
 			this.supplyPower = 1;
-			this.name = _owner.getRace() == battle_CombotantRace.TheEmpire ? "坟地" : "农场";
+			this.name = _owner.getRace() == battle_CombotantRace.Westaria ? "坟地" : "农场";
 			break;
 		case 2:
 			this.goldSpeed = 2;
@@ -40136,14 +40136,14 @@ level_Level.prototype = $extend(level_LevelVisual.prototype,{
 			if(bonus15 >= 15) {
 				var rand = Math.random();
 				if(rand < 0.33) {
-					return Math.random() > 0.5 ? battle_ArmyStat.DARK_KNIGHTS_T2_E : battle_ArmyStat.DARK_KNIGHTS_T2_E;
+					return Math.random() > 0.5 ? battle_ArmyStat.armyStatBD.h[1].h[2].h[2] : battle_ArmyStat.armyStatBD.h[1].h[2].h[2];
 				} else if(rand < 0.66) {
-					return Math.random() > 0.5 ? battle_ArmyStat.SHADES_T2_E : battle_ArmyStat.SHADES_T2_E;
+					return Math.random() > 0.5 ? battle_ArmyStat.armyStatBD.h[1].h[4].h[2]:  battle_ArmyStat.armyStatBD.h[1].h[4].h[2];
 				} else {
-					return Math.random() > 0.5 ? battle_ArmyStat.ZOMBIE_WARRIORS_T2_E : battle_ArmyStat.ZOMBIE_WARRIORS_T2_E;
+					return Math.random() > 0.5 ? battle_ArmyStat.armyStatBD.h[1].h[0].h[2] : battle_ArmyStat.armyStatBD.h[1].h[0].h[2];
 				}
 			} else {
-				return Math.random() > 0.5 ? battle_ArmyStat.ZOMBIE_WARRIORS_T2_E : battle_ArmyStat.ZOMBIE_WARRIORS_T2_E;
+				return Math.random() > 0.5 ? battle_ArmyStat.armyStatBD.h[1].h[0].h[2] : battle_ArmyStat.armyStatBD.h[1].h[0].h[2];
 			}
 		};
 		
