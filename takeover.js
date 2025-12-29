@@ -22935,7 +22935,7 @@ data_LevelInfo.prototype = {
 				bonusEmpire1.setBonus(1,1);
 				bonusEmpire1.setBonus(2,1);
 				bonusEmpire1.setBonus(4,1);
-				enemyPlayers.push(this.createCombotantByRace(battle_CombotantRace.TheEmpire,100,500,bonusEmpire1));
+				enemyPlayers.push(this.createCombotantByRace(battle_CombotantRace.TheEmpire,10000,500,bonusEmpire1));
 
 				break;
 			}
@@ -40681,7 +40681,24 @@ level_Level.prototype = $extend(level_LevelVisual.prototype,{
 				this.ref_selectedNodeContent.set_highlight(false);
 			}
 			if(((this.ref_rglObjectUnderCursor) instanceof level_NodeContent)) {
-				this.ref_selectedNodeContent = this.ref_rglObjectUnderCursor;
+				/////点开绿国城堡就没有东西了
+				var node = this.ref_rglObjectUnderCursor;
+
+				if (node && node.m_raceID == 3) {
+				this.ref_selectedNodeContent = null;
+				}
+				else if (
+				node &&
+				node.m_ownerCombatant &&
+				node.m_ownerCombatant.m_race &&
+				node.m_ownerCombatant.m_race._hx_index == 1
+				) {
+				this.ref_selectedNodeContent = null;
+				}
+				else {
+				this.ref_selectedNodeContent = node;
+				}
+
 			} else {
 				this.ref_selectedNodeContent = null;
 			}

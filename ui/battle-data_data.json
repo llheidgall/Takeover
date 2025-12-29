@@ -2389,6 +2389,18 @@
              "type":"anim"
           },
           {
+            "name":"IconT2_W2_MagicClass",
+            "class_name":"IconT2_W_MagicClass_",
+            "matrix_d":1,
+            "matrix_ty":234.5,
+            "matrix_tx":81.9,
+            "matrix_c":0,
+            "matrix_a":1,
+            "alpha":1,
+            "matrix_b":0,
+            "type":"anim"
+         },
+          {
             "name":"IconT2_WW_MagicClass",
             "class_name":"IconT2_W_MagicClass_",
             "matrix_d":1,
