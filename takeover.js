@@ -22872,16 +22872,16 @@ data_LevelInfo.prototype = {
 		case 0:
 			switch(this.m_levelNum) {
 			case 0:
-				enemyPlayers.push(this.createCombotantByRace(battle_CombotantRace.TheEmpire,550,0));
+				enemyPlayers.push(this.createCombotantByRace(battle_CombotantRace.TheEmpire,1000,0));
 				break;
 			case 1:
 				bonusHorde1.setBonus(17,2);
 				enemyPlayers.push(this.createCombotantByRace(battle_CombotantRace.TheKhaganate,0,0));
 				break;
 			case 2:
-				bonusHorde1.setBonus(17,2);
-				bonusHorde1.setBonus(20,2);
-				enemyPlayers.push(this.createCombotantByRace(battle_CombotantRace.TheKhaganate,0,0,bonusHorde1));
+				bonusEmpire1.setBonus(41,1);
+				bonusEmpire1.setBonus(43,1);
+				enemyPlayers.push(this.createCombotantByRace(battle_CombotantRace.TheEmpire,0,0,bonusEmpire1));
 				break;
 			case 3:
 				bonusHorde1.setBonus(17,2);
@@ -22893,6 +22893,10 @@ data_LevelInfo.prototype = {
 				bonusIcedale1.setBonus(0,1);
 				bonusIcedale1.setBonus(2,1);
 				enemyPlayers.push(this.createCombotantByRace(battle_CombotantRace.TheCult,0,0,bonusIcedale1));
+				bonusEmpire1.setBonus(41,1);
+				bonusEmpire1.setBonus(43,1);
+				bonusEmpire1.setBonus(0,1);
+				enemyPlayers.push(this.createCombotantByRace(battle_CombotantRace.TheEmpire,0,0,bonusEmpire1));
 				break;
 			case 4:
 				bonusIcedale1.setBonus(29,1);
@@ -22926,11 +22930,18 @@ data_LevelInfo.prototype = {
 				bonusIcedale1.setBonus(34,1);
 				bonusIcedale1.setBonus(4,1);
 				bonusIcedale1.setBonus(1,1);
-				enemyPlayers.push(this.createCombotantByRace(battle_CombotantRace.TheCult,100,0,bonusIcedale1));
+				enemyPlayers.push(this.createCombotantByRace(battle_CombotantRace.TheCult,200,0,bonusIcedale1));
+				bonusEmpire1.setBonus(41,1);
+				bonusEmpire1.setBonus(43,1);
+				bonusEmpire1.setBonus(0,2);
+				bonusEmpire1.setBonus(2,1);
+				bonusEmpire1.setBonus(4,1);
+				bonusEmpire1.setBonus(1,1);
+				enemyPlayers.push(this.createCombotantByRace(battle_CombotantRace.TheEmpire,70,0,bonusEmpire1));
 				break;
 			case 7:
+				bonusEmpire1.setBonus(43,1);
 				bonusEmpire1.setBonus(41,1);
-				bonusEmpire1.setBonus(43,2);
 				bonusEmpire1.setBonus(0,2);
 				bonusEmpire1.setBonus(1,1);
 				bonusEmpire1.setBonus(2,1);
@@ -22973,7 +22984,7 @@ data_LevelInfo.prototype = {
 				break;
 			case 5:
 				bonusEmpire1.setBonus(41,1);
-				bonusEmpire1.setBonus(43,2);
+				bonusEmpire1.setBonus(43,1);
 				bonusEmpire1.setBonus(0,1);
 				enemyPlayers.push(this.createCombotantByRace(battle_CombotantRace.TheEmpire,0,0,bonusEmpire1));
 				break;
@@ -22994,7 +23005,7 @@ data_LevelInfo.prototype = {
 				break;
 			case 7:
 				bonusEmpire1.setBonus(41,1);
-				bonusEmpire1.setBonus(43,2);
+				bonusEmpire1.setBonus(43,1);
 				bonusEmpire1.setBonus(0,2);
 				bonusEmpire1.setBonus(1,1);
 				bonusEmpire1.setBonus(2,1);
@@ -38949,8 +38960,8 @@ level_LevelLogic.prototype = $extend(level_LevelData.prototype,{
 	,tryCreateHealBanner: function(_spell,_cmbnt) {
 		var target = null;
 		var factor = 0;
-		var minFactor = 0.7;
-		var min2Factor = 0.3;
+		var minFactor = 0.8;
+		var min2Factor = 0.15;
 		var sq = this.m_squads.getStorageIterator();
 		while(sq.hasNext()) {
 			var sq1 = sq.next();
@@ -38974,7 +38985,7 @@ level_LevelLogic.prototype = $extend(level_LevelData.prototype,{
 	,tryCreateHealBanner2: function(_spell,_cmbnt) {
 		var target = null;
 		var factor = 0;
-		var minFactor = 0.7;
+		var minFactor = 0.8;
 		var min2Factor = 0.3;
 		var sq = this.m_squads.getStorageIterator();
 		while(sq.hasNext()) {
