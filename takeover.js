@@ -40432,7 +40432,8 @@ level_Level.prototype = $extend(level_LevelVisual.prototype,{
 		}
 		while(iter.hasNext()) {
 			sqd = iter.next();
-			if(sqd.getRace() != race) {
+			//// here, NPC Westaria always return race._hx_index == 2.
+			if(sqd.getRace() != race || race._hx_index==2) {
 				if(sqd.checkUnitAtRadius(pos,rad)) {
 					sqd.enableTerror();
 					isPurple = XMLData.getColorID(sqd.getRace()) == "Purple";
