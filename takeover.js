@@ -16545,10 +16545,7 @@ battle_CombotantData.prototype = {
 		return spell;
 	}
 	,checkAllySquad: function(_squad) {
-		//// Allow Westaria（绿） to treat Empire units as allies (for database override)
-		if(this.m_race == battle_CombotantRace.Westaria && _squad.getRace() == battle_CombotantRace.TheEmpire) {
-			return true;
-		}
+
 		return this.m_race == _squad.getRace();
 	}
 	,checkAllyKeyNode: function(_keyNode,_level) {
@@ -38907,7 +38904,7 @@ level_LevelLogic.prototype = $extend(level_LevelData.prototype,{
 		} else if(_spell.id == battle_spell_SpellInfo.LORDS_JUDGEMENT.id) {
 			ret_val = this.tryLordJSpell(_spell,_cmbnt);
 		} else if(_spell.id == battle_spell_SpellInfo.BANNER_OF_CONSECRATION.id) {
-			ret_val = this.tryCreateHealBanner(_spell,_cmbnt);
+			ret_val = this.tryCreateHealBanner2(_spell,_cmbnt);
 		} else if(_spell.id == battle_spell_SpellInfo.BANNER_OF_HEROISM.id) {
 			ret_val = this.tryCreateHeroismBanner(_spell,_cmbnt);
 		} else if(_spell.id == battle_spell_SpellInfo.ICE_BLAST.id) {
@@ -38931,9 +38928,12 @@ level_LevelLogic.prototype = $extend(level_LevelData.prototype,{
 		var maxFactor = 1.2;
 		var enemySet;
 		var sq = this.m_squads.getStorageIterator();
+
 		while(sq.hasNext()) {
 			var sq1 = sq.next();
-			if(_cmbnt.checkAllySquad(sq1) && sq1.isInBattle()) {
+			var isGreen = XMLData.getColorID(sq1.getRace()) == "Green"
+
+			if(!isGreen && sq1.isInBattle()) {
 				enemySet = sq1.getEnemies();
 				var _g = 0;
 				while(_g < enemySet.length) {
@@ -38960,12 +38960,38 @@ level_LevelLogic.prototype = $extend(level_LevelData.prototype,{
 	,tryCreateHealBanner: function(_spell,_cmbnt) {
 		var target = null;
 		var factor = 0;
-		var minFactor = 0.5;
+		var minFactor = 0.7;
 		var min2Factor = 0.3;
 		var sq = this.m_squads.getStorageIterator();
 		while(sq.hasNext()) {
 			var sq1 = sq.next();
-			if(_cmbnt.checkAllySquad(sq1) && sq1.isInBattle()) {
+			var isGreen = XMLData.getColorID(sq1.getRace()) == "Green"
+			if(sq1.isInBattle() && isGreen) {
+				factor = sq1.getHealthFactor();
+				if(factor < minFactor && factor > min2Factor) {
+					minFactor = factor;
+					target = sq1;
+				}
+			}
+		}
+		if(target != null) {
+			var spellData = new battle_spell_SpellData();
+			spellData.copyFrom(_spell);
+			spellData.position = this.seekTheBestPosForSquadSpell(target,spellData.type == 1);
+			return spellData;
+		}
+		return null;
+	}
+	,tryCreateHealBanner2: function(_spell,_cmbnt) {
+		var target = null;
+		var factor = 0;
+		var minFactor = 0.7;
+		var min2Factor = 0.3;
+		var sq = this.m_squads.getStorageIterator();
+		while(sq.hasNext()) {
+			var sq1 = sq.next();
+			var isPurple = XMLData.getColorID(sq1.getRace()) == "Purple"
+			if(sq1.isInBattle() && isPurple) {
 				factor = sq1.getHealthFactor();
 				if(factor < minFactor && factor > min2Factor) {
 					minFactor = factor;
