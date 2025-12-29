@@ -22922,16 +22922,8 @@ data_LevelInfo.prototype = {
 				enemyPlayers.push(this.createCombotantByRace(battle_CombotantRace.TheCult,100,0,bonusIcedale1));
 				break;
 			case 7:
-				bonusHorde1.setBonus(17,1);
-				bonusHorde1.setBonus(19,1);
-				bonusHorde1.setBonus(20,1);
-				bonusHorde1.setBonus(20,1);
-				bonusHorde1.setBonus(21,1);
-				bonusHorde1.setBonus(1,2);
-				bonusHorde1.setBonus(0,1);
-				bonusHorde1.setBonus(2,1);
-				bonusHorde1.setBonus(3,1);
-				enemyPlayers.push(this.createCombotantByRace(battle_CombotantRace.TheKhaganate,100,0,bonusHorde1));
+				enemyPlayers.push(this.createCombotantByRace(battle_CombotantRace.TheEmpire,550,0));
+
 				break;
 			}
 			break;
@@ -38738,6 +38730,10 @@ level_LevelLogic.prototype = $extend(level_LevelData.prototype,{
 		}
 	}
 	,sendToAttackFrom: function(_keyNode,_squad) {
+		////fix green ultimate spell
+		if(_keyNode == null) {
+			return null;
+		}
 		var pKN = this.seekNearestEnemyKeyNode(_keyNode);
 		if(pKN != null) {
 			_squad.commandGotoPoint(pKN.getPosition());
@@ -38745,11 +38741,21 @@ level_LevelLogic.prototype = $extend(level_LevelData.prototype,{
 		return pKN;
 	}
 	,seekNearestEnemyKeyNode: function(_keyNode) {
+		////fix green ultimate spell
+		if(_keyNode == null) {
+			return null;
+		}
 		var minDist = 4000000;
 		var pKN = null;
 		//// 跟上面那个差不多， 亡灵的兵不能打绿城堡
 		var sourceOwner = this.m_combotants.getObject(_keyNode.owner);
-		var pdat = _keyNode.getNeighborhood().getStorageIterator();
+		////fix green ultimate spell
+		var neighborhood = _keyNode.getNeighborhood();
+		if(neighborhood == null) {
+			return null;
+		}
+		var pdat = neighborhood.getStorageIterator();
+		////
 		while(pdat.hasNext()) {
 			var pdat1 = pdat.next();
 			if(pdat1.keyNode.owner.compare(_keyNode.owner) == false || pdat1.keyNode.isRized()) {
@@ -39126,7 +39132,14 @@ level_LevelLogic.prototype = $extend(level_LevelData.prototype,{
 		return totalHealth;
 	}
 	,calcPointForKeyNodeSummon: function(_keyNode) {
+		//// 修绿的大招
+		if(_keyNode == null) {
+			return new base_Position(0,0);
+		}
 		var pathSet = _keyNode.getNeighborhood();
+		if(pathSet == null) {
+			return _keyNode.getPosition();
+		} ////
 		var knPathData = pathSet.getStorageIterator();
 		while(knPathData.hasNext()) {
 			var knPathData1 = knPathData.next();
@@ -39972,7 +39985,7 @@ level_Level.prototype = $extend(level_LevelVisual.prototype,{
 		switch(_combotant.getRace()._hx_index) {
 		//// 点图标后的大招动画： 顺序：亡灵， 绿， 红， 冰
 		case 1:
-			messageClass = "UltimateMessage2Class";
+			messageClass = "UltimateMessage1Class";
 			break;
 		case 2: 
 			messageClass = "UltimateMessage3Class";////
@@ -40004,7 +40017,7 @@ level_Level.prototype = $extend(level_LevelVisual.prototype,{
 		switch(_combotant.getRace()._hx_index) {
 		////大招顺序： 亡灵， 绿， 红， 冰
 		case 1:
-			info = this.createSpellCataclysm(_combotant);
+			info = this.createSpellSingOfTheAdvent(_combotant);
 			break;
 		case 2:
 			info = this.createCallToTheGrave(_combotant);////
@@ -40102,6 +40115,25 @@ level_Level.prototype = $extend(level_LevelVisual.prototype,{
 	,createSpellSingOfTheAdvent: function(_combotant) {
 		var spell = new battle_spell_SpellData(battle_spell_SpellInfo.SIGN_OF_THE_ADVENT,_combotant.bonuses);
 		var kn = this.seekKeyNodeForSummon(_combotant);
+		///////fix this spell
+		if(kn == null) {
+			// If no key node found, try to find any key node owned by the combotant
+			var homeKeyNodes = _combotant.getKeyNodes();
+			if(homeKeyNodes != null && homeKeyNodes.length > 0) {
+				kn = homeKeyNodes[0];
+			} else {
+				// If still no key node, find any key node in the level
+				var allKeyNodes = this.getKeyNodes().getStorageIterator();
+				if(allKeyNodes.hasNext()) {
+					kn = allKeyNodes.next();
+				}
+			}
+		}
+		if(kn == null) {
+			// If still no key node found, return without creating spell
+			return battle_spell_SpellInfo.SIGN_OF_THE_ADVENT;
+		}
+		////
 		spell.position = this.calcPointForKeyNodeSummon(kn);
 		var sq = this.manualCreateSquad(spell.position,_combotant,battle_ArmyStat.AVATAR_T3_W);
 		if(_combotant.description != this.player().description) {
