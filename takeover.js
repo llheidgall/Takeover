@@ -42234,9 +42234,11 @@ level_item_BannerHeal.prototype = $extend(level_item_AnimationEffect.prototype,{
 		var iter = lvl.getSquadsIterator();
 		var sqd;
 		var race = this.m_def_stone.ref_player.getRace();
+		
 		var rad = this.m_def_stone.spellData.radius;
 		var pos = this.m_def_stone.spellData.position;
 		var power = this.m_def_stone.spellData.power | 0;
+		if (power == 20) {
 		var corruptionActive = this.m_def_stone.ref_player.bonuses.getBonus(49) > 0;
 		var corruptionDamage = 0.25;
 		while(iter.hasNext()) {
@@ -42260,6 +42262,18 @@ level_item_BannerHeal.prototype = $extend(level_item_AnimationEffect.prototype,{
 				}
 			}
 		}
+	}
+	///// fix for banner of healing: power == 10
+	else if (power == 10) {
+		while(iter.hasNext()) {
+			sqd = iter.next();
+			if(sqd.getRace() == battle_CombotantRace.Westaria) {
+				if(sqd.checkUnitAtRadius(pos,rad)) {
+					sqd.repair(power);
+				}
+			}
+		}
+	}
 	}
 	,__class__: level_item_BannerHeal
 });
