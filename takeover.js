@@ -6696,10 +6696,10 @@ GameBattle.prototype = $extend(iriysoft_states_State.prototype,{
 			enemy = this.m_level.seekCombotantByRace(battle_CombotantRace.TheEmpire);
 			this.m_level.removeAllKeyNodeStat(enemy);
 			enemy.__setMana(0);
-			enemy.__setGold(battle_ArmyStat.WARRIORS_T1_D.cost + battle_ArmyStat.WARRIORS_T1_D.cost);
+			enemy.__setGold(battle_ArmyStat.GUARDS_T1_W.cost + battle_ArmyStat.GUARDS_T1_W.cost);
 			hud_WindowContentManager.LOCK_UNIT_ABOVE = 0;
 			enemyForts = this.m_level.findCombotantKeyNodes(enemy.description);
-			battle_ArmyStat.WARRIORS_T1_D.upkeep = 0;
+			battle_ArmyStat.GUARDS_T1_W.upkeep = 0;
 			var _g = 0;
 			var _g1 = enemyForts.length;
 			while(_g < _g1) {
@@ -6707,13 +6707,13 @@ GameBattle.prototype = $extend(iriysoft_states_State.prototype,{
 				keyNode = enemyForts[i];
 				keyNode.supplyPower = 1;
 				if(keyNode.getNodeType() == level_KeyNodeType.Town) {
-					this.ref_tutor1EnemySquad = this.m_level.buyUnit(battle_ArmyStat.WARRIORS_T1_D,keyNode);
+					this.ref_tutor1EnemySquad = this.m_level.buyUnit(battle_ArmyStat.GUARDS_T1_W,keyNode);
 					this.ref_tutor1EnemyTown = keyNode;
 				} else {
-					this.m_level.buyUnit(battle_ArmyStat.WARRIORS_T1_D,keyNode);
+					this.m_level.buyUnit(battle_ArmyStat.GUARDS_T1_W,keyNode);
 				}
 			}
-			battle_ArmyStat.WARRIORS_T1_D.upkeep = 1;
+			battle_ArmyStat.GUARDS_T1_W.upkeep = 1;
 		} else if(this.m_def.levelUID == 2) {
 			this.m_level.signalBuildSupply().connect($bind(this,this.onBuildSupply_Tutorial2));
 			this.m_level.signalBuySquad().connect($bind(this,this.onBuySquad_Tutorial2));
@@ -42196,7 +42196,8 @@ level_item_BannerHeal.prototype = $extend(level_item_AnimationEffect.prototype,{
 				//// 得改一下要不然自己派的亡灵兵不被旗帜加血
 				if((sqd.getRace() == battle_CombotantRace.TheEmpire)) {
 					sqd.repair(power);
-				} else if(corruptionActive && !this.m_def_stone.ref_player.checkAllySquad(sqd)) {
+					////again race_hx_index to corrcpt green units
+				} else if(corruptionActive && !this.m_def_stone.ref_player.checkAllySquad(sqd) ||corruptionActive && race._hx_index==2) {
 					var units = sqd.getUnits();
 					var u = units.iterator();
 					while(u.hasNext()) {
