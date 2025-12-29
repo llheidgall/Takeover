@@ -39020,17 +39020,29 @@ level_LevelLogic.prototype = $extend(level_LevelData.prototype,{
 		return null;
 	}
 	,tryLordJSpell: function(_spell,_cmbnt) {
-		var maxDanger = 0;
-		var danger = 0;
 		var target = null;
-		var race = _cmbnt.getRace();
+		var factor = 0;
+		var maxFactor = 1.2;
+		var enemySet;
 		var sq = this.m_squads.getStorageIterator();
+
 		while(sq.hasNext()) {
 			var sq1 = sq.next();
-			if(sq1.isEnemyOutFromKeyNode(race)) {
-				danger = this.calcEnemyDanger(sq1,_cmbnt);
-				if(maxDanger < danger) {
-					target = sq1;
+			var isPurple = XMLData.getColorID(sq1.getRace()) == "Purple"
+
+			if(isPurple && sq1.isInBattle()) {
+				enemySet = sq1.getEnemies();
+				var _g = 0;
+				while(_g < enemySet.length) {
+					var e = enemySet[_g];
+					++_g;
+					if(e.getHealthFactor() > 0.5 && e.isInBattle()) {
+						factor = e.getMoraleFactor();
+						if(factor > maxFactor) {
+							maxFactor = factor;
+							target = e;
+						}
+					}
 				}
 			}
 		}
