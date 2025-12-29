@@ -38923,29 +38923,18 @@ level_LevelLogic.prototype = $extend(level_LevelData.prototype,{
 		return ret_val;
 	}
 	,tryCreateTerrorSpell: function(_spell,_cmbnt) {
+		var maxDanger = 0;
+		var danger = 0;
 		var target = null;
-		var factor = 0;
-		var maxFactor = 1.2;
-		var enemySet;
+		var race = _cmbnt.getRace();
 		var sq = this.m_squads.getStorageIterator();
-
 		while(sq.hasNext()) {
 			var sq1 = sq.next();
 			var isGreen = XMLData.getColorID(sq1.getRace()) == "Green"
-
-			if(!isGreen && sq1.isInBattle()) {
-				enemySet = sq1.getEnemies();
-				var _g = 0;
-				while(_g < enemySet.length) {
-					var e = enemySet[_g];
-					++_g;
-					if(e.getHealthFactor() > 0.5 && e.isInBattle()) {
-						factor = e.getMoraleFactor();
-						if(factor > maxFactor) {
-							maxFactor = factor;
-							target = e;
-						}
-					}
+			if(!sq1.isAllUnitDead() &&!sq1.__forceKilled && !sq1.isAtFort() && sq1.getRace() != battle_CombotantRace.Bandits && !isGreen) {
+				danger = this.calcEnemyDanger(sq1,_cmbnt);
+				if(maxDanger < danger) {
+					target = sq1;
 				}
 			}
 		}
@@ -38957,6 +38946,7 @@ level_LevelLogic.prototype = $extend(level_LevelData.prototype,{
 		}
 		return null;
 	}
+		
 	,tryCreateHealBanner: function(_spell,_cmbnt) {
 		var target = null;
 		var factor = 0;
@@ -114768,7 +114758,7 @@ battle_spell_SpellInfo.ICE_BLAST = new battle_spell_SpellInfo(8,1,"寒冰冲击"
 battle_spell_SpellInfo.FROST_ENCHANTMENT = new battle_spell_SpellInfo(9,2,"霜寒附魔",battle_CombotantRace.TheCult,0,150,75,25,10,"使选定区域内的己方小队获得短暂无上伤害并减少 25% 所受伤害");
 battle_spell_SpellInfo.BANNER_OF_LIBERATION = new battle_spell_SpellInfo(10,3,"解放之旗",battle_CombotantRace.TheCult,1,50,75,3,12,"保护附近的己方部队免受所有负面魔法效果");
 battle_spell_SpellInfo.GRAND_TRANSFORMATION = new battle_spell_SpellInfo(11,4,"大变革",battle_CombotantRace.TheCult,2,1,0,20,0,"摧毁敌方随机一半单位，并按数量给予法力与金币");
-battle_spell_SpellInfo.TERROR = new battle_spell_SpellInfo(12,1,"恐惧",battle_CombotantRace.Westaria,0,100,75,1,0,"恐吓敌军（使其陷入恐惧状态或解除其英勇状态）");
+battle_spell_SpellInfo.TERROR = new battle_spell_SpellInfo(12,1,"恐惧",battle_CombotantRace.TheEmpire,0,100,75,60,20,"恐吓敌军（使其陷入恐惧状态或解除其英勇状态）");
 battle_spell_SpellInfo.RAISE_THE_DEAD = new battle_spell_SpellInfo(13,2,"死者复起",battle_CombotantRace.TheEmpire,0,250,75,1,0,"召唤亡灵步兵或亡灵射手");
 battle_spell_SpellInfo.BANNER_OF_DESECRATION = new battle_spell_SpellInfo(14,3,"亵渎之旗",battle_CombotantRace.TheEmpire,1,75,75,10,12,"治愈并复活你的亡灵单位");
 battle_spell_SpellInfo.CALL_OF_THE_GRAVE = new battle_spell_SpellInfo(15,4,"墓穴召唤",battle_CombotantRace.TheEmpire,2,1,0,2,0,"将 1 至 3 个随机活体敌军转化为对应的亡灵单位");
