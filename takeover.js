@@ -22933,9 +22933,12 @@ data_LevelInfo.prototype = {
 				break;
 			case 7:
 				bonusEmpire1.setBonus(41,1);
-				bonusEmpire1.setBonus(42,1);
 				bonusEmpire1.setBonus(43,2);
-				enemyPlayers.push(this.createCombotantByRace(battle_CombotantRace.TheEmpire,550,50000,bonusEmpire1));
+				bonusEmpire1.setBonus(0,2);
+				bonusEmpire1.setBonus(1,1);
+				bonusEmpire1.setBonus(2,1);
+				bonusEmpire1.setBonus(4,1);
+				enemyPlayers.push(this.createCombotantByRace(battle_CombotantRace.TheEmpire,100,500,bonusEmpire1));
 
 				break;
 			}
@@ -114637,6 +114640,7 @@ battle_ArmyStat.SWORDSMEN_T2_W = new battle_ArmyStat("剑士",36,battle_Combotan
 battle_ArmyStat.ZOMBIE_WARRIORS_T2_E = new battle_ArmyStat("僵尸战士",27,battle_CombotantRace.TheEmpire,9,4,6,17,0,0,50,50,100,1,"Undead",2,battle_unit_CombatUnitType.Infantry,0.1,0,0,11,5);
 battle_ArmyStat.IMMORTALS_T2_D = new battle_ArmyStat("不朽者",28,battle_CombotantRace.TheKhaganate,9,4,6,15,0,0,50,50,100,1,"Undead",2,battle_unit_CombatUnitType.Infantry,0.1,0,0,11,5);
 battle_ArmyStat.MYRMIDONS_T2_B = new battle_ArmyStat("冰霜战士",28,battle_CombotantRace.TheCult,9,2,7,16,0,0,50,50,100,1,"LongSpear 50",2,battle_unit_CombatUnitType.Infantry,0.1,0,0,11,5);
+battle_ArmyStat.LEGIONARIES_T3_W = new battle_ArmyStat("军团步兵",40,battle_CombotantRace.Westaria,9,4,5,15,0,0,50,40,100,1,"ShieldWall 20;Discipline",3,battle_unit_CombatUnitType.Infantry,0.1,0,0,11,5);
 battle_ArmyStat.ARCHERS_T1_W = new battle_ArmyStat("弓箭手",16,battle_CombotantRace.Westaria,9,4,8,30,100,70,50,40,120,1,"",1,battle_unit_CombatUnitType.Archers,0.1,0,0,11,10);
 battle_ArmyStat.UNDYING_ARCHERS_T1_E = new battle_ArmyStat("不死弓手",16,battle_CombotantRace.TheEmpire,9,5,9,30,100,70,50,40,120,1,"Undead",1,battle_unit_CombatUnitType.Archers,0.1,0,0,11,10);
 battle_ArmyStat.HUNTERS_T1_D = new battle_ArmyStat("猎人",15,battle_CombotantRace.TheKhaganate,9,4,10,30,100,70,50,40,120,1,"Poisonous 1",1,battle_unit_CombatUnitType.Archers,0.1,0,0,11,10);
@@ -114678,6 +114682,7 @@ battle_ArmyStat.BRIGAND_ARCHERS_T1_N = new battle_ArmyStat("Brigand Archers",16,
 //overrides for TheEmpire
 battle_ArmyStat.armyStatBD.h[3].h[0].h[1] = battle_ArmyStat.GUARDS_T1_W;
 battle_ArmyStat.armyStatBD.h[3].h[0].h[2] = battle_ArmyStat.SWORDSMEN_T2_W;
+battle_ArmyStat.armyStatBD.h[3].h[0].h[3] = battle_ArmyStat.LEGIONARIES_T3_W;
 battle_ArmyStat.armyStatBD.h[3].h[1].h[1] = battle_ArmyStat.ARCHERS_T1_W;
 battle_ArmyStat.armyStatBD.h[3].h[1].h[2] = battle_ArmyStat.CROSSBOWMEN_T2_W;
 battle_ArmyStat.armyStatBD.h[3].h[2].h[1] = battle_ArmyStat.KNIGHTS_T1_W;
@@ -114686,6 +114691,7 @@ battle_ArmyStat.armyStatBD.h[3].h[3].h[1] = battle_ArmyStat.TREBUCHET_T1_W;
 battle_ArmyStat.armyStatBD.h[3].h[3].h[2] = battle_ArmyStat.TREBUCHET_T1_W;
 battle_ArmyStat.armyStatBD.h[3].h[4].h[1] = battle_ArmyStat.MONKS_T1_W;
 battle_ArmyStat.armyStatBD.h[3].h[4].h[2] = battle_ArmyStat.ZEALOTS_T2_W;
+
 //overrides for ME
 battle_ArmyStat.armyStatBD.h[1].h[0].h[1] = battle_ArmyStat.UNDYING_WARRIORS_T1_E;
 battle_ArmyStat.armyStatBD.h[1].h[0].h[2] = battle_ArmyStat.ZOMBIE_WARRIORS_T2_E;

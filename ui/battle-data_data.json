@@ -2437,6 +2437,18 @@
              "type":"anim"
           },
           {
+            "name":"IconT3_W2_InfantryClass",
+            "class_name":"IconT3_W_InfantryClass_",
+            "matrix_d":1,
+            "matrix_ty":129.15,
+            "matrix_tx":77.3,
+            "matrix_c":0,
+            "matrix_a":1,
+            "alpha":1,
+            "matrix_b":0,
+            "type":"anim"
+         },
+          {
              "name":"IconT3_W_MagicClass",
              "class_name":"IconT3_W_MagicClass_",
              "matrix_d":1,
@@ -2448,18 +2460,6 @@
              "matrix_b":0,
              "type":"anim"
           },
-          {
-            "name":"IconT3_W2_MagicClass",
-            "class_name":"IconT3_W_MagicClass_",
-            "matrix_d":1,
-            "matrix_ty":94.5,
-            "matrix_tx":79.25,
-            "matrix_c":0,
-            "matrix_a":1,
-            "alpha":1,
-            "matrix_b":0,
-            "type":"anim"
-         },
           {
              "name":"MST_FearModeClass",
              "class_name":"MST_FearModeClass_",
@@ -75404,78 +75404,6 @@
                    "matrix_ty":427.9,
                    "type":"anim"
                 },
-                {
-                  "matrix_b":0,
-                  "name":"l07nd_077",
-                  "alpha":1,
-                  "matrix_a":1,
-                  "matrix_tx":700.6,
-                  "class_name":"NodeMageTowerPurpleClass",
-                  "matrix_d":1,
-                  "matrix_c":0,
-                  "matrix_ty":427.9,
-                  "type":"anim"
-               },
-               {
-                  "matrix_b":0,
-                  "name":"l07nd_077",
-                  "alpha":1,
-                  "matrix_a":1,
-                  "matrix_tx":700.6,
-                  "class_name":"NodeMageTowerPurpleClass",
-                  "matrix_d":1,
-                  "matrix_c":0,
-                  "matrix_ty":427.9,
-                  "type":"anim"
-               },
-               {
-                  "matrix_b":0,
-                  "name":"l07nd_077",
-                  "alpha":1,
-                  "matrix_a":1,
-                  "matrix_tx":700.6,
-                  "class_name":"NodeMageTowerPurpleClass",
-                  "matrix_d":1,
-                  "matrix_c":0,
-                  "matrix_ty":427.9,
-                  "type":"anim"
-               },
-               {
-                  "matrix_b":0,
-                  "name":"l07nd_077",
-                  "alpha":1,
-                  "matrix_a":1,
-                  "matrix_tx":700.6,
-                  "class_name":"NodeMageTowerPurpleClass",
-                  "matrix_d":1,
-                  "matrix_c":0,
-                  "matrix_ty":427.9,
-                  "type":"anim"
-               },
-               {
-                  "matrix_b":0,
-                  "name":"l07nd_077",
-                  "alpha":1,
-                  "matrix_a":1,
-                  "matrix_tx":700.6,
-                  "class_name":"NodeMageTowerPurpleClass",
-                  "matrix_d":1,
-                  "matrix_c":0,
-                  "matrix_ty":427.9,
-                  "type":"anim"
-               },
-               {
-                  "matrix_b":0,
-                  "name":"l07nd_077",
-                  "alpha":1,
-                  "matrix_a":1,
-                  "matrix_tx":700.6,
-                  "class_name":"NodeMageTowerPurpleClass",
-                  "matrix_d":1,
-                  "matrix_c":0,
-                  "matrix_ty":427.9,
-                  "type":"anim"
-               },
                 {
                    "matrix_b":0,
                    "name":"l05nd_057",
