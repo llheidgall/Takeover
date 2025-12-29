@@ -11574,7 +11574,7 @@ Preloader.prototype = $extend(openfl_display_Sprite.prototype,{
 		this.addChild(btn);
 	}
 	,callBackForGameDistribution: function() {
-		//window.h5api.playInterstitialAd();
+		//
 	}
 	,this_onAddedToStage: function(event) {
 		this.removeEventListener("addedToStage",$bind(this,this.this_onAddedToStage));
@@ -18836,6 +18836,30 @@ battle_squad_SquadIcon.getIcon = function(_unitType,_race,_techLevel) {
 	var iconName = "IconT" + (_techLevel == null ? "null" : "" + _techLevel) + raceChar + battle_unit_CombatUnitData.getCombatUnitTypeName(_unitType) + "Class";
 	return iconName;
 };
+battle_squad_SquadIcon.getIconNPC = function(_unitType,_race,_techLevel) {
+	var raceChar = "";
+	switch(_race._hx_index) {
+	case 1:
+		raceChar = "_E_";
+		break;
+	case 2:
+		raceChar = "_W2_";
+		break;
+	case 3:
+		raceChar = "_K_";
+		break;
+	case 4:
+		raceChar = "_B_";
+		break;
+	case 5:
+		raceChar = "_N_";
+		break;
+	default:
+		return null;
+	}
+	var iconName = "IconT" + (_techLevel == null ? "null" : "" + _techLevel) + raceChar + battle_unit_CombatUnitData.getCombatUnitTypeName(_unitType) + "Class";
+	return iconName;
+};
 battle_squad_SquadIcon.getIconColorFrame = function(_race) {
 	var frameColor = 1;
 	switch(_race._hx_index) {
@@ -18956,7 +18980,17 @@ battle_squad_SquadIcon.prototype = {
 		this.createLevelSatusAnim(_squad.getCurLevel());
 		this.actionStatusUpdated(_squad.getCurActionStatus());
 		this.createMoraleSatusAnim(_squad.getCurMoraleStatus());
-		var iconClass = battle_squad_SquadIcon.getIcon(_armyStat.unitType,_armyStat.side,_armyStat.techLevel);
+		
+		if (_armyStat.side._hx_index == 2) {
+			var iconClass = battle_squad_SquadIcon.getIconNPC(_armyStat.unitType,_armyStat.side,_armyStat.techLevel);
+			if(iconClass != null) {
+				var mcIconClass = Hlp.FromBattleDataV(iconClass);
+				mcIconClass.set_x(0);
+				mcIconClass.set_y(0);
+				ic.addChild(mcIconClass);
+			}
+		}
+		var iconClass = battle_squad_SquadIcon.getIconNPC(_armyStat.unitType,_armyStat.side,_armyStat.techLevel);
 		if(iconClass != null) {
 			var mcIconClass = Hlp.FromBattleDataV(iconClass);
 			mcIconClass.set_x(0);
@@ -112697,7 +112731,7 @@ ui_EdictsScr.prototype = $extend(GameScreen.prototype,{
 	}
 	,OnEdict: function(b) {
 		haxe_Log.trace("OnEdict",{ fileName : "src/ui/EdictsScr.hx", lineNumber : 332, className : "ui.EdictsScr", methodName : "OnEdict"});
-		//window.h5api.playInterstitialAd();
+		//
 		this.onActivateIcon(b);
 	}
 	,ChangeChildsName: function() {
@@ -112929,7 +112963,7 @@ ui_EdictsScr.prototype = $extend(GameScreen.prototype,{
 		}
 	}
 	,OnDone: function(_) {
-		//window.h5api.playInterstitialAd();
+		//
 		this.map_scr_sg_.emit();
 	}
 	,customDispose: function() {
@@ -113615,7 +113649,7 @@ ui_MissionOverScr.prototype = $extend(GameScreen.prototype,{
 		return "";
 	}
 	,OnDone: function(_) {
-		window.h5api.playInterstitialAd();
+		
 		this.map_scr_sg_.emit();
 	}
 	,customProcess: function(time_step) {
@@ -113711,7 +113745,7 @@ ui_PauseScr.prototype = $extend(GameScreen.prototype,{
 		this.gm_ctx_.InitSoundPanel(iriysoft_helper_Fwh.GetChildC(this.scr_,["mcSoundBlock"]),0.02,0.02);
 		Const.InitLogos(this.main_l_);
 		this.Resize();
-		window.h5api.playInterstitialAd();
+		
 		GameScreen.prototype.initAfterLoading.call(this);
 	}
 	,resume_sg: function() {
@@ -113724,14 +113758,14 @@ ui_PauseScr.prototype = $extend(GameScreen.prototype,{
 		return this.quit_sg_;
 	}
 	,OnResume: function(_) {
-		//window.h5api.playInterstitialAd();
+		//
 		this.resume_sg_.emit(this);
 	}
 	,OnRestart: function(_) {
 		this.restart_sg_.emit(this);
 	}
 	,OnQuit: function(_) {
-		//window.h5api.playInterstitialAd();
+		//
 		this.quit_sg_.emit(this);
 	}
 	,InitLayout: function() {

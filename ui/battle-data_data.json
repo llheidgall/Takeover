@@ -2028,6 +2028,18 @@
              "type":"anim"
           },
           {
+            "name":"IconT1_W2_ArchersClass",
+            "class_name":"IconT1_W_ArchersClass_",
+            "matrix_d":1,
+            "matrix_ty":56.6,
+            "matrix_tx":203.3,
+            "matrix_c":0,
+            "matrix_a":1,
+            "alpha":1,
+            "matrix_b":0,
+            "type":"anim"
+         },
+          {
              "name":"IconT1_W_CavalryClass",
              "class_name":"IconT1_E_CavalryClass_",
              "matrix_d":1,
@@ -2039,6 +2051,18 @@
              "matrix_b":0,
              "type":"anim"
           },
+          {
+            "name":"IconT1_W2_CavalryClass",
+            "class_name":"IconT1_W_CavalryClass_",
+            "matrix_d":1,
+            "matrix_ty":22.25,
+            "matrix_tx":200.25,
+            "matrix_c":0,
+            "matrix_a":1,
+            "alpha":1,
+            "matrix_b":0,
+            "type":"anim"
+         },
           {
              "name":"IconT1_W_InfantryClass",
              "class_name":"IconT1_E_InfantryClass_",
@@ -2052,6 +2076,18 @@
              "type":"anim"
           },
           {
+            "name":"IconT1_W2_InfantryClass",
+            "class_name":"IconT1_W_InfantryClass_",
+            "matrix_d":1,
+            "matrix_ty":273.8,
+            "matrix_tx":161.95,
+            "matrix_c":0,
+            "matrix_a":1,
+            "alpha":1,
+            "matrix_b":0,
+            "type":"anim"
+         },
+          {
              "name":"IconT1_W_MagicClass",
              "class_name":"IconT1_E_MagicClass_",
              "matrix_d":1,
@@ -2064,6 +2100,18 @@
              "type":"anim"
           },
           {
+            "name":"IconT1_W2_MagicClass",
+            "class_name":"IconT1_W_MagicClass_",
+            "matrix_d":1,
+            "matrix_ty":234.5,
+            "matrix_tx":165.5,
+            "matrix_c":0,
+            "matrix_a":1,
+            "alpha":1,
+            "matrix_b":0,
+            "type":"anim"
+         },
+          {
              "name":"IconT1_W_SiegeClass",
              "class_name":"IconT1_E_SiegeClass_",
              "matrix_d":1,
@@ -2075,6 +2123,18 @@
              "matrix_b":0,
              "type":"anim"
           },
+          {
+            "name":"IconT1_W2_SiegeClass",
+            "class_name":"IconT1_W_SiegeClass_",
+            "matrix_d":1,
+            "matrix_ty":199.45,
+            "matrix_tx":165.1,
+            "matrix_c":0,
+            "matrix_a":1,
+            "alpha":1,
+            "matrix_b":0,
+            "type":"anim"
+         },
           {
              "name":"IconT2_B_ArchersClass",
              "class_name":"IconT2_B_ArchersClass_",
@@ -2195,6 +2255,7 @@
             "matrix_b":0,
             "type":"anim"
          },
+
           {
              "name":"IconT2_K_ArchersClass",
              "class_name":"IconT2_K_ArchersClass_",
@@ -2256,6 +2317,18 @@
              "type":"anim"
           },
           {
+            "name":"IconT2_W2_ArchersClass",
+            "class_name":"IconT2_W_ArchersClass_",
+            "matrix_d":1,
+            "matrix_ty":19.5,
+            "matrix_tx":78,
+            "matrix_c":0,
+            "matrix_a":1,
+            "alpha":1,
+            "matrix_b":0,
+            "type":"anim"
+         },
+          {
              "name":"IconT2_W_CavalryClass",
              "class_name":"IconT2_E_CavalryClass_",
              "matrix_d":1,
@@ -2267,6 +2340,18 @@
              "matrix_b":0,
              "type":"anim"
           },
+          {
+            "name":"IconT2_W2_CavalryClass",
+            "class_name":"IconT2_W_CavalryClass_",
+            "matrix_d":1,
+            "matrix_ty":56.4,
+            "matrix_tx":77.15,
+            "matrix_c":0,
+            "matrix_a":1,
+            "alpha":1,
+            "matrix_b":0,
+            "type":"anim"
+         },
           {
              "name":"IconT2_W_InfantryClass",
              "class_name":"IconT2_E_InfantryClass_",
@@ -2280,6 +2365,18 @@
              "type":"anim"
           },
           {
+            "name":"IconT2_W2_InfantryClass",
+            "class_name":"IconT2_W_InfantryClass_",
+            "matrix_d":1,
+            "matrix_ty":270.5,
+            "matrix_tx":86.3,
+            "matrix_c":0,
+            "matrix_a":1,
+            "alpha":1,
+            "matrix_b":0,
+            "type":"anim"
+         },
+          {
              "name":"IconT2_W_MagicClass",
              "class_name":"IconT2_E_MagicClass_",
              "matrix_d":1,
@@ -2291,6 +2388,18 @@
              "matrix_b":0,
              "type":"anim"
           },
+          {
+            "name":"IconT2_WW_MagicClass",
+            "class_name":"IconT2_W_MagicClass_",
+            "matrix_d":1,
+            "matrix_ty":234.5,
+            "matrix_tx":81.9,
+            "matrix_c":0,
+            "matrix_a":1,
+            "alpha":1,
+            "matrix_b":0,
+            "type":"anim"
+         },
           {
              "name":"IconT3_B_ArchersClass",
              "class_name":"IconT3_B_ArchersClass_",
