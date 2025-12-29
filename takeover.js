@@ -8579,7 +8579,7 @@ Hlp.playSpellSound = function(_spellInfo) {
 	} else if(_spellInfo.id == battle_spell_SpellInfo.FROST_ENCHANTMENT.id) {
 		soundID = 148;
 	} else if(_spellInfo.id == battle_spell_SpellInfo.TERROR.id) {
-		soundID = 149;
+		soundID = 143;
 	} else if(_spellInfo.id == battle_spell_SpellInfo.DISENTOMB.id) {
 		soundID = 145;
 	} else if(_spellInfo.id == battle_spell_SpellInfo.RAISE_THE_DEAD.id) {
@@ -16205,7 +16205,7 @@ battle_CombotantData.checkSpell = function(_spellInfo,_bonuses) {
 	case battle_spell_SpellInfo.LORDS_JUDGEMENT:
 		return _bonuses.getBonus(9);
 	case battle_spell_SpellInfo.RAISE_THE_DEAD:
-		return _bonuses.getBonus(42);
+		return _bonuses.getBonus(14); /////
 	case battle_spell_SpellInfo.SUMMON_STONEWORMS:
 		return _bonuses.getBonus(20);
 	case battle_spell_SpellInfo.TERROR:
@@ -18033,9 +18033,19 @@ battle_squad_Squad.prototype = $extend(battle_squad_UnitSet.prototype,{
 		return this.m_curState == 2;
 	}
 	,isEnemyOutFromKeyNode: function(_race) {
+		
+		///// fix call to the grave and terror bug
+		if(this.getRace()._hx_index == 1 && _race._hx_index == 2 && !this.isAtFort() && !this.isAllUnitDead() && !this.__forceKilled) {
+			return false
+		}
+		if(this.getRace()._hx_index == 2 && _race._hx_index == 2 && !this.isAtFort() && !this.isAllUnitDead() && !this.__forceKilled) {
+			return true
+		}
+
 		if(this.getRace() == _race || this.getRace() == battle_CombotantRace.Bandits || this.isAtFort() || this.isAllUnitDead() || this.__forceKilled) {
 			return false;
 		}
+
 		return true;
 	}
 	,commandGotoPoint: function(_commandPoint) {
@@ -22922,7 +22932,10 @@ data_LevelInfo.prototype = {
 				enemyPlayers.push(this.createCombotantByRace(battle_CombotantRace.TheCult,100,0,bonusIcedale1));
 				break;
 			case 7:
-				enemyPlayers.push(this.createCombotantByRace(battle_CombotantRace.TheEmpire,550,0));
+				bonusEmpire1.setBonus(41,1);
+				bonusEmpire1.setBonus(42,1);
+				bonusEmpire1.setBonus(43,2);
+				enemyPlayers.push(this.createCombotantByRace(battle_CombotantRace.TheEmpire,550,50000,bonusEmpire1));
 
 				break;
 			}
@@ -38116,11 +38129,15 @@ level_LevelData.prototype = $extend(base_BObject.prototype,{
 		var sqd = null;
 		var radPow2 = _rad * _rad;
 		var uPos;
+		var isGreen;
 		var deltaDamage = _maxDamage - _minDamage;
 		var sqd1 = this.m_squads.getStorageIterator();
 		while(sqd1.hasNext()) {
 			var sqd2 = sqd1.next();
-			if(sqd2.getRace() == _race) {
+			///// fix lord's judgement spell
+			isGreen = XMLData.getColorID(sqd2.getRace()) == "Green" && _race._hx_index == 2;
+
+			if(isGreen) {
 				continue;
 			}
 			var u = sqd2.getUnits().iterator();
@@ -39848,8 +39865,8 @@ level_LevelVisual.prototype = $extend(level_LevelLogic.prototype,{
 			list = ["BannerAuraHeroismClass","BannerHeroismClass","CursorOn_HeroismClass","CursorOff_HeroismClass"];
 		} else if(_spellID == battle_spell_SpellInfo.BANNER_OF_DESECRATION.id) {
 			list = ["BannerAuraDesecrationClass","BannerDesecrationClass"];
-		} else if(_spellID == battle_spell_SpellInfo.RAISE_THE_DEAD.id) {
-			list = ["RaiseDeadSpellEffectClass"];
+		} else if(_spellID == battle_spell_SpellInfo.RAISE_THE_DEAD.id) {/////
+			list = ["BannerAuraHeroismClass","BannerHeroismClass","CursorOn_HeroismClass","CursorOff_HeroismClass"];
 		} else if(_spellID == battle_spell_SpellInfo.TERROR.id) {
 			list = ["TerrorSpellEffectClass","TerrorFlyingBatEffectClass","TerrorSplashEffectClass"];
 		} else if(_spellID == battle_spell_SpellInfo.SUMMON_STONEWORMS.id) {
@@ -39961,11 +39978,11 @@ level_Level.prototype = $extend(level_LevelVisual.prototype,{
 		} else if(_spell.id == battle_spell_SpellInfo.SIGN_OF_THE_ADVENT.id) {
 			this.manualCreateSquad(_spell.position,_combotant,battle_ArmyStat.AVATAR_T3_W);
 		} else if(_spell.id == battle_spell_SpellInfo.BANNER_OF_DESECRATION.id) {
-			this.createSpellDesecration(_spell,_combotant);
+			this.createSpellHealing(_spell,_combotant);
 		} else if(_spell.id == battle_spell_SpellInfo.RAISE_THE_DEAD.id) {
-			this.createSpellRaiseDead(_spell,_combotant);
+			this.createSpellHeroism(_spell,_combotant);
 		} else if(_spell.id == battle_spell_SpellInfo.TERROR.id) {
-			this.createSpellTerror(_spell,_combotant);
+			this.createSpellLightning(_spell,_combotant);
 		} else if(_spell.id == battle_spell_SpellInfo.SUMMON_STONEWORMS.id) {
 			this.createSpellStoneworms(_spell,_combotant);
 		} else if(_spell.id == battle_spell_SpellInfo.DISENTOMB.id) {
@@ -40055,7 +40072,7 @@ level_Level.prototype = $extend(level_LevelVisual.prototype,{
 				while(iter.hasNext()) {
 					var sqd = iter.next();
 					var sqdRace = sqd.getRace();
-					var isPurple = XMLData.getColorID(sqdRace) == "Purple";
+					var isPurple = XMLData.getColorID(sqdRace) == "Purple" && race._hx_index != 2;
 					if(sqd.isEnemyOutFromKeyNode(race) && !isPurple) {
 						--randomCounter;
 						if(randomCounter <= 0) {
@@ -40468,7 +40485,7 @@ level_Level.prototype = $extend(level_LevelVisual.prototype,{
 			if(sqd.getRace() != race || race._hx_index==2) {
 				if(sqd.checkUnitAtRadius(pos,rad)) {
 					sqd.enableTerror();
-					isPurple = XMLData.getColorID(sqd.getRace()) == "Purple";
+					isPurple = XMLData.getColorID(sqd.getRace()) == "Purple" && race._hx_index != 2;
 					if(sqd.isEnemyOutFromKeyNode(race) && !isPurple && Math.random() < transferChance) {
 						unitType = sqd.getUnitType();
 						sqdPos = sqd.getMainUnit().getPosition();
@@ -114688,7 +114705,7 @@ battle_spell_SpellInfo.ICE_BLAST = new battle_spell_SpellInfo(8,1,"寒冰冲击"
 battle_spell_SpellInfo.FROST_ENCHANTMENT = new battle_spell_SpellInfo(9,2,"霜寒附魔",battle_CombotantRace.TheCult,0,150,75,25,10,"使选定区域内的己方小队获得短暂无上伤害并减少 25% 所受伤害");
 battle_spell_SpellInfo.BANNER_OF_LIBERATION = new battle_spell_SpellInfo(10,3,"解放之旗",battle_CombotantRace.TheCult,1,50,75,3,12,"保护附近的己方部队免受所有负面魔法效果");
 battle_spell_SpellInfo.GRAND_TRANSFORMATION = new battle_spell_SpellInfo(11,4,"大变革",battle_CombotantRace.TheCult,2,1,0,20,0,"摧毁敌方随机一半单位，并按数量给予法力与金币");
-battle_spell_SpellInfo.TERROR = new battle_spell_SpellInfo(12,1,"恐惧",battle_CombotantRace.TheEmpire,0,100,75,1,0,"恐吓敌军（使其陷入恐惧状态或解除其英勇状态）");
+battle_spell_SpellInfo.TERROR = new battle_spell_SpellInfo(12,1,"恐惧",battle_CombotantRace.Westaria,0,100,75,1,0,"恐吓敌军（使其陷入恐惧状态或解除其英勇状态）");
 battle_spell_SpellInfo.RAISE_THE_DEAD = new battle_spell_SpellInfo(13,2,"死者复起",battle_CombotantRace.TheEmpire,0,250,75,1,0,"召唤亡灵步兵或亡灵射手");
 battle_spell_SpellInfo.BANNER_OF_DESECRATION = new battle_spell_SpellInfo(14,3,"亵渎之旗",battle_CombotantRace.TheEmpire,1,75,75,10,12,"治愈并复活你的亡灵单位");
 battle_spell_SpellInfo.CALL_OF_THE_GRAVE = new battle_spell_SpellInfo(15,4,"墓穴召唤",battle_CombotantRace.TheEmpire,2,1,0,2,0,"将 1 至 3 个随机活体敌军转化为对应的亡灵单位");
