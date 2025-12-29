@@ -16173,7 +16173,8 @@ battle_CombotantData.getSpellInfoList = function(_race) {
 	case 0:
 		throw new js__$Boot_HaxeError("Incompatible type");
 	case 1:
-		return [battle_spell_SpellInfo.TERROR,battle_spell_SpellInfo.RAISE_THE_DEAD,battle_spell_SpellInfo.BANNER_OF_DESECRATION];
+		///// 决定AI 法术召唤顺序
+		return [battle_spell_SpellInfo.BANNER_OF_DESECRATION,battle_spell_SpellInfo.TERROR,battle_spell_SpellInfo.RAISE_THE_DEAD];
 	case 2:
 		return [battle_spell_SpellInfo.LORDS_JUDGEMENT,battle_spell_SpellInfo.BANNER_OF_CONSECRATION,battle_spell_SpellInfo.BANNER_OF_HEROISM];
 	case 3:
@@ -22946,7 +22947,11 @@ data_LevelInfo.prototype = {
 				bonusEmpire1.setBonus(1,1);
 				bonusEmpire1.setBonus(2,1);
 				bonusEmpire1.setBonus(4,1);
-				enemyPlayers.push(this.createCombotantByRace(battle_CombotantRace.TheEmpire,10000,500,bonusEmpire1));
+				bonusEmpire1.setBonus(7,100);
+				bonusEmpire1.setBonus(11,20);
+				bonusEmpire1.setBonus(13,20);
+				bonusEmpire1.setBonus(16,20);
+				enemyPlayers.push(this.createCombotantByRace(battle_CombotantRace.TheEmpire,100,5000,bonusEmpire1));
 
 				break;
 			}
@@ -22961,14 +22966,14 @@ data_LevelInfo.prototype = {
 				enemyPlayers.push(this.createCombotantByRace(battle_CombotantRace.Westaria,0,0,bonusWestaria1));
 				break;
 			case 2:
-				bonusIcedale1.setBonus(43,1);
-				bonusIcedale1.setBonus(41,1);
-				enemyPlayers.push(this.createCombotantByRace(battle_CombotantRace.TheCult,0,0,bonusIcedale1));
+				bonusEmpire1.setBonus(43,1);
+				bonusEmpire1.setBonus(41,1);
+				enemyPlayers.push(this.createCombotantByRace(battle_CombotantRace.TheEmpire,0,0,bonusEmpire1));
 				break;
 			case 3:
 				bonusWestaria1.setBonus(5,1);
 				bonusWestaria1.setBonus(9,1);
-				bonusWestaria1.setBonus(2,1);
+				bonusWestaria1.setBonus(0,1);
 				enemyPlayers.push(this.createCombotantByRace(battle_CombotantRace.Westaria,0,0,bonusWestaria1));
 				break;
 			case 4:
@@ -22986,7 +22991,13 @@ data_LevelInfo.prototype = {
 				bonusEmpire1.setBonus(41,1);
 				bonusEmpire1.setBonus(43,1);
 				bonusEmpire1.setBonus(0,1);
+				bonusEmpire1.setBonus(2,1);
 				enemyPlayers.push(this.createCombotantByRace(battle_CombotantRace.TheEmpire,0,0,bonusEmpire1));
+				bonusIcedale1.setBonus(29,1);
+				bonusIcedale1.setBonus(38,2);
+				bonusIcedale1.setBonus(0,1);
+				bonusIcedale1.setBonus(2,1);
+				enemyPlayers.push(this.createCombotantByRace(battle_CombotantRace.TheCult,100,0,bonusIcedale1));
 				break;
 			case 6:
 				bonusWestaria1.setBonus(5,1);
@@ -23001,7 +23012,7 @@ data_LevelInfo.prototype = {
 				bonusIcedale1.setBonus(34,1);
 				bonusIcedale1.setBonus(4,1);
 				bonusIcedale1.setBonus(1,1);
-				enemyPlayers.push(this.createCombotantByRace(battle_CombotantRace.TheCult,100,0,bonusIcedale1));
+				enemyPlayers.push(this.createCombotantByRace(battle_CombotantRace.TheCult,200,300,bonusIcedale1));
 				break;
 			case 7:
 				bonusEmpire1.setBonus(41,1);
@@ -23010,7 +23021,11 @@ data_LevelInfo.prototype = {
 				bonusEmpire1.setBonus(1,1);
 				bonusEmpire1.setBonus(2,1);
 				bonusEmpire1.setBonus(4,1);
-				enemyPlayers.push(this.createCombotantByRace(battle_CombotantRace.TheEmpire,1,500,bonusEmpire1));
+				bonusEmpire1.setBonus(7,50);
+				bonusEmpire1.setBonus(11,10);
+				bonusEmpire1.setBonus(13,10);
+				bonusEmpire1.setBonus(16,10);
+				enemyPlayers.push(this.createCombotantByRace(battle_CombotantRace.TheEmpire,100,300,bonusEmpire1));
 				break;
 			}
 			break;
@@ -114782,7 +114797,7 @@ battle_spell_SpellInfo.BANNER_OF_LIBERATION = new battle_spell_SpellInfo(10,3,"�
 battle_spell_SpellInfo.GRAND_TRANSFORMATION = new battle_spell_SpellInfo(11,4,"大变革",battle_CombotantRace.TheCult,2,1,0,20,0,"摧毁敌方随机一半单位，并按数量给予法力与金币");
 battle_spell_SpellInfo.TERROR = new battle_spell_SpellInfo(12,1,"恐惧",battle_CombotantRace.TheEmpire,0,100,75,60,20,"恐吓敌军（使其陷入恐惧状态或解除其英勇状态）");
 battle_spell_SpellInfo.RAISE_THE_DEAD = new battle_spell_SpellInfo(13,2,"死者复起",battle_CombotantRace.TheEmpire,0,250,75,1,0,"召唤亡灵步兵或亡灵射手");
-battle_spell_SpellInfo.BANNER_OF_DESECRATION = new battle_spell_SpellInfo(14,3,"亵渎之旗",battle_CombotantRace.TheEmpire,1,75,75,10,12,"治愈并复活你的亡灵单位");
+battle_spell_SpellInfo.BANNER_OF_DESECRATION = new battle_spell_SpellInfo(14,3,"亵渎之旗",battle_CombotantRace.TheEmpire,1,50,75,10,12,"治愈并复活你的亡灵单位");
 battle_spell_SpellInfo.CALL_OF_THE_GRAVE = new battle_spell_SpellInfo(15,4,"墓穴召唤",battle_CombotantRace.TheEmpire,2,1,0,2,0,"将 1 至 3 个随机活体敌军转化为对应的亡灵单位");
 
 battle_squad_UnitSet.UNIT_DIST = 14;
