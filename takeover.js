@@ -16176,7 +16176,7 @@ battle_CombotantData.getSpellInfoList = function(_race) {
 		///// 决定AI 法术召唤顺序
 		return [battle_spell_SpellInfo.BANNER_OF_DESECRATION,battle_spell_SpellInfo.TERROR,battle_spell_SpellInfo.RAISE_THE_DEAD];
 	case 2:
-		return [battle_spell_SpellInfo.BANNER_OF_CONSECRATION,battle_spell_SpellInfo.LORDS_JUDGEMENT,battle_spell_SpellInfo.BANNER_OF_HEROISM];
+		return [battle_spell_SpellInfo.LORDS_JUDGEMENT,battle_spell_SpellInfo.BANNER_OF_CONSECRATION,battle_spell_SpellInfo.BANNER_OF_HEROISM];
 	case 3:
 		return [battle_spell_SpellInfo.SUMMON_STONEWORMS,battle_spell_SpellInfo.DISENTOMB,battle_spell_SpellInfo.BANNER_OF_BLOODLUST];
 	case 4:
@@ -23095,7 +23095,7 @@ data_LevelInfo.prototype = {
 				bonusWestaria1.setBonus(5,1);
 				bonusWestaria1.setBonus(1,1);
 				bonusWestaria1.setBonus(2,1);
-				bonusWestaria1.setBonus(9,2);
+				bonusWestaria1.setBonus(9,1);
 				bonusWestaria1.setBonus(0,1);
 				bonusWestaria1.setBonus(3,1);
 				bonusWestaria1.setBonus(1,1);
@@ -38979,8 +38979,8 @@ level_LevelLogic.prototype = $extend(level_LevelData.prototype,{
 	,tryCreateHealBanner: function(_spell,_cmbnt) {
 		var target = null;
 		var factor = 0;
-		var minFactor = 0.7;
-		var min2Factor = 0.25;
+		var minFactor = 0.9;
+		var min2Factor = 0.1;
 		var sq = this.m_squads.getStorageIterator();
 		while(sq.hasNext()) {
 			var sq1 = sq.next();
