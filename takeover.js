@@ -11571,7 +11571,7 @@ Preloader.prototype = $extend(openfl_display_Sprite.prototype,{
 		this.addChild(btn);
 	}
 	,callBackForGameDistribution: function() {
-		//window.h5api.playInterstitialAd();
+		//
 	}
 	,this_onAddedToStage: function(event) {
 		this.removeEventListener("addedToStage",$bind(this,this.this_onAddedToStage));
@@ -14156,7 +14156,7 @@ WindowController.prototype = $extend(iriysoft_core_templates_BaseObject.prototyp
 			// switch to Chinese
 			switch (raceName) {
 				case "Rivadis Empire":
-					raceNameInChinese = "卡瑞米森部落";
+					raceNameInChinese = "西利亚公国";
 					break;
 				case "Duchy of Westaria":
 					raceNameInChinese = "瑞瓦迪斯帝国";
@@ -40711,11 +40711,10 @@ level_Level.prototype = $extend(level_LevelVisual.prototype,{
 			if(((this.ref_rglObjectUnderCursor) instanceof level_NodeContent)) {
 				/////点开绿国城堡就没有东西了
 				var node = this.ref_rglObjectUnderCursor;
-				console.log(node)
 				if (node && node.m_raceID == 3) { this.ref_selectedNodeContent = null; }
-				else if ( node && node.owner && node.owner.m_index == 2) {
-					this.ref_selectedNodeContent = null;
-				}
+				// else if ( node && node.owner && node.owner.m_index == 2) {
+				// 	this.ref_selectedNodeContent = null;
+				// }
 				else {
 				this.ref_selectedNodeContent = node;
 				}
@@ -112863,7 +112862,7 @@ ui_EdictsScr.prototype = $extend(GameScreen.prototype,{
 	}
 	,OnEdict: function(b) {
 		haxe_Log.trace("OnEdict",{ fileName : "src/ui/EdictsScr.hx", lineNumber : 332, className : "ui.EdictsScr", methodName : "OnEdict"});
-		//window.h5api.playInterstitialAd();
+		//
 		this.onActivateIcon(b);
 	}
 	,ChangeChildsName: function() {
@@ -113095,7 +113094,7 @@ ui_EdictsScr.prototype = $extend(GameScreen.prototype,{
 		}
 	}
 	,OnDone: function(_) {
-		//window.h5api.playInterstitialAd();
+		//
 		this.map_scr_sg_.emit();
 	}
 	,customDispose: function() {
@@ -113781,7 +113780,7 @@ ui_MissionOverScr.prototype = $extend(GameScreen.prototype,{
 		return "";
 	}
 	,OnDone: function(_) {
-		window.h5api.playInterstitialAd();
+		
 		this.map_scr_sg_.emit();
 	}
 	,customProcess: function(time_step) {
@@ -113877,7 +113876,7 @@ ui_PauseScr.prototype = $extend(GameScreen.prototype,{
 		this.gm_ctx_.InitSoundPanel(iriysoft_helper_Fwh.GetChildC(this.scr_,["mcSoundBlock"]),0.02,0.02);
 		Const.InitLogos(this.main_l_);
 		this.Resize();
-		window.h5api.playInterstitialAd();
+		
 		GameScreen.prototype.initAfterLoading.call(this);
 	}
 	,resume_sg: function() {
@@ -113890,14 +113889,14 @@ ui_PauseScr.prototype = $extend(GameScreen.prototype,{
 		return this.quit_sg_;
 	}
 	,OnResume: function(_) {
-		//window.h5api.playInterstitialAd();
+		//
 		this.resume_sg_.emit(this);
 	}
 	,OnRestart: function(_) {
 		this.restart_sg_.emit(this);
 	}
 	,OnQuit: function(_) {
-		//window.h5api.playInterstitialAd();
+		//
 		this.quit_sg_.emit(this);
 	}
 	,InitLayout: function() {
