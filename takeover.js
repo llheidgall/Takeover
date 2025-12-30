@@ -6437,6 +6437,7 @@ GameBattle.SkipTutorial = function(level_id) {
 	if(level_id == 2 && levels[level_id - 1].completeStatus != 0) {
 		return true;
 	}
+	///// 跳过教程
 	return false;
 };
 GameBattle.__super__ = iriysoft_states_State;
@@ -22869,7 +22870,7 @@ data_LevelInfo.prototype = {
 		case 0:
 			switch(this.m_levelNum) {
 			case 0:
-				enemyPlayers.push(this.createCombotantByRace(battle_CombotantRace.TheEmpire,1000,0));
+				enemyPlayers.push(this.createCombotantByRace(battle_CombotantRace.TheEmpire,0,0));
 				break;
 			case 1:
 				bonusHorde1.setBonus(17,2);
