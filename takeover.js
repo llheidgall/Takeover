@@ -40711,16 +40711,8 @@ level_Level.prototype = $extend(level_LevelVisual.prototype,{
 			if(((this.ref_rglObjectUnderCursor) instanceof level_NodeContent)) {
 				/////点开绿国城堡就没有东西了
 				var node = this.ref_rglObjectUnderCursor;
-
-				if (node && node.m_raceID == 3) {
-				this.ref_selectedNodeContent = null;
-				}
-				else if (
-				node &&
-				node.m_ownerCombatant &&
-				node.m_ownerCombatant.m_race &&
-				node.m_ownerCombatant.m_race._hx_index == 1
-				) {
+				if (node && node.m_raceID == 3) { this.ref_selectedNodeContent = null; }
+				else if ( node && node.owner && node.owner.m_index == 2) {
 				this.ref_selectedNodeContent = null;
 				}
 				else {
