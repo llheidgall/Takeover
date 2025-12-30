@@ -113094,7 +113094,7 @@ ui_EdictsScr.prototype = $extend(GameScreen.prototype,{
 		var company = this.gm_ctx_.profile.selectedCompany();
 		if(company != null) {
 			var currentXP = company.xp();
-			var rewardXP = 5000;
+			var rewardXP = 2500;
 			company.set_xp(currentXP + rewardXP);
 			this.Update();
 			this.gm_ctx_.Save();
