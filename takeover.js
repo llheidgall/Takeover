@@ -11571,7 +11571,7 @@ Preloader.prototype = $extend(openfl_display_Sprite.prototype,{
 		this.addChild(btn);
 	}
 	,callBackForGameDistribution: function() {
-		//window.h5api.playInterstitialAd();
+		//
 	}
 	,this_onAddedToStage: function(event) {
 		this.removeEventListener("addedToStage",$bind(this,this.this_onAddedToStage));
@@ -14143,6 +14143,9 @@ WindowController.prototype = $extend(iriysoft_core_templates_BaseObject.prototyp
 		} else {
 			return;
 		}
+		if(winInfo == null) {
+			return;
+		}
 		var cmb = this.ref_level.getCombotants().getObject(winInfo.combotantDescription);
 		winInfo.curWindow.updateStats();
 		this.changeWindow(winInfo);
@@ -14152,6 +14155,9 @@ WindowController.prototype = $extend(iriysoft_core_templates_BaseObject.prototyp
 		var winInfo = new hud_CurWindowInfo(_node);
 		if(this.ref_level.checkPlayerControll(_cmbtn.description) == false) {
 			var raceName = battle_CombotantData.getCombotantName(_cmbtn.getRace());
+			if (raceName == "Rivadis Empire") {
+				return null; // or return winInfo with no window
+			}
 			var raceNameInChinese;
 			// switch to Chinese
 			switch (raceName) {
@@ -14196,12 +14202,14 @@ WindowController.prototype = $extend(iriysoft_core_templates_BaseObject.prototyp
 	,createBuildSupplyWindow: function(_node,_cmbtn) {
 		var pos = _node.panelCenter().getCopy();
 		var frame = this.getPanelColorFrame(_node.nodeDescription);
+
 		var winInfo = new hud_CurWindowInfo(_node);
 		var centerDef = new hud_win_CenterPanelDef(true,_node.name,frame,_node.goldSpeed,_node.supplyPower,_node.manaSpeed,this.getCenterPanelOrientation(pos.x));
 		var win;
 		if(this.ref_level.checkPlayerControll(_cmbtn.description) == false) {
 			var text;
 			var raceName = battle_CombotantData.getCombotantName(_cmbtn.getRace());
+			console.log(raceName)
 			var raceNameInChinese;
 			// switch to Chinese
 			switch (raceName) {
@@ -36744,6 +36752,7 @@ level_KeyNodeContent.prototype = $extend(level_NodeContent.prototype,{
 		level_NodeContent.prototype.customUpdate.call(this,_timeElapsed);
 	}
 	,initByKeyNodeType: function(_type,_owner) {
+		console.log("owner!",_owner)
 		var towerAdditionalPoints = _owner.bonuses.getBonus(38);
 		switch(_type._hx_index) {
 		case 0:
@@ -112862,7 +112871,7 @@ ui_EdictsScr.prototype = $extend(GameScreen.prototype,{
 	}
 	,OnEdict: function(b) {
 		haxe_Log.trace("OnEdict",{ fileName : "src/ui/EdictsScr.hx", lineNumber : 332, className : "ui.EdictsScr", methodName : "OnEdict"});
-		//window.h5api.playInterstitialAd();
+		//
 		this.onActivateIcon(b);
 	}
 	,ChangeChildsName: function() {
@@ -113094,7 +113103,7 @@ ui_EdictsScr.prototype = $extend(GameScreen.prototype,{
 		}
 	}
 	,OnDone: function(_) {
-		//window.h5api.playInterstitialAd();
+		//
 		this.map_scr_sg_.emit();
 	}
 	,customDispose: function() {
@@ -113780,7 +113789,7 @@ ui_MissionOverScr.prototype = $extend(GameScreen.prototype,{
 		return "";
 	}
 	,OnDone: function(_) {
-		window.h5api.playInterstitialAd();
+		
 		this.map_scr_sg_.emit();
 	}
 	,customProcess: function(time_step) {
@@ -113876,7 +113885,7 @@ ui_PauseScr.prototype = $extend(GameScreen.prototype,{
 		this.gm_ctx_.InitSoundPanel(iriysoft_helper_Fwh.GetChildC(this.scr_,["mcSoundBlock"]),0.02,0.02);
 		Const.InitLogos(this.main_l_);
 		this.Resize();
-		window.h5api.playInterstitialAd();
+		
 		GameScreen.prototype.initAfterLoading.call(this);
 	}
 	,resume_sg: function() {
@@ -113889,14 +113898,14 @@ ui_PauseScr.prototype = $extend(GameScreen.prototype,{
 		return this.quit_sg_;
 	}
 	,OnResume: function(_) {
-		//window.h5api.playInterstitialAd();
+		//
 		this.resume_sg_.emit(this);
 	}
 	,OnRestart: function(_) {
 		this.restart_sg_.emit(this);
 	}
 	,OnQuit: function(_) {
-		//window.h5api.playInterstitialAd();
+		//
 		this.quit_sg_.emit(this);
 	}
 	,InitLayout: function() {
