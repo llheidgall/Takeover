@@ -16176,7 +16176,7 @@ battle_CombotantData.getSpellInfoList = function(_race) {
 		///// 决定AI 法术召唤顺序
 		return [battle_spell_SpellInfo.BANNER_OF_DESECRATION,battle_spell_SpellInfo.TERROR,battle_spell_SpellInfo.RAISE_THE_DEAD];
 	case 2:
-		return [battle_spell_SpellInfo.LORDS_JUDGEMENT,battle_spell_SpellInfo.BANNER_OF_CONSECRATION,battle_spell_SpellInfo.BANNER_OF_HEROISM];
+		return [battle_spell_SpellInfo.BANNER_OF_CONSECRATION,battle_spell_SpellInfo.LORDS_JUDGEMENT,battle_spell_SpellInfo.BANNER_OF_HEROISM];
 	case 3:
 		return [battle_spell_SpellInfo.SUMMON_STONEWORMS,battle_spell_SpellInfo.DISENTOMB,battle_spell_SpellInfo.BANNER_OF_BLOODLUST];
 	case 4:
@@ -23032,10 +23032,10 @@ data_LevelInfo.prototype = {
 		case 2:
 			switch(this.m_levelNum) {
 			case 0:
-				enemyPlayers.push(this.createCombotantByRace(battle_CombotantRace.TheEmpire,0,0));
+				enemyPlayers.push(this.createCombotantByRace(battle_CombotantRace.Westaria,0,0));
 				break;
 			case 1:
-				enemyPlayers.push(this.createCombotantByRace(battle_CombotantRace.TheEmpire,0,0));
+				enemyPlayers.push(this.createCombotantByRace(battle_CombotantRace.Westaria,0,0));
 				break;
 			case 2:
 				bonusEmpire1.setBonus(41,1);
@@ -23054,6 +23054,11 @@ data_LevelInfo.prototype = {
 				bonusHorde1.setBonus(20,1);
 				bonusHorde1.setBonus(0,1);
 				enemyPlayers.push(this.createCombotantByRace(battle_CombotantRace.TheKhaganate,0,0,bonusHorde1));
+				bonusEmpire1.setBonus(41,1);
+				bonusEmpire1.setBonus(43,2);
+				bonusEmpire1.setBonus(0,1);
+				bonusEmpire1.setBonus(2,1);
+				enemyPlayers.push(this.createCombotantByRace(battle_CombotantRace.TheEmpire,130,100,bonusEmpire1));
 				break;
 			case 4:
 				bonusWestaria1.setBonus(5,1);
@@ -23087,16 +23092,15 @@ data_LevelInfo.prototype = {
 				enemyPlayers.push(this.createCombotantByRace(battle_CombotantRace.TheKhaganate,100,0,bonusHorde1));
 				break;
 			case 7:
-				bonusHorde1.setBonus(17,1);
-				bonusHorde1.setBonus(19,1);
-				bonusHorde1.setBonus(20,1);
-				bonusHorde1.setBonus(20,1);
-				bonusHorde1.setBonus(21,1);
-				bonusHorde1.setBonus(1,2);
-				bonusHorde1.setBonus(0,1);
-				bonusHorde1.setBonus(2,1);
-				bonusHorde1.setBonus(3,1);
-				enemyPlayers.push(this.createCombotantByRace(battle_CombotantRace.TheKhaganate,100,0,bonusHorde1));
+				bonusWestaria1.setBonus(5,1);
+				bonusWestaria1.setBonus(1,1);
+				bonusWestaria1.setBonus(2,1);
+				bonusWestaria1.setBonus(9,2);
+				bonusWestaria1.setBonus(0,1);
+				bonusWestaria1.setBonus(3,1);
+				bonusWestaria1.setBonus(1,1);
+				bonusWestaria1.setBonus(4,1);
+				enemyPlayers.push(this.createCombotantByRace(battle_CombotantRace.Westaria,100,0,bonusWestaria1));
 				break;
 			}
 			break;
@@ -38975,8 +38979,8 @@ level_LevelLogic.prototype = $extend(level_LevelData.prototype,{
 	,tryCreateHealBanner: function(_spell,_cmbnt) {
 		var target = null;
 		var factor = 0;
-		var minFactor = 0.8;
-		var min2Factor = 0.15;
+		var minFactor = 0.7;
+		var min2Factor = 0.25;
 		var sq = this.m_squads.getStorageIterator();
 		while(sq.hasNext()) {
 			var sq1 = sq.next();
@@ -39000,7 +39004,7 @@ level_LevelLogic.prototype = $extend(level_LevelData.prototype,{
 	,tryCreateHealBanner2: function(_spell,_cmbnt) {
 		var target = null;
 		var factor = 0;
-		var minFactor = 0.8;
+		var minFactor = 0.7;
 		var min2Factor = 0.3;
 		var sq = this.m_squads.getStorageIterator();
 		while(sq.hasNext()) {
