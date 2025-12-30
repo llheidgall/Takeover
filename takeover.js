@@ -39828,7 +39828,7 @@ level_LevelVisual.prototype = $extend(level_LevelLogic.prototype,{
 			return true;
 		}
 		//// Remove control of Green (Westaria) units in first campaign
-		if(_race == battle_CombotantRace.Westaria && GameApp.gm_ctx_ != null && GameApp.gm_ctx_.profile != null && GameApp.gm_ctx_.profile.selectedCompany() != null && GameApp.gm_ctx_.profile.selectedCompany().curLevel() == 0) {
+		if(_race == battle_CombotantRace.Westaria && GameApp.gm_ctx_ != null && GameApp.gm_ctx_.profile != null && GameApp.gm_ctx_.profile.selectedCompany() != null &&) {
 			return false;
 		}
 		//// 上帝视角，直接控制所有电脑派的亡灵兵， 可以加控制其他的
