@@ -8469,7 +8469,6 @@ Hlp.playDeadSound = function(_unitArmyStat) {
 	case battle_ArmyStat.armyStatBD.h[1].h[2].h[2]:
 	case battle_ArmyStat.armyStatBD.h[1].h[3].h[2]:
 	case battle_ArmyStat.armyStatBD.h[1].h[4].h[2]:
-	case battle_ArmyStat.armyStatBD.h[1].h[0].h[3]:
 	case battle_ArmyStat.UNDYING_ASSASSINS_T1_E:
 		return Hlp.playRandomSound([127,128]);
 	case battle_ArmyStat.DARK_KNIGHTS_T2_E:
@@ -8501,6 +8500,7 @@ Hlp.playDeadSound = function(_unitArmyStat) {
 		return Hlp.playSoundID(126);
 	default:
 	}
+
 	return Hlp.playRandomSound([119,120,121]);
 };
 Hlp.playSendSound = function(_unitArmyStat) {
@@ -8550,11 +8550,6 @@ Hlp.playBeginBattleSound = function(_unitArmyStat) {
 	case battle_ArmyStat.armyStatBD.h[1].h[2].h[2]:
 	case battle_ArmyStat.armyStatBD.h[1].h[3].h[2]:
 	case battle_ArmyStat.armyStatBD.h[1].h[4].h[2]:
-	case battle_ArmyStat.armyStatBD.h[1].h[0].h[3]:
-	case battle_ArmyStat.armyStatBD.h[1].h[1].h[3]:
-	case battle_ArmyStat.armyStatBD.h[1].h[2].h[3]:
-	case battle_ArmyStat.armyStatBD.h[1].h[3].h[3]:
-	case battle_ArmyStat.armyStatBD.h[1].h[4].h[3]:
 		return Hlp.playSoundID(140);
 	case battle_ArmyStat.GIANTBOTS_T3_B:case battle_ArmyStat.GUNBOTS_T2_B:
 		return Hlp.playSoundID(142);
@@ -8564,6 +8559,7 @@ Hlp.playBeginBattleSound = function(_unitArmyStat) {
 		return -1;
 	case battle_ArmyStat.ACOLYTES_T1_B:case battle_ArmyStat.ARCHERS_T1_W:case battle_ArmyStat.CROSSBOWMEN_T2_W:case battle_ArmyStat.GUNSMITHS_T1_B:case battle_ArmyStat.HUNTERS_T1_D:case battle_ArmyStat.MONKS_T1_W:case battle_ArmyStat.SERPENT_ARCHERS_T2_D:case battle_ArmyStat.WIZARDS_T2_B:case battle_ArmyStat.ZEALOTS_T2_W:
 		return Hlp.playSoundID(141);
+
 	}
 	return Hlp.playSoundID(138);
 };
