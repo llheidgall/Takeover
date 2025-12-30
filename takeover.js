@@ -14209,7 +14209,6 @@ WindowController.prototype = $extend(iriysoft_core_templates_BaseObject.prototyp
 		if(this.ref_level.checkPlayerControll(_cmbtn.description) == false) {
 			var text;
 			var raceName = battle_CombotantData.getCombotantName(_cmbtn.getRace());
-			console.log(raceName)
 			var raceNameInChinese;
 			// switch to Chinese
 			switch (raceName) {
@@ -36752,7 +36751,6 @@ level_KeyNodeContent.prototype = $extend(level_NodeContent.prototype,{
 		level_NodeContent.prototype.customUpdate.call(this,_timeElapsed);
 	}
 	,initByKeyNodeType: function(_type,_owner) {
-		console.log("owner!",_owner)
 		var towerAdditionalPoints = _owner.bonuses.getBonus(38);
 		switch(_type._hx_index) {
 		case 0:
