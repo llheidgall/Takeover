@@ -38853,55 +38853,57 @@ level_LevelLogic.prototype = $extend(level_LevelData.prototype,{
 		}
 	}
 	,castUlltimateWestaria: function(_cmbnt) {
-		this.castUltimateSpell(_cmbnt);
-	}
-	,castUlltimateTheCult: function(_cmbnt) {
-		var squadCounter = 0;
-		var sq = this.m_squads.getStorageIterator();
-		while(sq.hasNext()) {
-			var sq1 = sq.next();
-			if(this.checkIsEnemySquad(_cmbnt,sq1)) {
-				++squadCounter;
-			}
-		}
-		if(squadCounter > 5) {
-			this.castUltimateSpell(_cmbnt);
-		}
-	}
-	,castUlltimateTheHorde: function(_cmbnt) {
-		var mySquads = 0;
-		var enemySquads = 0;
-		var sq = this.m_squads.getStorageIterator();
-		while(sq.hasNext()) {
-			var sq1 = sq.next();
-			if(sq1.getRace() == battle_CombotantRace.Bandits) {
-				continue;
-			}
-			if(_cmbnt.checkAllySquad(sq1)) {
-				++mySquads;
-			} else {
-				++enemySquads;
-			}
-		}
-		if(enemySquads > 3) {
-			if(mySquads / enemySquads < 1) {
-				this.castUltimateSpell(_cmbnt);
-			}
-		}
-	}
-	,castUlltimateTheEmpire: function(_cmbnt) {
 		var squadCounter = 0;
 		var race = _cmbnt.getRace();
 		var sq = this.m_squads.getStorageIterator();
 		while(sq.hasNext()) {
 			var sq1 = sq.next();
-			if(sq1.isEnemyOutFromKeyNode(race) && sq1.isMechanism() == false) {
+			var isPurple = XMLData.getColorID(sq1.getRace()) == "Purple"
+			if(sq1.isEnemyOutFromKeyNode(race)) {
 				++squadCounter;
 			}
 		}
-		if(squadCounter >= 3) {
+		if(squadCounter >= 2) {
 			this.castUltimateSpell(_cmbnt);
-		}
+		}	}
+	,castUlltimateTheCult: function(_cmbnt) {
+		this.castUltimateSpell(_cmbnt);
+		// var squadCounter = 0;
+		// var sq = this.m_squads.getStorageIterator();
+		// while(sq.hasNext()) {
+		// 	var sq1 = sq.next();
+		// 	if(this.checkIsEnemySquad(_cmbnt,sq1)) {
+		// 		++squadCounter;
+		// 	}
+		// }
+		// if(squadCounter > 5) {
+		// 	this.castUltimateSpell(_cmbnt);
+		// }
+	}
+	,castUlltimateTheHorde: function(_cmbnt) {
+		this.castUltimateSpell(_cmbnt);
+		// var mySquads = 0;
+		// var enemySquads = 0;
+		// var sq = this.m_squads.getStorageIterator();
+		// while(sq.hasNext()) {
+		// 	var sq1 = sq.next();
+		// 	if(sq1.getRace() == battle_CombotantRace.Bandits) {
+		// 		continue;
+		// 	}
+		// 	if(_cmbnt.checkAllySquad(sq1)) {
+		// 		++mySquads;
+		// 	} else {
+		// 		++enemySquads;
+		// 	}
+		// }
+		// if(enemySquads > 3) {
+		// 	if(mySquads / enemySquads < 1) {
+		// 		this.castUltimateSpell(_cmbnt);
+		// 	}
+		// }
+	}
+	,castUlltimateTheEmpire: function(_cmbnt) {
+		this.castUltimateSpell(_cmbnt);
 	}
 	,tryCastSpell: function(_cmbnt,_timeElapsed) {
 		_cmbnt.useSpellCooldown -= _timeElapsed;
