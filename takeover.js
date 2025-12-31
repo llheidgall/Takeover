@@ -38168,9 +38168,7 @@ level_LevelData.prototype = $extend(base_BObject.prototype,{
 		while(sqd1.hasNext()) {
 			var sqd2 = sqd1.next();
 			///// fix lord's judgement spell
-			isGreen = XMLData.getColorID(sqd2.getRace()) == "Green" && _race._hx_index == 2;
-
-			if(isGreen) {
+			if(sqd2.getRace()._hx_index == 2) {
 				continue;
 			}
 			var u = sqd2.getUnits().iterator();
