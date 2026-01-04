@@ -1,90 +1,170 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<!-- Mirrored from html5.gamedistribution.com/rvvASMiM/e1b1c177d03844aeaf1b1ff7a60a7716/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 23 Oct 2025 03:58:30 GMT -->
+<!-- Mirrored from html5.gamedistribution.com/rvvASMiM/e1b1c177d03844aeaf1b1ff7a60a7716/index.html -->
 <head>
-	
+
 	<meta charset="utf-8">
-	
 	<title>Takeover</title>
-	
-	<meta id="viewport" name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+	<meta id="viewport" name="viewport"
+		  content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 	<meta name="apple-mobile-web-app-capable" content="yes">
-	
-	
+
 	<link rel="shortcut icon" type="image/png" href="favicon.png">
-	
+
 	<script src="https://h.api.4399.com/h5mini-2.0/h5api-interface.php"></script>
 	<script type="text/javascript" src="takeover.js"></script>
-	
+
 	<script>
-		window.addEventListener ("touchmove", function (event) { event.preventDefault (); }, { capture: false, passive: false });
-		if (typeof window.devicePixelRatio != 'undefined' && window.devicePixelRatio > 2) {
-			var meta = document.getElementById ("viewport");
-			meta.setAttribute ('content', 'width=device-width, initial-scale=' + (2 / window.devicePixelRatio) + ', user-scalable=no');
+		window.addEventListener("touchmove", function (event) {
+			event.preventDefault();
+		}, { capture: false, passive: false });
+
+		if (typeof window.devicePixelRatio !== 'undefined' && window.devicePixelRatio > 2) {
+			var meta = document.getElementById("viewport");
+			meta.setAttribute(
+				'content',
+				'width=device-width, initial-scale=' + (2 / window.devicePixelRatio) + ', user-scalable=no'
+			);
 		}
 	</script>
-	
+
 	<style>
-		html,body { margin: 0; padding: 0; height: 100%; overflow: hidden; }
-		#openfl-content { background: #000000; width: 100%; height: 100%; }
-		@font-face {
-			font-family: 'Bebas Neue Book';
-			src: url('fonts/BebasNeue%20Book.ttf') format('truetype');
-			font-weight: normal;
-			font-style: normal;
-		}
-		@font-face {
-			font-family: 'FiraSans-Bold';
-			src: url('fonts/FiraSans-Bold.ttf') format('truetype');
-			font-weight: normal;
-			font-style: normal;
-		}
-		@font-face {
-			font-family: 'FiraSans-Regular';
-			src: url('fonts/FiraSans-Regular.ttf') format('truetype');
-			font-weight: normal;
-			font-style: normal;
-		}
-		@font-face {
-			font-family: 'RobotoCondensed-Bold';
-			src: url('fonts/RobotoCondensed-Bold.ttf') format('truetype');
-			font-weight: normal;
-			font-style: normal;
-		}
-		@font-face {
-			font-family: 'RobotoCondensed-Regular';
-			src: url('fonts/RobotoCondensed-Regular.ttf') format('truetype');
-			font-weight: normal;
-			font-style: normal;
-		}
-		@font-face {
-			font-family: 'Vollkorn-Bold';
-			src: url('fonts/Vollkorn-Bold.ttf') format('truetype');
-			font-weight: normal;
-			font-style: normal;
-		}
-		@font-face {
-			font-family: 'Vollkorn-Regular';
-			src: url('fonts/Vollkorn-Regular.ttf') format('truetype');
-			font-weight: normal;
-			font-style: normal;
+		html, body {
+			margin: 0;
+			padding: 0;
+			height: 100%;
+			overflow: hidden;
 		}
 
+		#openfl-content {
+			background: #000000;
+			width: 100%;
+			height: 100%;
+		}
+
+		/* ===== Fonts ===== */
+		@font-face { font-family: 'Bebas Neue Book'; src: url('fonts/BebasNeue%20Book.ttf') format('truetype'); }
+		@font-face { font-family: 'FiraSans-Bold'; src: url('fonts/FiraSans-Bold.ttf') format('truetype'); }
+		@font-face { font-family: 'FiraSans-Regular'; src: url('fonts/FiraSans-Regular.ttf') format('truetype'); }
+		@font-face { font-family: 'RobotoCondensed-Bold'; src: url('fonts/RobotoCondensed-Bold.ttf') format('truetype'); }
+		@font-face { font-family: 'RobotoCondensed-Regular'; src: url('fonts/RobotoCondensed-Regular.ttf') format('truetype'); }
+		@font-face { font-family: 'Vollkorn-Bold'; src: url('fonts/Vollkorn-Bold.ttf') format('truetype'); }
+		@font-face { font-family: 'Vollkorn-Regular'; src: url('fonts/Vollkorn-Regular.ttf') format('truetype'); }
+
+		/* ===== Update Popup ===== */
+		#updatePopupOverlay {
+			position: fixed;
+			inset: 0;
+			background: rgba(0, 0, 0, 0.65);
+			display: none; /* 👈 hidden by default */
+			align-items: center;
+			justify-content: center;
+			z-index: 999999;
+			font-family: Arial, "Microsoft YaHei", sans-serif;
+		}
+
+		#updatePopupBox {
+			width: 520px;
+			max-width: calc(100vw - 40px);
+			background: #1f1f2e;
+			color: #ddd;
+			border-radius: 16px;
+			padding: 22px 24px;
+			box-shadow: 0 12px 40px rgba(0, 0, 0, 0.45);
+		}
+
+		#updatePopupTitle {
+			font-size: 26px;
+			font-weight: 700;
+			color: #ffffff;
+			margin-bottom: 14px;
+		}
+
+		#updatePopupContent {
+			font-size: 16px;
+			line-height: 1.6;
+		}
+
+		#updatePopupBtnRow {
+			display: flex;
+			justify-content: center;
+			margin-top: 18px;
+		}
+
+		#updatePopupBtn {
+			width: 160px;
+			height: 44px;
+			border: none;
+			border-radius: 10px;
+			background: #6f5cff;
+			color: #ffffff;
+			font-size: 16px;
+			cursor: pointer;
+		}
+
+		#updatePopupBtn:active {
+			transform: scale(0.98);
+		}
 	</style>
-	
+
 </head>
+
 <body>
-	
-	<noscript>This webpage makes extensive use of JavaScript. Please enable JavaScript in your web browser to view this page.</noscript>
-	
+
+	<noscript>
+		This webpage makes extensive use of JavaScript.
+		Please enable JavaScript in your web browser to view this page.
+	</noscript>
+
 	<div id="openfl-content"></div>
-	
+
+	<!-- ===== Update Popup (hidden, controlled from JS) ===== -->
+	<div id="updatePopupOverlay">
+		<div id="updatePopupBox">
+			<div id="updatePopupTitle">更新公告 V2.1</div>
+			<div id="updatePopupContent">
+				• 新增每个势力关卡至15关<br />
+				• 平衡调整：法术与部队单位<br />
+				• 强化AI逻辑<br /><br />
+				• <br />
+				• <br />
+				• <br /><br />
+				感谢你的支持！
+			</div>
+			<div id="updatePopupBtnRow">
+				<button id="updatePopupBtn">知道了</button>
+			</div>
+		</div>
+	</div>
+
 	<script type="text/javascript">
-		lime.embed ("takeover", "openfl-content", 0, 0, { parameters: {} });
+		// ===== Expose popup controls to game JS =====
+		window.showUpdatePopup = function () {
+			var overlay = document.getElementById("updatePopupOverlay");
+			if (overlay) overlay.style.display = "flex";
+		};
+
+		window.hideUpdatePopup = function () {
+			var overlay = document.getElementById("updatePopupOverlay");
+			if (overlay) overlay.style.display = "none";
+		};
+
+		// close handlers
+		document.addEventListener("DOMContentLoaded", function () {
+			var btn = document.getElementById("updatePopupBtn");
+			if (btn) btn.onclick = window.hideUpdatePopup;
+
+			var overlay = document.getElementById("updatePopupOverlay");
+			if (overlay) overlay.onclick = function (e) {
+				if (e.target === overlay) window.hideUpdatePopup();
+			};
+		});
+
+		lime.embed("takeover", "openfl-content", 0, 0, { parameters: {} });
 	</script>
-	
+
 </body>
 
-<!-- Mirrored from html5.gamedistribution.com/rvvASMiM/e1b1c177d03844aeaf1b1ff7a60a7716/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 23 Oct 2025 03:58:40 GMT -->
 </html>
