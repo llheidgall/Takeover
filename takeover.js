@@ -111167,7 +111167,7 @@ progress_Badges.prototype = {
 	,createBadges: function() {
 		this.m_badges = new haxe_ds_StringMap();
 		var tempMetric = this.getMetric("METRIC_WESTARIA_MISSIONS_COMPLETED");
-		var tempMetricCond = new achievements_MetricCondition(tempMetric,achievements_ComparisionOperator.GREATER_OR_EQUAL,8);
+		var tempMetricCond = new achievements_MetricCondition(tempMetric,achievements_ComparisionOperator.GREATER_OR_EQUAL,10);
 		var tempUnlockCond = new achievements_UnlockCondition(tempMetricCond);
 		var this1 = this.m_badges;
 		var v = new progress_Badge("亡灵的复仇",1,tempUnlockCond,"完成瑞瓦迪斯帝国战役");
@@ -111179,7 +111179,7 @@ progress_Badges.prototype = {
 		}
 		this.getBadge("BADGE_WESTARIA_CAMPAIGN_COMPLETE").condition().signalUnlocked().connect($bind(this,this.onBadgeUnlocked));
 		tempMetric = this.getMetric("METRIC_HORDE_MISSIONS_COMPLETED");
-		tempMetricCond = new achievements_MetricCondition(tempMetric,achievements_ComparisionOperator.GREATER_OR_EQUAL,8);
+		tempMetricCond = new achievements_MetricCondition(tempMetric,achievements_ComparisionOperator.GREATER_OR_EQUAL,10);
 		tempUnlockCond = new achievements_UnlockCondition(tempMetricCond);
 		var this2 = this.m_badges;
 		var v1 = new progress_Badge("南境横扫", 2, tempUnlockCond, "完成深红部族战役");
@@ -111191,7 +111191,7 @@ progress_Badges.prototype = {
 		}
 		this.getBadge("BADGE_HORDE_CAMPAIGN_COMPLETE").condition().signalUnlocked().connect($bind(this,this.onBadgeUnlocked));
 		tempMetric = this.getMetric("METRIC_CULT_MISSIONS_COMPLETED");
-		tempMetricCond = new achievements_MetricCondition(tempMetric,achievements_ComparisionOperator.GREATER_OR_EQUAL,8);
+		tempMetricCond = new achievements_MetricCondition(tempMetric,achievements_ComparisionOperator.GREATER_OR_EQUAL,10);
 		tempUnlockCond = new achievements_UnlockCondition(tempMetricCond);
 		var this3 = this.m_badges;
 		var v2 = new progress_Badge("北境解放", 3, tempUnlockCond, "完成霜境教团战役");
@@ -111203,7 +111203,7 @@ progress_Badges.prototype = {
 		}
 		this.getBadge("BADGE_CULT_CAMPAIGN_COMPLETE").condition().signalUnlocked().connect($bind(this,this.onBadgeUnlocked));
 		tempMetric = this.getMetric("METRIC_WESTARIA_MISSIONS_PERFECT");
-		tempMetricCond = new achievements_MetricCondition(tempMetric,achievements_ComparisionOperator.GREATER_OR_EQUAL,8);
+		tempMetricCond = new achievements_MetricCondition(tempMetric,achievements_ComparisionOperator.GREATER_OR_EQUAL,10);
 		tempUnlockCond = new achievements_UnlockCondition(tempMetricCond);
 		var this4 = this.m_badges;
 		var v3 = new progress_Badge("亡灵之皇", 4, tempUnlockCond, "以完美评价完成全部不死帝国任务");
@@ -111215,7 +111215,7 @@ progress_Badges.prototype = {
 		}
 		this.getBadge("BADGE_WESTARIA_ALL_PERFECT").condition().signalUnlocked().connect($bind(this,this.onBadgeUnlocked));
 		tempMetric = this.getMetric("METRIC_HORDE_MISSIONS_PERFECT");
-		tempMetricCond = new achievements_MetricCondition(tempMetric,achievements_ComparisionOperator.GREATER_OR_EQUAL,8);
+		tempMetricCond = new achievements_MetricCondition(tempMetric,achievements_ComparisionOperator.GREATER_OR_EQUAL,10);
 		tempUnlockCond = new achievements_UnlockCondition(tempMetricCond);
 		var this5 = this.m_badges;
 		var v4 = new progress_Badge("大汗", 5, tempUnlockCond, "以完美评价完成全部深红部族任务");
@@ -111227,7 +111227,7 @@ progress_Badges.prototype = {
 		}
 		this.getBadge("BADGE_HORDE_ALL_PERFECT").condition().signalUnlocked().connect($bind(this,this.onBadgeUnlocked));
 		tempMetric = this.getMetric("METRIC_CULT_MISSIONS_PERFECT");
-		tempMetricCond = new achievements_MetricCondition(tempMetric,achievements_ComparisionOperator.GREATER_OR_EQUAL,8);
+		tempMetricCond = new achievements_MetricCondition(tempMetric,achievements_ComparisionOperator.GREATER_OR_EQUAL,10);
 		tempUnlockCond = new achievements_UnlockCondition(tempMetricCond);
 		var this6 = this.m_badges;
 		var v5 = new progress_Badge("先知", 6, tempUnlockCond, "以完美评价完成全部霜境教团任务");
@@ -111633,7 +111633,7 @@ progress_CompanyProgress.prototype = $extend(base_BObject.prototype,{
 		this.m_victoryOn = true;
 	}
 	,isLastLevelComplete: function() {
-		return this.m_levels[7].completeStatus != 0;
+		return this.m_levels[9].completeStatus != 0;
 	}
 	,m_curLevel: null
 	,curLevel: function() {
