@@ -22992,7 +22992,6 @@ data_LevelInfo.prototype = {
 				bonusEmpire1.setBonus(13,20);
 				bonusEmpire1.setBonus(16,20);
 				enemyPlayers.push(this.createCombotantByRace(battle_CombotantRace.TheEmpire,100,5000,bonusEmpire1));
-
 				break;
 			case 8:
 				bonusHorde1.setBonus(17,1);
@@ -23168,7 +23167,7 @@ data_LevelInfo.prototype = {
 				bonusHorde1.setBonus(20,1);
 				bonusHorde1.setBonus(20,1);
 				bonusHorde1.setBonus(21,1);
-				bonusHorde1.setBonus(1,1);
+				bonusHorde1.setBonus(1,2);
 				bonusHorde1.setBonus(0,1);
 				bonusHorde1.setBonus(2,1);
 				enemyPlayers.push(this.createCombotantByRace(battle_CombotantRace.TheKhaganate,100,0,bonusHorde1));
