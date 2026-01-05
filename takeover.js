@@ -11580,7 +11580,7 @@ Preloader.prototype = $extend(openfl_display_Sprite.prototype,{
 		this.addChild(btn);
 	}
 	,callBackForGameDistribution: function() {
-		//window.h5api.playInterstitialAd();
+		//
 	}
 	,this_onAddedToStage: function(event) {
 		this.removeEventListener("addedToStage",$bind(this,this.this_onAddedToStage));
@@ -22643,7 +22643,9 @@ data_LevelInfo.prototype = {
 				case 7:
 					return "亡灵帝国的重生！"; // Hail the Empire!	
 				case 8:
-					return "亡灵帝国的重生！";	
+					return "追击余孽";	
+				case 9:
+					return "最后一战"
 			}		
 			break;
 		case 1:
@@ -22664,6 +22666,10 @@ data_LevelInfo.prototype = {
 					return "黑暗秘密";
 				case 7:
 					return "复兴";
+				case 8:
+					return "神教的湮灭";	
+				case 9:
+					return "角逐黑暗"
 				
 			}
 			break;
@@ -22684,7 +22690,11 @@ data_LevelInfo.prototype = {
 				case 6:
 					return "闭合循环";
 				case 7:
-					return "最终之战";
+					return "驱赶亡灵";
+				case 8:
+					return "追捕部落";	
+				case 9:
+					return "谁是王者"
 						
 			}
 			break;
@@ -22717,10 +22727,12 @@ data_LevelInfo.prototype = {
 					return "   在袭击首都前，我们必须完成左翼包抄。在这片冰雪之地，深红部落正与北方教团交战。是时候一举歼灭这两个异端势力了！";
 				
 				case 7:
-					return "   瑞瓦迪斯帝国必须清除所有逆贼的残余并再次崛起。向新帝国致敬，向新皇帝致敬！为了亡灵之主！";	
+					return "   瑞瓦迪斯帝国必须夺回曾经被占领的首都并再次崛起。向新帝国致敬，向新皇帝致敬！为了亡灵之主！";	
 				case 8:
-					return "   瑞瓦迪斯帝国必须清除所有逆贼的残余并再次崛起。向新帝国致敬，向新皇帝致敬！为了亡灵之主！";	
-			}			
+					return "   帝国的军队必须抓捕剩余的部落残军并将他们转化为亡灵大军，以备与北境神教的决战";
+				case 9:
+					return "   与神教决一死战的时刻已经来临，让亡灵的黑暗魔法再度统治这个世界！";
+				}			
 			break;
 		case 1:
 			switch(this.m_levelNum) {
@@ -22747,7 +22759,10 @@ data_LevelInfo.prototype = {
 				
 				case 7:
 					return "   帝国的首都——那个无数年来屠杀我们部族的帝国。现在正是大汗统治这片土地上所有生灵与亡者的时刻！";
-				
+				case 8:
+					return "   西利亚人已被击溃，现在，该轮到神教偿还他们的罪孽了。";
+				case 9:
+					return "   帝国的不死军团将与我们决战。亡灵帝国妄图挑战我们，是时候让他们认清，黑暗魔法的顶点究竟是谁";
 			}
 			break;
 		case 2:
@@ -22775,7 +22790,11 @@ data_LevelInfo.prototype = {
 				
 				case 7:
 					return "   我们将在战场上再次遇见西塔里亚人，但这一次我们将肩并肩战斗。愿主的光辉与北方魔法的力量共同将亡灵永远驱逐出我们的世界！";				
-			}
+				case 8:
+					return "   神教是时候将亡灵的势力一举歼灭，让他们永无抬头之日";
+				case 9:
+					return "   西利亚的军队已整装待发，与我们决战在即——天下共主，究竟花落谁家";
+				}
 			break;
 		}
 		return "Level Text " + this.m_levelNum;
@@ -22799,7 +22818,9 @@ data_LevelInfo.prototype = {
 		case 7:
 			return 7500;
 		case 8:
-			return 10000
+			return 8000;
+		case 9:
+			return 8500;
 		}
 		return 0;
 	}
@@ -22974,24 +22995,27 @@ data_LevelInfo.prototype = {
 
 				break;
 			case 8:
-					bonusHorde1.setBonus(17,1);
-					bonusHorde1.setBonus(19,1);
-					bonusHorde1.setBonus(20,1);
-					bonusHorde1.setBonus(20,1);
-					bonusHorde1.setBonus(21,1);
-					bonusHorde1.setBonus(1,2);
-					bonusHorde1.setBonus(0,1);
-					bonusHorde1.setBonus(2,1);
-					bonusHorde1.setBonus(3,1);
-					enemyPlayers.push(this.createCombotantByRace(battle_CombotantRace.TheKhaganate,100,0,bonusHorde1));
-					bonusIcedale1.setBonus(29,1);
+				bonusHorde1.setBonus(17,1);
+				bonusHorde1.setBonus(19,1);
+				bonusHorde1.setBonus(20,1);
+				bonusHorde1.setBonus(20,1);
+				bonusHorde1.setBonus(21,1);
+				bonusHorde1.setBonus(1,2);
+				bonusHorde1.setBonus(0,1);
+				bonusHorde1.setBonus(2,1);
+				bonusHorde1.setBonus(3,1);
+				enemyPlayers.push(this.createCombotantByRace(battle_CombotantRace.TheKhaganate,100,0,bonusHorde1));
+				
+				break;
+			case 9:
+				bonusIcedale1.setBonus(29,1);
 				bonusIcedale1.setBonus(0,1);
 				bonusIcedale1.setBonus(2,2);
 				bonusIcedale1.setBonus(34,1);
 				bonusIcedale1.setBonus(4,1);
 				bonusIcedale1.setBonus(1,1);
 				enemyPlayers.push(this.createCombotantByRace(battle_CombotantRace.TheCult,100,0,bonusIcedale1));
-					break;
+				break;
 			}
 			break;
 		case 1:
@@ -23065,6 +23089,26 @@ data_LevelInfo.prototype = {
 				bonusEmpire1.setBonus(16,10);
 				enemyPlayers.push(this.createCombotantByRace(battle_CombotantRace.TheEmpire,100,300,bonusEmpire1));
 				break;
+			case 8:
+				bonusIcedale1.setBonus(29,1);
+				bonusIcedale1.setBonus(0,1);
+				bonusIcedale1.setBonus(2,2);
+				bonusIcedale1.setBonus(34,1);
+				bonusIcedale1.setBonus(4,1);
+				bonusIcedale1.setBonus(1,1);
+				enemyPlayers.push(this.createCombotantByRace(battle_CombotantRace.TheCult,100,0,bonusIcedale1));
+				break;
+			case 9:
+				bonusWestaria1.setBonus(5,1);
+				bonusWestaria1.setBonus(1,1);
+				bonusWestaria1.setBonus(2,1);
+				bonusWestaria1.setBonus(9,1);
+				bonusWestaria1.setBonus(0,1);
+				bonusWestaria1.setBonus(3,1);
+				bonusWestaria1.setBonus(1,1);
+				bonusWestaria1.setBonus(4,1);
+				enemyPlayers.push(this.createCombotantByRace(battle_CombotantRace.Westaria,100,0,bonusWestaria1));
+				break;
 			}
 			break;
 		case 2:
@@ -23130,6 +23174,18 @@ data_LevelInfo.prototype = {
 				enemyPlayers.push(this.createCombotantByRace(battle_CombotantRace.TheKhaganate,100,0,bonusHorde1));
 				break;
 			case 7:
+				bonusHorde1.setBonus(17,1);
+				bonusHorde1.setBonus(19,1);
+				bonusHorde1.setBonus(20,1);
+				bonusHorde1.setBonus(20,1);
+				bonusHorde1.setBonus(21,1);
+				bonusHorde1.setBonus(1,2);
+				bonusHorde1.setBonus(0,1);
+				bonusHorde1.setBonus(2,1);
+				bonusHorde1.setBonus(3,1);
+				enemyPlayers.push(this.createCombotantByRace(battle_CombotantRace.TheKhaganate,100,0,bonusHorde1));
+				break;
+			case 8:
 				bonusWestaria1.setBonus(5,1);
 				bonusWestaria1.setBonus(1,1);
 				bonusWestaria1.setBonus(2,1);
@@ -23139,6 +23195,19 @@ data_LevelInfo.prototype = {
 				bonusWestaria1.setBonus(1,1);
 				bonusWestaria1.setBonus(4,1);
 				enemyPlayers.push(this.createCombotantByRace(battle_CombotantRace.Westaria,100,0,bonusWestaria1));
+				break;
+			case 9:
+				bonusEmpire1.setBonus(43,1);
+				bonusEmpire1.setBonus(41,1);
+				bonusEmpire1.setBonus(0,2);
+				bonusEmpire1.setBonus(1,1);
+				bonusEmpire1.setBonus(2,1);
+				bonusEmpire1.setBonus(4,1);
+				bonusEmpire1.setBonus(7,100);
+				bonusEmpire1.setBonus(11,20);
+				bonusEmpire1.setBonus(13,20);
+				bonusEmpire1.setBonus(16,20);
+				enemyPlayers.push(this.createCombotantByRace(battle_CombotantRace.TheEmpire,100,5000,bonusEmpire1));
 				break;
 			}
 			break;
@@ -111742,16 +111811,17 @@ progress_CompanyProgress.prototype = $extend(base_BObject.prototype,{
 	,getAvailableLevelCount: function() {
 		var _g = 0;
 		var _g1 = this.m_levels.length;
+		console.log(this.m_levels.length)
 		while(_g < _g1) {
 			var i = _g++;
-			if(i >= 9) {
+			if(i >= 10) {
 				break;
 			}
 			if(this.m_levels[i].completeStatus == 0) {
 				return i + 1;
 			}
 		}
-		return Math.min(this.m_levels.length,9) | 0;
+		return Math.min(this.m_levels.length,10) | 0;
 	}
 	,getCompletedCount: function() {
 		var _g = 0;
@@ -111787,6 +111857,7 @@ progress_CompanyProgress.prototype = $extend(base_BObject.prototype,{
 		this.m_levels[6] = new progress_LevelProgress();
 		this.m_levels[7] = new progress_LevelProgress();
 		this.m_levels[8] = new progress_LevelProgress();
+		this.m_levels[9] = new progress_LevelProgress();
 	}
 	,disposeLevelBlock: function() {
 		if(this.m_levels != null) {
@@ -112904,7 +112975,7 @@ ui_EdictsScr.prototype = $extend(GameScreen.prototype,{
 	}
 	,OnEdict: function(b) {
 		haxe_Log.trace("OnEdict",{ fileName : "src/ui/EdictsScr.hx", lineNumber : 332, className : "ui.EdictsScr", methodName : "OnEdict"});
-		//window.h5api.playInterstitialAd();
+		//
 		this.onActivateIcon(b);
 	}
 	,ChangeChildsName: function() {
@@ -113136,7 +113207,7 @@ ui_EdictsScr.prototype = $extend(GameScreen.prototype,{
 		}
 	}
 	,OnDone: function(_) {
-		//window.h5api.playInterstitialAd();
+		//
 		this.map_scr_sg_.emit();
 	}
 	,customDispose: function() {
@@ -113387,9 +113458,9 @@ var ui_MapScr = function(game_context) {
 	this.main_l_ = null;
 	this.scr_ = null;
 	this.gm_ctx_ = null;
-	this.blue_territory_colors_ = [[3,2,2,2,4,1,4,1,2,2,1,1,2,1,1,1,1,1],[3,2,2,2,4,1,3,1,2,2,4,1,2,1,1,1,1,1],[3,2,2,2,3,1,3,1,2,2,4,1,2,1,1,1,1,1],[3,2,2,3,3,4,3,1,2,2,4,1,2,1,1,1,1,1],[3,2,2,3,3,3,3,4,2,2,4,4,2,1,1,4,1,1],[3,2,2,3,3,3,3,3,2,2,4,1,2,4,4,4,4,1],[3,2,2,3,3,3,3,3,2,2,4,3,2,2,2,4,4,1],[3,2,2,3,3,3,3,3,2,2,4,3,2,2,2,2,3,1],[3,2,2,3,3,3,3,3,2,2,3,3,2,2,2,2,3,1]];
-	this.red_territory_colors_ = [[3,2,2,2,3,2,3,3,2,2,2,3,2,2,4,4,4,1],[3,2,2,2,3,2,3,3,2,2,2,4,2,2,1,4,4,1],[3,2,2,2,3,4,3,3,2,2,2,4,2,1,1,4,4,1],[3,2,2,2,3,4,3,3,2,2,2,3,2,1,1,1,4,1],[3,2,2,2,3,4,3,3,2,2,2,3,2,1,1,1,1,1],[3,2,2,2,3,4,3,3,2,2,2,1,2,1,1,1,1,1],[3,2,2,2,3,4,4,1,2,2,2,1,2,1,1,1,1,1],[3,2,2,2,4,1,4,1,2,2,2,1,2,1,1,1,1,1],[3,2,2,2,4,1,4,1,2,2,1,1,2,1,1,1,1,1]];
-	this.green_territory_colors_ = [[3,2,4,4,4,4,4,4,4,4,4,4,2,2,4,4,4,1],[3,1,4,4,4,4,3,4,2,4,4,4,2,1,1,4,4,1],[3,2,4,4,3,4,3,4,2,4,4,4,2,1,1,4,4,1],[3,2,2,3,3,4,3,4,2,4,4,4,2,4,1,4,4,1],[3,2,2,2,3,4,3,4,2,3,4,4,2,1,1,4,4,1],[3,2,2,2,3,4,3,4,2,2,4,3,2,1,1,4,4,1],[3,2,2,2,3,4,3,4,2,2,4,3,2,2,1,4,4,1],[3,2,2,2,3,2,3,3,2,2,4,3,2,2,4,4,4,1],[3,2,2,2,3,2,3,3,2,2,2,3,2,2,4,4,4,1],[3,2,4,4,4,4,4,4,4,4,4,4,2,2,4,4,4,1]];
+	this.blue_territory_colors_ = [[3,2,2,2,4,1,4,1,2,2,1,1,2,1,1,1,1,1],[3,2,2,2,4,1,3,1,2,2,4,1,2,1,1,1,1,1],[3,2,2,2,3,1,3,1,2,2,4,1,2,1,1,1,1,1],[3,2,2,3,3,4,3,1,2,2,4,1,2,1,1,1,1,1],[3,2,2,3,3,3,3,4,2,2,4,4,2,1,1,4,1,1],[3,2,2,3,3,3,3,3,2,2,4,1,2,4,4,4,4,1],[3,2,2,3,3,3,3,3,2,2,4,3,2,2,2,4,4,1],[3,2,2,3,3,3,3,3,2,2,4,3,2,2,2,2,3,1],[3,2,2,3,3,3,3,3,2,2,3,3,2,2,2,2,3,1],[3,2,2,2,4,1,4,1,2,2,1,1,2,1,1,1,1,1],[3,2,2,2,4,1,3,1,2,2,4,1,2,1,1,1,1,1]];
+	this.red_territory_colors_ = [[3,2,2,2,3,2,3,3,2,2,2,3,2,2,4,4,4,1],[3,2,2,2,3,2,3,3,2,2,2,4,2,2,1,4,4,1],[3,2,2,2,3,4,3,3,2,2,2,4,2,1,1,4,4,1],[3,2,2,2,3,4,3,3,2,2,2,3,2,1,1,1,4,1],[3,2,2,2,3,4,3,3,2,2,2,3,2,1,1,1,1,1],[3,2,2,2,3,4,3,3,2,2,2,1,2,1,1,1,1,1],[3,2,2,2,3,4,4,1,2,2,2,1,2,1,1,1,1,1],[3,2,2,2,4,1,4,1,2,2,2,1,2,1,1,1,1,1],[3,2,2,2,4,1,4,1,2,2,1,1,2,1,1,1,1,1],[3,2,2,2,3,2,3,3,2,2,2,3,2,2,4,4,4,1],[3,2,2,2,3,2,3,3,2,2,2,4,2,2,1,4,4,1]];
+	this.green_territory_colors_ = [[3,2,4,4,4,4,4,4,4,4,4,4,2,2,4,4,4,1],[3,1,4,4,4,4,3,4,2,4,4,4,2,1,1,4,4,1],[3,2,4,4,3,4,3,4,2,4,4,4,2,1,1,4,4,1],[3,2,2,3,3,4,3,4,2,4,4,4,2,4,1,4,4,1],[3,2,2,2,3,4,3,4,2,3,4,4,2,1,1,4,4,1],[3,2,2,2,3,4,3,4,2,2,4,3,2,1,1,4,4,1],[3,2,2,2,3,4,3,4,2,2,4,3,2,2,1,4,4,1],[3,2,2,2,3,2,3,3,2,2,4,3,2,2,4,4,4,1],[3,2,2,2,3,2,3,3,2,2,2,3,2,2,4,4,4,1],[3,2,4,4,4,4,4,4,4,4,4,4,2,2,4,4,4,1],[3,2,4,4,4,4,4,4,4,4,4,4,2,2,4,4,4,1]];
 	GameScreen.call(this,game_context.vs_mgr,[]);
 	this.gm_ctx_ = game_context;
 };
@@ -113822,7 +113893,7 @@ ui_MissionOverScr.prototype = $extend(GameScreen.prototype,{
 		return "";
 	}
 	,OnDone: function(_) {
-		window.h5api.playInterstitialAd();
+		
 		this.map_scr_sg_.emit();
 	}
 	,customProcess: function(time_step) {
@@ -113918,7 +113989,7 @@ ui_PauseScr.prototype = $extend(GameScreen.prototype,{
 		this.gm_ctx_.InitSoundPanel(iriysoft_helper_Fwh.GetChildC(this.scr_,["mcSoundBlock"]),0.02,0.02);
 		Const.InitLogos(this.main_l_);
 		this.Resize();
-		window.h5api.playInterstitialAd();
+		
 		GameScreen.prototype.initAfterLoading.call(this);
 	}
 	,resume_sg: function() {
@@ -113931,14 +114002,14 @@ ui_PauseScr.prototype = $extend(GameScreen.prototype,{
 		return this.quit_sg_;
 	}
 	,OnResume: function(_) {
-		//window.h5api.playInterstitialAd();
+		//
 		this.resume_sg_.emit(this);
 	}
 	,OnRestart: function(_) {
 		this.restart_sg_.emit(this);
 	}
 	,OnQuit: function(_) {
-		//window.h5api.playInterstitialAd();
+		//
 		this.quit_sg_.emit(this);
 	}
 	,InitLayout: function() {
@@ -117676,7 +117747,7 @@ progress_CompanyProgress.SAVE_VER = 1;
 progress_CompanyProgress.SKILL_POINTS_PER_RANK = 2;
 progress_CompanyProgress.MAX_SKILL_POINTS = 27;
 progress_CompanyProgress.EDICTS_FORMAT_ID = 1;
-progress_CompanyProgress.LEVEL_COUNT = 9;
+progress_CompanyProgress.LEVEL_COUNT = 10;
 progress_LevelProgress.RANK_NEW = 0;
 progress_LevelProgress.RANK_BRONZE = 1;
 progress_LevelProgress.RANK_SILVER = 2;
