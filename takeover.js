@@ -6486,6 +6486,10 @@ GameBattle.prototype = $extend(iriysoft_states_State.prototype,{
 	,initVisualBlock: function() {
 		this.m_image = GameApp.vs_mgr_.createSprite();
 		this.m_level = level_LevelParser.createLevel(this.m_def);
+		// Store player description globally for resource checks
+		if(typeof window !== 'undefined' && this.m_level.player()) {
+			window.__playerDescription = this.m_level.player().description;
+		}
 		this.m_image.addChild(this.m_level.view());
 		this.initHUDBlock();
 		this.m_image.addChild(this.m_level.cursorIconLayer());
@@ -11580,7 +11584,7 @@ Preloader.prototype = $extend(openfl_display_Sprite.prototype,{
 		this.addChild(btn);
 	}
 	,callBackForGameDistribution: function() {
-		//window.h5api.playInterstitialAd();
+		
 	}
 	,this_onAddedToStage: function(event) {
 		this.removeEventListener("addedToStage",$bind(this,this.this_onAddedToStage));
@@ -16233,6 +16237,10 @@ battle_CombotantData.prototype = {
 	,missionStats: null
 	,m_gold: null
 	,getGold: function() {
+		// Unlimited resources only for player
+		if(typeof window !== 'undefined' && window.__playerDescription && this.description && this.description.compare(window.__playerDescription)) {
+			return 999999;
+		}
 		return this.m_gold;
 	}
 	,__setGold: function(_gold) {
@@ -16243,11 +16251,20 @@ battle_CombotantData.prototype = {
 		this.missionStats.addStat(battle_stat_PlayerStats.RES_GOLD,_value);
 	}
 	,buySomething: function(_gold) {
-		this.m_gold -= _gold;
-		this.missionStats.addStat(battle_stat_PlayerStats.MONEY_SPEND,_gold);
+		// Unlimited resources only for player - don't subtract gold
+		if(typeof window !== 'undefined' && window.__playerDescription && this.description && this.description.compare(window.__playerDescription)) {
+			this.missionStats.addStat(battle_stat_PlayerStats.MONEY_SPEND,_gold);
+		} else {
+			this.m_gold -= _gold;
+			this.missionStats.addStat(battle_stat_PlayerStats.MONEY_SPEND,_gold);
+		}
 	}
 	,m_mana: null
 	,getMana: function() {
+		// Unlimited resources only for player
+		if(typeof window !== 'undefined' && window.__playerDescription && this.description && this.description.compare(window.__playerDescription)) {
+			return 999999;
+		}
 		return this.m_mana;
 	}
 	,__setMana: function(_mana) {
@@ -16269,9 +16286,15 @@ battle_CombotantData.prototype = {
 		this.castSpell(_mana);
 	}
 	,castSpell: function(_mana) {
-		this.m_mana -= _mana;
-		this.missionStats.addStat(battle_stat_PlayerStats.SPELL_CAST,1);
-		this.missionStats.addStat(battle_stat_PlayerStats.MANA_SPEND,_mana);
+		// Unlimited resources only for player - don't subtract mana
+		if(typeof window !== 'undefined' && window.__playerDescription && this.description && this.description.compare(window.__playerDescription)) {
+			this.missionStats.addStat(battle_stat_PlayerStats.SPELL_CAST,1);
+			this.missionStats.addStat(battle_stat_PlayerStats.MANA_SPEND,_mana);
+		} else {
+			this.m_mana -= _mana;
+			this.missionStats.addStat(battle_stat_PlayerStats.SPELL_CAST,1);
+			this.missionStats.addStat(battle_stat_PlayerStats.MANA_SPEND,_mana);
+		}
 	}
 	,m_race: null
 	,getRace: function() {
@@ -16334,7 +16357,11 @@ battle_CombotantData.prototype = {
 		return Math.max(this.__m_cheatUltimateFactor,this.m_ultimateCurTime / this.m_ultimateMaxTime);
 	}
 	,getFreeUpkeep: function() {
-		return this.getSupplyPower() - this.getArmyPower();
+		// Unlimited resources only for player
+		if(typeof window !== 'undefined' && window.__playerDescription && this.description && this.description.compare(window.__playerDescription)) {
+			return 999999;
+		}
+		return this.m_supplyPower - this.m_armyPower;
 	}
 	,setStat: function(_goldSpeed,_supplyPower,_armyPower,_manaSpeed,_ultimateTimeSpeed) {
 		this.m_goldSpeed = _goldSpeed;
@@ -16347,11 +16374,13 @@ battle_CombotantData.prototype = {
 		}
 	}
 	,checkCanBuy: function(_armyStat) {
-		if(this.getGold() >= this.getArmyCost(_armyStat)) {
-			return this.m_supplyPower - this.m_armyPower >= _armyStat.upkeep;
-		} else {
-			return false;
+		// Unlimited resources only for player - always return true
+		if(typeof window !== 'undefined' && window.__playerDescription && this.description && this.description.compare(window.__playerDescription)) {
+			return true;
 		}
+		// For non-player: check if we have enough gold and supply points
+		var cost = this.getArmyCost(_armyStat);
+		return this.m_gold >= cost && this.getFreeUpkeep() >= _armyStat.upkeep;
 	}
 	,buySquad: function(_squad) {
 		var armyStat = _squad.getArmyStat();
@@ -22641,7 +22670,9 @@ data_LevelInfo.prototype = {
 					return "血战到底"; // Chaos of Battle
 				
 				case 7:
-					return "亡灵帝国的重生！"; // Hail the Empire!		
+					return "亡灵帝国的重生！"; // Hail the Empire!	
+				case 8:
+					return "亡灵帝国的重生！";	
 			}		
 			break;
 		case 1:
@@ -22715,6 +22746,8 @@ data_LevelInfo.prototype = {
 					return "   在袭击首都前，我们必须完成左翼包抄。在这片冰雪之地，深红部落正与北方教团交战。是时候一举歼灭这两个异端势力了！";
 				
 				case 7:
+					return "   瑞瓦迪斯帝国必须清除所有逆贼的残余并再次崛起。向新帝国致敬，向新皇帝致敬！为了亡灵之主！";	
+				case 8:
 					return "   瑞瓦迪斯帝国必须清除所有逆贼的残余并再次崛起。向新帝国致敬，向新皇帝致敬！为了亡灵之主！";	
 			}			
 			break;
@@ -22794,6 +22827,8 @@ data_LevelInfo.prototype = {
 			return 5000;
 		case 7:
 			return 7500;
+		case 8:
+			return 10000
 		}
 		return 0;
 	}
@@ -22967,6 +23002,25 @@ data_LevelInfo.prototype = {
 				enemyPlayers.push(this.createCombotantByRace(battle_CombotantRace.TheEmpire,100,5000,bonusEmpire1));
 
 				break;
+			case 8:
+					bonusHorde1.setBonus(17,1);
+					bonusHorde1.setBonus(19,1);
+					bonusHorde1.setBonus(20,1);
+					bonusHorde1.setBonus(20,1);
+					bonusHorde1.setBonus(21,1);
+					bonusHorde1.setBonus(1,2);
+					bonusHorde1.setBonus(0,1);
+					bonusHorde1.setBonus(2,1);
+					bonusHorde1.setBonus(3,1);
+					enemyPlayers.push(this.createCombotantByRace(battle_CombotantRace.TheKhaganate,100,0,bonusHorde1));
+					bonusIcedale1.setBonus(29,1);
+				bonusIcedale1.setBonus(0,1);
+				bonusIcedale1.setBonus(2,2);
+				bonusIcedale1.setBonus(34,1);
+				bonusIcedale1.setBonus(4,1);
+				bonusIcedale1.setBonus(1,1);
+				enemyPlayers.push(this.createCombotantByRace(battle_CombotantRace.TheCult,100,0,bonusIcedale1));
+					break;
 			}
 			break;
 		case 1:
@@ -111623,7 +111677,7 @@ progress_CompanyProgress.prototype = $extend(base_BObject.prototype,{
 		return pl;
 	}
 	,getTotalSkillPoints: function() {
-		return Math.min(2 + (this.getRank() - 1) * 2,27) | 0;
+		return 27;
 	}
 	,getFreeSkillPoints: function() {
 		return this.getTotalSkillPoints() - this.m_raceEdicts.getEdictsPoints();
@@ -111719,14 +111773,14 @@ progress_CompanyProgress.prototype = $extend(base_BObject.prototype,{
 		var _g1 = this.m_levels.length;
 		while(_g < _g1) {
 			var i = _g++;
-			if(i >= 8) {
+			if(i >= 9) {
 				break;
 			}
 			if(this.m_levels[i].completeStatus == 0) {
 				return i + 1;
 			}
 		}
-		return Math.min(this.m_levels.length,8) | 0;
+		return Math.min(this.m_levels.length,9) | 0;
 	}
 	,getCompletedCount: function() {
 		var _g = 0;
@@ -111761,6 +111815,7 @@ progress_CompanyProgress.prototype = $extend(base_BObject.prototype,{
 		this.m_levels[5] = new progress_LevelProgress();
 		this.m_levels[6] = new progress_LevelProgress();
 		this.m_levels[7] = new progress_LevelProgress();
+		this.m_levels[8] = new progress_LevelProgress();
 	}
 	,disposeLevelBlock: function() {
 		if(this.m_levels != null) {
@@ -112878,7 +112933,7 @@ ui_EdictsScr.prototype = $extend(GameScreen.prototype,{
 	}
 	,OnEdict: function(b) {
 		haxe_Log.trace("OnEdict",{ fileName : "src/ui/EdictsScr.hx", lineNumber : 332, className : "ui.EdictsScr", methodName : "OnEdict"});
-		//window.h5api.playInterstitialAd();
+		
 		this.onActivateIcon(b);
 	}
 	,ChangeChildsName: function() {
@@ -113110,7 +113165,7 @@ ui_EdictsScr.prototype = $extend(GameScreen.prototype,{
 		}
 	}
 	,OnDone: function(_) {
-		//window.h5api.playInterstitialAd();
+		
 		this.map_scr_sg_.emit();
 	}
 	,customDispose: function() {
@@ -113363,7 +113418,7 @@ var ui_MapScr = function(game_context) {
 	this.gm_ctx_ = null;
 	this.blue_territory_colors_ = [[3,2,2,2,4,1,4,1,2,2,1,1,2,1,1,1,1,1],[3,2,2,2,4,1,3,1,2,2,4,1,2,1,1,1,1,1],[3,2,2,2,3,1,3,1,2,2,4,1,2,1,1,1,1,1],[3,2,2,3,3,4,3,1,2,2,4,1,2,1,1,1,1,1],[3,2,2,3,3,3,3,4,2,2,4,4,2,1,1,4,1,1],[3,2,2,3,3,3,3,3,2,2,4,1,2,4,4,4,4,1],[3,2,2,3,3,3,3,3,2,2,4,3,2,2,2,4,4,1],[3,2,2,3,3,3,3,3,2,2,4,3,2,2,2,2,3,1],[3,2,2,3,3,3,3,3,2,2,3,3,2,2,2,2,3,1]];
 	this.red_territory_colors_ = [[3,2,2,2,3,2,3,3,2,2,2,3,2,2,4,4,4,1],[3,2,2,2,3,2,3,3,2,2,2,4,2,2,1,4,4,1],[3,2,2,2,3,4,3,3,2,2,2,4,2,1,1,4,4,1],[3,2,2,2,3,4,3,3,2,2,2,3,2,1,1,1,4,1],[3,2,2,2,3,4,3,3,2,2,2,3,2,1,1,1,1,1],[3,2,2,2,3,4,3,3,2,2,2,1,2,1,1,1,1,1],[3,2,2,2,3,4,4,1,2,2,2,1,2,1,1,1,1,1],[3,2,2,2,4,1,4,1,2,2,2,1,2,1,1,1,1,1],[3,2,2,2,4,1,4,1,2,2,1,1,2,1,1,1,1,1]];
-	this.green_territory_colors_ = [[3,2,4,4,4,4,4,4,4,4,4,4,2,2,4,4,4,1],[3,1,4,4,4,4,3,4,2,4,4,4,2,1,1,4,4,1],[3,2,4,4,3,4,3,4,2,4,4,4,2,1,1,4,4,1],[3,2,2,3,3,4,3,4,2,4,4,4,2,4,1,4,4,1],[3,2,2,2,3,4,3,4,2,3,4,4,2,1,1,4,4,1],[3,2,2,2,3,4,3,4,2,2,4,3,2,1,1,4,4,1],[3,2,2,2,3,4,3,4,2,2,4,3,2,2,1,4,4,1],[3,2,2,2,3,2,3,3,2,2,4,3,2,2,4,4,4,1],[3,2,2,2,3,2,3,3,2,2,2,3,2,2,4,4,4,1]];
+	this.green_territory_colors_ = [[3,2,4,4,4,4,4,4,4,4,4,4,2,2,4,4,4,1],[3,1,4,4,4,4,3,4,2,4,4,4,2,1,1,4,4,1],[3,2,4,4,3,4,3,4,2,4,4,4,2,1,1,4,4,1],[3,2,2,3,3,4,3,4,2,4,4,4,2,4,1,4,4,1],[3,2,2,2,3,4,3,4,2,3,4,4,2,1,1,4,4,1],[3,2,2,2,3,4,3,4,2,2,4,3,2,1,1,4,4,1],[3,2,2,2,3,4,3,4,2,2,4,3,2,2,1,4,4,1],[3,2,2,2,3,2,3,3,2,2,4,3,2,2,4,4,4,1],[3,2,2,2,3,2,3,3,2,2,2,3,2,2,4,4,4,1],[3,2,4,4,4,4,4,4,4,4,4,4,2,2,4,4,4,1]];
 	GameScreen.call(this,game_context.vs_mgr,[]);
 	this.gm_ctx_ = game_context;
 };
@@ -113796,7 +113851,7 @@ ui_MissionOverScr.prototype = $extend(GameScreen.prototype,{
 		return "";
 	}
 	,OnDone: function(_) {
-		window.h5api.playInterstitialAd();
+		
 		this.map_scr_sg_.emit();
 	}
 	,customProcess: function(time_step) {
@@ -113892,7 +113947,6 @@ ui_PauseScr.prototype = $extend(GameScreen.prototype,{
 		this.gm_ctx_.InitSoundPanel(iriysoft_helper_Fwh.GetChildC(this.scr_,["mcSoundBlock"]),0.02,0.02);
 		Const.InitLogos(this.main_l_);
 		this.Resize();
-		window.h5api.playInterstitialAd();
 		GameScreen.prototype.initAfterLoading.call(this);
 	}
 	,resume_sg: function() {
@@ -113905,14 +113959,14 @@ ui_PauseScr.prototype = $extend(GameScreen.prototype,{
 		return this.quit_sg_;
 	}
 	,OnResume: function(_) {
-		//window.h5api.playInterstitialAd();
+		
 		this.resume_sg_.emit(this);
 	}
 	,OnRestart: function(_) {
 		this.restart_sg_.emit(this);
 	}
 	,OnQuit: function(_) {
-		//window.h5api.playInterstitialAd();
+		
 		this.quit_sg_.emit(this);
 	}
 	,InitLayout: function() {
@@ -117650,7 +117704,7 @@ progress_CompanyProgress.SAVE_VER = 1;
 progress_CompanyProgress.SKILL_POINTS_PER_RANK = 2;
 progress_CompanyProgress.MAX_SKILL_POINTS = 27;
 progress_CompanyProgress.EDICTS_FORMAT_ID = 1;
-progress_CompanyProgress.LEVEL_COUNT = 8;
+progress_CompanyProgress.LEVEL_COUNT = 9;
 progress_LevelProgress.RANK_NEW = 0;
 progress_LevelProgress.RANK_BRONZE = 1;
 progress_LevelProgress.RANK_SILVER = 2;
