@@ -36860,9 +36860,9 @@ level_KeyNodeContent.prototype = $extend(level_NodeContent.prototype,{
 	,getNextLevelCost: function(_level) {
 		switch(_level) {
 		case 0:
-			return 350;
+			return 300;
 		case 1:
-			return 500;
+			return 400;
 		default:
 			return -1;
 		}
@@ -36893,7 +36893,7 @@ level_KeyNodeContent.prototype = $extend(level_NodeContent.prototype,{
 			this.goldSpeed = 2;
 			this.manaSpeed = 0;
 			this.supplyPower = 1;
-			this.m_maxHP = 500;
+			this.m_maxHP = 600;
 			this.name = "城镇";
 			this.unitTypeForBy = [0,1];
 			break;
@@ -36901,7 +36901,7 @@ level_KeyNodeContent.prototype = $extend(level_NodeContent.prototype,{
 			this.goldSpeed = 3;
 			this.manaSpeed = 1;
 			this.supplyPower = 2;
-			this.m_maxHP = 1000;
+			this.m_maxHP = 1200;
 			this.name = "城堡";
 			this.unitTypeForBy = [0,1,2,3];
 			break;
@@ -36909,7 +36909,7 @@ level_KeyNodeContent.prototype = $extend(level_NodeContent.prototype,{
 			this.goldSpeed = 1;
 			this.manaSpeed = 0;
 			this.supplyPower = 0;
-			this.m_maxHP = 500;
+			this.m_maxHP = 600;
 			this.name = "营地";
 			this.unitTypeForBy = [0,1];
 			break;
@@ -36917,7 +36917,7 @@ level_KeyNodeContent.prototype = $extend(level_NodeContent.prototype,{
 			this.goldSpeed = 1 + towerAdditionalPoints;
 			this.manaSpeed = 2 + towerAdditionalPoints;
 			this.supplyPower = 1 + towerAdditionalPoints;
-			this.m_maxHP = 500;
+			this.m_maxHP = 600;
 			this.name = "魔法塔";
 			this.ultimateTimeSpeed = 1;
 			this.unitTypeForBy = [0,4];
@@ -114113,7 +114113,7 @@ ui_StartScr.prototype = $extend(GameScreen.prototype,{
 		this.back_alpha_.touchable = true;
 		this.back_alpha_.set_visible(false);
 		this.back_alpha_.signalTouch.addSlot($bind(this,this.OnHideChooseWindow));
-		iriysoft_helper_Fwh.GetChildT(this.scr_,["version_"]).set_text("v" + "2.1");
+		iriysoft_helper_Fwh.GetChildT(this.scr_,["version_"]).set_text("v" + "2.2");
 		this.InitBlue();
 		this.InitGreen();
 		this.InitRed();
@@ -114939,7 +114939,7 @@ battle_spell_SpellInfo.LORDS_JUDGEMENT = new battle_spell_SpellInfo(0,1,"亡灵�
 battle_spell_SpellInfo.BANNER_OF_CONSECRATION = new battle_spell_SpellInfo(1,2,"魂祭之旗",battle_CombotantRace.Westaria,1,50,75,14,12,"以亡灵之力治愈不死大军");
 battle_spell_SpellInfo.BANNER_OF_HEROISM = new battle_spell_SpellInfo(2,3,"亡灵召唤",battle_CombotantRace.Westaria,0,225,75,2,12,"随机召唤1到2队亡灵军队在指定区域");
 battle_spell_SpellInfo.SIGN_OF_THE_ADVENT = new battle_spell_SpellInfo(3,4,"墓穴召唤",battle_CombotantRace.Westaria,2,1,0,0,0,"将 1 至 3 个随机活体敌军转化为对应的亡灵单位");
-battle_spell_SpellInfo.SUMMON_STONEWORMS = new battle_spell_SpellInfo(4,1,"召唤石虫",battle_CombotantRace.TheKhaganate,0,100,75,8,10,"石虫会对选定区域内的敌军造成伤害");
+battle_spell_SpellInfo.SUMMON_STONEWORMS = new battle_spell_SpellInfo(4,1,"召唤石虫",battle_CombotantRace.TheKhaganate,0,100,75,7,10,"石虫会对选定区域内的敌军造成伤害");
 battle_spell_SpellInfo.DISENTOMB = new battle_spell_SpellInfo(5,2,"破墓",battle_CombotantRace.TheKhaganate,0,150,75,3,0,"召唤一支不朽者小队");
 battle_spell_SpellInfo.BANNER_OF_BLOODLUST = new battle_spell_SpellInfo(6,3,"嗜血之旗",battle_CombotantRace.TheKhaganate,1,40,75,4,12,"提高己方部队造成的伤害");
 battle_spell_SpellInfo.CATACLYSM = new battle_spell_SpellInfo(7,4,"天灾浩劫",battle_CombotantRace.TheKhaganate,2,1,150,8,0,"流星雨对敌方所有小队和要塞造成巨大伤害，并对己方造成中等伤害");
