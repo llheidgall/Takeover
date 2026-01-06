@@ -23059,6 +23059,7 @@ data_LevelInfo.prototype = {
 				bonusWestaria1.setBonus(5,1);
 				bonusWestaria1.setBonus(9,1);
 				bonusWestaria1.setBonus(0,1);
+				bonusWestaria1.setBonus(10,10);
 				enemyPlayers.push(this.createCombotantByRace(battle_CombotantRace.Westaria,0,0,bonusWestaria1));
 				break;
 			case 4:
@@ -23066,6 +23067,7 @@ data_LevelInfo.prototype = {
 				bonusWestaria1.setBonus(41,1);
 				bonusWestaria1.setBonus(2,1);
 				bonusWestaria1.setBonus(0,1);
+				bonusWestaria1.setBonus(10,10);
 				enemyPlayers.push(this.createCombotantByRace(battle_CombotantRace.Westaria,0,0,bonusWestaria1));
 				bonusIcedale1.setBonus(29,1);
 				bonusIcedale1.setBonus(0,1);
@@ -40671,12 +40673,7 @@ level_Level.prototype = $extend(level_LevelVisual.prototype,{
 		var esq;
 		var isPurple;
 		var lightningBonus = _combotant.bonuses.getBonus(10);
-		var transferChance = 0.01;
-		if(lightningBonus == 10) {
-			transferChance = 0.10;
-		} else if(lightningBonus == 20) {
-			transferChance = 0.20;
-		}
+		var transferChance = lightningBonus / 100;
 		while(iter.hasNext()) {
 			sqd = iter.next();
 			//// here, NPC Westaria always return race._hx_index == 2.
