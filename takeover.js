@@ -22810,17 +22810,17 @@ data_LevelInfo.prototype = {
 		case 3:
 			return 2000;
 		case 4:
-			return 3000;
+			return 2500;
 		case 5:
-			return 4000;
+			return 3500;
 		case 6:
-			return 5000;
+			return 4500;
 		case 7:
-			return 7500;
+			return 6000;
 		case 8:
-			return 8000;
+			return 6500;
 		case 9:
-			return 8500;
+			return 7500;
 		}
 		return 0;
 	}
@@ -116685,32 +116685,32 @@ metagame_Edict.W_THE_LORDS_CHURCH = new metagame_Edict("冥主暗堂-解锁魂�
 metagame_Edict.W_DUCAL_SOVEREIGNITY = new metagame_Edict("冥权统御-解锁基础亡灵",[new metagame_EdictContent(0,0,"解锁基础亡灵"),new metagame_EdictContent(50,20,"亡灵军队击杀敌军小队时 +20 金币"),new metagame_EdictContent(50,40,"亡灵军队击杀敌军小队时 +40 金币")],0,0);
 metagame_Edict.W_CALL_FOR_THE_CRUSADE = new metagame_Edict("暗影号令-解锁亡灵审判",[new metagame_EdictContent(9,1,"解锁冥雷审判"),new metagame_EdictContent(10,10,"+10% 概率直接转化敌方单位"),new metagame_EdictContent(10,20,"+20% 概率直接转化敌方单位")],4);
 metagame_Edict.W_TOWN_GUILDS = new metagame_Edict("死亡馈能-步兵转化为僵尸战士",[new metagame_EdictContent(0,1,"将卫兵转化为僵尸战士"),new metagame_EdictContent(47,10,"亡灵军队击杀敌军小队时 +10 法力"),new metagame_EdictContent(47,20,"亡灵军队击杀敌军小队时 +20 法力")],4);
-metagame_Edict.W_THE_ZEALOTS_ORDER = new metagame_Edict("死影法则-不死刺客转化为阴魂",[new metagame_EdictContent(4,1,"将侍僧转化为冥执者"),new metagame_EdictContent(12,-7,"终极技能冷却 -7%"),new metagame_EdictContent(12,-15,"终极技能冷却 -15%")],7);
-metagame_Edict.W_MECHANICS_RESEARCH = new metagame_Edict("亡械典籍-堕化射手和攻城机械",[new metagame_EdictContent(2,1,"将弓手改造为骨弩手",3,1),new metagame_EdictContent(13,7,"弓箭 / 攻城武器伤害 +7%"),new metagame_EdictContent(13,15,"弓箭 / 攻城武器伤害 +15%")],7);
-metagame_Edict.W_HEROIC_EPOS = new metagame_Edict("亡者集结-解锁亡灵召唤",[new metagame_EdictContent(14,1,"解锁亡灵大军"),new metagame_EdictContent(15,7,"召唤两批亡灵部队"),new metagame_EdictContent(15,15,"概率召唤骑兵和魔法士")],11);
-metagame_Edict.W_REGULAR_TOURNAMENTS = new metagame_Edict("暗影试炼-骑士堕化为地狱战骑",[new metagame_EdictContent(1,1,"将骑士堕化为地狱战骑"),new metagame_EdictContent(48,15,"攻击附带生命吸取 +15%"),new metagame_EdictContent(7,50,"骑兵冲锋伤害 +50%")],11);
-metagame_Edict.W_LEGION = new metagame_Edict("帝国之怒，强化终极法术， 最多可转化3个敌军",[new metagame_EdictContent(44,3,"墓穴召唤可转化最多4个敌军"),new metagame_EdictContent(45,8,"所有亡灵单位攻击伤害 +8%"),new metagame_EdictContent(46,8,"所有亡灵单位成本 -8%")],15);
+metagame_Edict.W_THE_ZEALOTS_ORDER = new metagame_Edict("死影法则-不死刺客转化为阴魂",[new metagame_EdictContent(4,1,"将侍僧转化为冥执者"),new metagame_EdictContent(12,-7,"终极技能冷却 -7%"),new metagame_EdictContent(12,-15,"终极技能冷却 -15%")],8);
+metagame_Edict.W_MECHANICS_RESEARCH = new metagame_Edict("亡械典籍-堕化射手和攻城机械",[new metagame_EdictContent(2,1,"将弓手改造为骨弩手",3,1),new metagame_EdictContent(13,7,"弓箭 / 攻城武器伤害 +7%"),new metagame_EdictContent(13,15,"弓箭 / 攻城武器伤害 +15%")],8);
+metagame_Edict.W_HEROIC_EPOS = new metagame_Edict("亡者集结-解锁亡灵召唤",[new metagame_EdictContent(14,1,"解锁亡灵大军"),new metagame_EdictContent(15,7,"召唤两批亡灵部队"),new metagame_EdictContent(15,15,"概率召唤骑兵和魔法士")],12);
+metagame_Edict.W_REGULAR_TOURNAMENTS = new metagame_Edict("暗影试炼-骑士堕化为地狱战骑",[new metagame_EdictContent(1,1,"将骑士堕化为地狱战骑"),new metagame_EdictContent(48,15,"攻击附带生命吸取 +15%"),new metagame_EdictContent(7,50,"骑兵冲锋伤害 +50%")],12);
+metagame_Edict.W_LEGION = new metagame_Edict("帝国之怒，强化终极法术， 最多可转化3个敌军",[new metagame_EdictContent(44,3,"墓穴召唤可转化最多4个敌军"),new metagame_EdictContent(45,8,"所有亡灵单位攻击伤害 +8%"),new metagame_EdictContent(46,8,"所有亡灵单位成本 -8%")],16);
 
 
 metagame_Edict.H_BLOODLUST = new metagame_Edict("嗜血-解锁嗜血之旗",[new metagame_EdictContent(17,1,"解锁嗜血之旗"),new metagame_EdictContent(18,25,"对要塞伤害 +25%"),new metagame_EdictContent(18,50,"对要塞伤害 +50%")],0,0);
 metagame_Edict.H_DECLARATION_OF_WAR = new metagame_Edict("宣战令-解锁基础部队",[new metagame_EdictContent(0,0,"解锁基础部队"),new metagame_EdictContent(19,10,"部队移动速度 +10%"),new metagame_EdictContent(19,20,"部队移动速度 +20%")],0,0);
 metagame_Edict.H_SPEEKING_WHIT_ANIMALS = new metagame_Edict("与兽沟通-解锁诱捕石蠕虫法术",[new metagame_EdictContent(20,1,"解锁诱捕石蠕虫法术"),new metagame_EdictContent(21,1,"+1 条蠕虫（延长诱捕石蠕虫）"),new metagame_EdictContent(21,2,"+2 条蠕虫（延长诱捕石蠕虫）")],4);
 metagame_Edict.H_3_DAYS_TO_PLUNDER = new metagame_Edict("三日劫掠-游牧者升级为骑射者",[new metagame_EdictContent(1,1,"将游牧者升级为骑射者"),new metagame_EdictContent(22,75,"占领要塞 +75 金币"),new metagame_EdictContent(22,150,"占领要塞 +150 金币")],4);
-metagame_Edict.H_RAID_THE_TOMBS = new metagame_Edict("掠夺古墓-战士升级为不朽者",[new metagame_EdictContent(0,1,"将战士升级为不朽者"),new metagame_EdictContent(23,1,"不朽者小队 +1 单位"),new metagame_EdictContent(23,2,"不朽者小队 +2 单位")],7);
-metagame_Edict.H_POISONS_RESEARCH = new metagame_Edict("毒素研究-猎人升级为蛇毒弓手",[new metagame_EdictContent(2,1,"将猎人升级为蛇毒弓手"),new metagame_EdictContent(24,1,"毒伤害 +1"),new metagame_EdictContent(24,2,"毒伤害 +2")],7);
-metagame_Edict.H_DARK_TEACHING = new metagame_Edict("黑暗教义-解锁亡魂出土",[new metagame_EdictContent(25,1,"解锁亡魂出土"),new metagame_EdictContent(26,3,"小队阵亡时终极技能充能 +3%"),new metagame_EdictContent(26,6,"小队阵亡时终极技能充能 +6%")],11);
-metagame_Edict.H_DREADFUL_MACHINERY = new metagame_Edict("恐怖机械-投石车升级为毒性投石机",[new metagame_EdictContent(3,1,"将投石车升级为毒性投石机"),new metagame_EdictContent(27,50,"攻城武器移动速度 +50%"),new metagame_EdictContent(27,100,"攻城武器移动速度 +100%")],11);
-metagame_Edict.H_NECROPOLIS_EXCAVATIONS = new metagame_Edict("死城发掘-骑兵升级为远古骑士",[new metagame_EdictContent(1,2,"将骑兵升级为远古骑士"),new metagame_EdictContent(28,-7,"亡灵部队费用 -7%"),new metagame_EdictContent(28,-15,"亡灵部队费用 -15%")],15);
+metagame_Edict.H_RAID_THE_TOMBS = new metagame_Edict("掠夺古墓-战士升级为不朽者",[new metagame_EdictContent(0,1,"将战士升级为不朽者"),new metagame_EdictContent(23,1,"不朽者小队 +1 单位"),new metagame_EdictContent(23,2,"不朽者小队 +2 单位")],8);
+metagame_Edict.H_POISONS_RESEARCH = new metagame_Edict("毒素研究-猎人升级为蛇毒弓手",[new metagame_EdictContent(2,1,"将猎人升级为蛇毒弓手"),new metagame_EdictContent(24,1,"毒伤害 +1"),new metagame_EdictContent(24,2,"毒伤害 +2")],8);
+metagame_Edict.H_DARK_TEACHING = new metagame_Edict("黑暗教义-解锁亡魂出土",[new metagame_EdictContent(25,1,"解锁亡魂出土"),new metagame_EdictContent(26,3,"小队阵亡时终极技能充能 +3%"),new metagame_EdictContent(26,6,"小队阵亡时终极技能充能 +6%")],12);
+metagame_Edict.H_DREADFUL_MACHINERY = new metagame_Edict("恐怖机械-投石车升级为毒性投石机",[new metagame_EdictContent(3,1,"将投石车升级为毒性投石机"),new metagame_EdictContent(27,50,"攻城武器移动速度 +50%"),new metagame_EdictContent(27,100,"攻城武器移动速度 +100%")],12);
+metagame_Edict.H_NECROPOLIS_EXCAVATIONS = new metagame_Edict("死城发掘-骑兵升级为远古骑士",[new metagame_EdictContent(1,2,"将骑兵升级为远古骑士"),new metagame_EdictContent(28,-7,"亡灵部队费用 -7%"),new metagame_EdictContent(28,-15,"亡灵部队费用 -15%")],16);
 
 metagame_Edict.I_ARCANE_FROST = new metagame_Edict("奥术寒霜-解锁冰冻",[new metagame_EdictContent(29,1,"解锁寒冰冲击"),new metagame_EdictContent(30,1,"冻结时长 +1 秒"),new metagame_EdictContent(30,2,"冻结时长 +2 秒")],0,0);
 metagame_Edict.I_DECLARATION_OF_INDEPENDENCE = new metagame_Edict("独立宣言-解锁基础部队",[new metagame_EdictContent(0,0,"解锁基础部队"),new metagame_EdictContent(31,-15,"农场、矿场、方尖碑费用 -15%"),new metagame_EdictContent(31,-30,"农场、矿场、方尖碑费用 -30%")],0,0);
 metagame_Edict.I_ARTISIANS_GUILD = new metagame_Edict("工匠行会-枪匠升级为机械枪兵",[new metagame_EdictContent(2,1,"将枪械师升级为机械枪兵"),new metagame_EdictContent(32,5,"机械单位暴击率 +5%"),new metagame_EdictContent(32,10,"机械单位暴击率 +10%")],4);
 metagame_Edict.I_REBEL_ARMY = new metagame_Edict("反叛军-反叛者升级为冰霜战士",[new metagame_EdictContent(0,1,"将反叛者升级为重装战士"),new metagame_EdictContent(33,7,"步兵冻结概率 +7%"),new metagame_EdictContent(33,15,"步兵冻结概率 +15%")],4);
-metagame_Edict.I_MAGIC_LIBRARY = new metagame_Edict("魔法图书馆,-解锁霜附魔",[new metagame_EdictContent(34,1,"解锁霜附魔"),new metagame_EdictContent(35,-10,"法术消耗 -10%"),new metagame_EdictContent(35,-20,"法术消耗 -20%")],7);
-metagame_Edict.I_LIBERATION_ARMY = new metagame_Edict("解放军魂-解锁解放之旗",[new metagame_EdictContent(36,1,"解锁解放之旗"),new metagame_EdictContent(37,15,"小队获得经验速度 +15%"),new metagame_EdictContent(37,30,"小队获得经验速度 +30%")],7);
-metagame_Edict.I_MAGIC_ACADEMY = new metagame_Edict("魔法学院-侍祭升级为巫师",[new metagame_EdictContent(4,1,"将侍祭升级为巫师"),new metagame_EdictContent(38,1,"魔塔提供 +1 金币/补给/法力"),new metagame_EdictContent(38,2,"魔塔提供 +2 金币/补给/法力")],11);
-metagame_Edict.I_BREAK_IN_THE_REPTILES = new metagame_Edict("驯化巨蜥-枪骑兵升级为龙枪兵",[new metagame_EdictContent(1,1,"将枪骑兵升级为龙枪兵"),new metagame_EdictContent(39,10,"骑兵生命值 +10%"),new metagame_EdictContent(39,20,"骑兵生命值 +20%")],11);
-metagame_Edict.I_GIANT_CONSTRUCTION = new metagame_Edict("巨像建造-射手升级为巨型机甲",[new metagame_EdictContent(2,2,"将射手升级为巨型机甲"),new metagame_EdictContent(40,2,"巨型机甲每秒恢复 2% 生命"),new metagame_EdictContent(40,4,"巨型机甲每秒恢复 4% 生命")],15);
+metagame_Edict.I_MAGIC_LIBRARY = new metagame_Edict("魔法图书馆,-解锁霜附魔",[new metagame_EdictContent(34,1,"解锁霜附魔"),new metagame_EdictContent(35,-10,"法术消耗 -10%"),new metagame_EdictContent(35,-20,"法术消耗 -20%")],8);
+metagame_Edict.I_LIBERATION_ARMY = new metagame_Edict("解放军魂-解锁解放之旗",[new metagame_EdictContent(36,1,"解锁解放之旗"),new metagame_EdictContent(37,15,"小队获得经验速度 +15%"),new metagame_EdictContent(37,30,"小队获得经验速度 +30%")],8);
+metagame_Edict.I_MAGIC_ACADEMY = new metagame_Edict("魔法学院-侍祭升级为巫师",[new metagame_EdictContent(4,1,"将侍祭升级为巫师"),new metagame_EdictContent(38,1,"魔塔提供 +1 金币/补给/法力"),new metagame_EdictContent(38,2,"魔塔提供 +2 金币/补给/法力")],12);
+metagame_Edict.I_BREAK_IN_THE_REPTILES = new metagame_Edict("驯化巨蜥-枪骑兵升级为龙枪兵",[new metagame_EdictContent(1,1,"将枪骑兵升级为龙枪兵"),new metagame_EdictContent(39,10,"骑兵生命值 +10%"),new metagame_EdictContent(39,20,"骑兵生命值 +20%")],12);
+metagame_Edict.I_GIANT_CONSTRUCTION = new metagame_Edict("巨像建造-射手升级为巨型机甲",[new metagame_EdictContent(2,2,"将射手升级为巨型机甲"),new metagame_EdictContent(40,2,"巨型机甲每秒恢复 2% 生命"),new metagame_EdictContent(40,4,"巨型机甲每秒恢复 4% 生命")],16);
 
 motion_actuators_SimpleActuator.actuators = [];
 motion_actuators_SimpleActuator.actuatorsLength = 0;
