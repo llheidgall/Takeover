@@ -11580,7 +11580,7 @@ Preloader.prototype = $extend(openfl_display_Sprite.prototype,{
 		this.addChild(btn);
 	}
 	,callBackForGameDistribution: function() {
-		//window.h5api.playInterstitialAd();
+		//
 	}
 	,this_onAddedToStage: function(event) {
 		this.removeEventListener("addedToStage",$bind(this,this.this_onAddedToStage));
@@ -112974,7 +112974,7 @@ ui_EdictsScr.prototype = $extend(GameScreen.prototype,{
 	}
 	,OnEdict: function(b) {
 		haxe_Log.trace("OnEdict",{ fileName : "src/ui/EdictsScr.hx", lineNumber : 332, className : "ui.EdictsScr", methodName : "OnEdict"});
-		//window.h5api.playInterstitialAd();
+		//
 		this.onActivateIcon(b);
 	}
 	,ChangeChildsName: function() {
@@ -113206,7 +113206,7 @@ ui_EdictsScr.prototype = $extend(GameScreen.prototype,{
 		}
 	}
 	,OnDone: function(_) {
-		//window.h5api.playInterstitialAd();
+		//
 		this.map_scr_sg_.emit();
 	}
 	,customDispose: function() {
@@ -113457,9 +113457,10 @@ var ui_MapScr = function(game_context) {
 	this.main_l_ = null;
 	this.scr_ = null;
 	this.gm_ctx_ = null;
-	this.blue_territory_colors_ = [[3,2,2,2,4,1,4,1,2,2,1,1,2,1,1,1,1,1],[3,2,2,2,4,1,3,1,2,2,4,1,2,1,1,1,1,1],[3,2,2,2,3,1,3,1,2,2,4,1,2,1,1,1,1,1],[3,2,2,3,3,4,3,1,2,2,4,1,2,1,1,1,1,1],[3,2,2,3,3,3,3,4,2,2,4,4,2,1,1,4,1,1],[3,2,2,3,3,3,3,3,2,2,4,1,2,4,4,4,4,1],[3,2,2,3,3,3,3,3,2,2,4,3,2,2,2,4,4,1],[3,2,2,3,3,3,3,3,2,2,4,3,2,2,2,2,3,1],[3,2,2,3,3,3,3,3,2,2,3,3,2,2,2,2,3,1],[3,3,3,3,3,3,3,3,3,3,3,3,3,2,3,3,3,3],[3,3,3,3,3,3,3,3,3,3,3,3,3,2,3,3,3,3]];
-	this.red_territory_colors_ = [[3,2,2,2,3,2,3,3,2,2,2,3,2,2,4,4,4,1],[3,2,2,2,3,2,3,3,2,2,2,4,2,2,1,4,4,1],[3,2,2,2,3,4,3,3,2,2,2,4,2,1,1,4,4,1],[3,2,2,2,3,4,3,3,2,2,2,3,2,1,1,1,4,1],[3,2,2,2,3,4,3,3,2,2,2,3,2,1,1,1,1,1],[3,2,2,2,3,4,3,3,2,2,2,1,2,1,1,1,1,1],[3,2,2,2,3,4,4,1,2,2,2,1,2,1,1,1,1,1],[3,2,2,2,4,1,4,1,2,2,2,1,2,1,1,1,1,1],[3,2,2,2,4,1,4,1,2,2,1,1,2,1,1,1,1,1],[1,1,1,2,1,1,1,1,1,1,1,1,1,1,1,1,1,1],[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]];
-	this.green_territory_colors_ = [[3,2,4,4,4,4,4,4,4,4,4,4,2,2,4,4,4,1],[3,1,4,4,4,4,3,4,2,4,4,4,2,1,1,4,4,1],[3,2,4,4,3,4,3,4,2,4,4,4,2,1,1,4,4,1],[3,2,2,3,3,4,3,4,2,4,4,4,2,4,1,4,4,1],[3,2,2,2,3,4,3,4,2,3,4,4,2,1,1,4,4,1],[3,2,2,2,3,4,3,4,2,2,4,3,2,1,1,4,4,1],[3,2,2,2,3,4,3,4,2,2,4,3,2,2,1,4,4,1],[3,2,2,2,3,2,3,3,2,2,4,3,2,2,4,4,4,1],[3,2,2,2,3,2,3,3,2,2,2,3,2,2,4,4,4,1],[3,2,4,4,4,4,4,4,4,4,4,4,2,2,4,4,4,1],[4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4]];
+	//// 1 红 2黑 3蓝 4 绿
+	this.blue_territory_colors_ = [[3,2,2,2,4,1,2,1,2,2,1,1,2,1,1,1,1,1],[3,2,2,2,4,1,3,1,2,2,2,1,2,1,1,1,1,1],[3,2,2,4,3,1,3,1,2,2,2,1,2,1,1,1,1,1],[3,2,2,3,3,4,3,1,2,2,2,1,2,1,1,1,1,1],[3,2,2,3,3,3,3,2,2,2,2,2,2,1,1,2,1,1],[3,2,2,3,3,3,3,3,2,2,1,1,2,1,1,1,1,1],[3,2,2,3,3,3,3,3,2,2,1,3,2,2,2,1,1,1],[3,2,2,3,3,3,3,3,2,2,1,3,2,2,2,2,3,1],[3,2,2,3,3,3,3,3,2,2,3,3,2,2,2,2,3,1],[3,3,3,3,3,3,3,3,3,3,3,3,3,4,3,3,3,3],[3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3]];
+	this.red_territory_colors_ = [[3,2,2,2,3,2,3,3,2,2,2,3,2,2,4,4,4,1],[3,2,2,2,3,2,3,3,2,2,2,4,2,2,1,4,4,1],[3,2,2,2,3,4,3,3,2,2,2,4,2,1,1,4,4,1],[3,2,2,2,3,2,3,3,2,2,2,3,2,1,1,1,2,1],[3,2,2,2,3,4,3,3,2,2,2,3,2,1,1,1,1,1],[3,2,2,2,3,4,3,3,2,2,2,1,2,1,1,1,1,1],[3,2,2,2,3,2,2,1,2,2,2,1,2,1,1,1,1,1],[3,2,2,2,3,1,3,1,2,2,4,1,2,1,1,1,1,1],[3,2,2,3,3,1,3,1,2,3,1,1,2,1,1,1,1,1],[2,2,2,2,2,1,2,1,1,1,1,1,1,1,1,1,1,1],[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]];
+	this.green_territory_colors_ = [[3,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,1],[3,1,4,4,4,4,3,4,2,4,4,4,2,1,1,4,4,1],[3,2,4,4,3,4,3,4,2,4,4,4,2,1,1,4,4,1],[3,2,2,3,3,4,3,4,2,4,4,4,2,4,1,4,4,1],[3,2,2,2,3,4,3,4,2,3,4,4,2,1,1,4,4,1],[3,2,2,2,3,4,3,4,2,2,4,3,2,1,1,4,4,1],[3,2,2,2,3,4,3,4,2,2,4,3,2,2,1,4,4,1],[3,2,2,2,3,2,3,3,2,2,4,3,2,2,4,4,4,1],[3,2,2,2,3,2,3,3,2,2,2,3,2,2,1,1,1,1],[3,2,2,2,3,2,3,3,2,2,2,3,2,2,2,3,3,2],[2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2]];
 	GameScreen.call(this,game_context.vs_mgr,[]);
 	this.gm_ctx_ = game_context;
 };
@@ -113892,7 +113893,7 @@ ui_MissionOverScr.prototype = $extend(GameScreen.prototype,{
 		return "";
 	}
 	,OnDone: function(_) {
-		window.h5api.playInterstitialAd();
+		
 		this.map_scr_sg_.emit();
 	}
 	,customProcess: function(time_step) {
@@ -113988,7 +113989,7 @@ ui_PauseScr.prototype = $extend(GameScreen.prototype,{
 		this.gm_ctx_.InitSoundPanel(iriysoft_helper_Fwh.GetChildC(this.scr_,["mcSoundBlock"]),0.02,0.02);
 		Const.InitLogos(this.main_l_);
 		this.Resize();
-		window.h5api.playInterstitialAd();
+		
 		GameScreen.prototype.initAfterLoading.call(this);
 	}
 	,resume_sg: function() {
@@ -114001,14 +114002,14 @@ ui_PauseScr.prototype = $extend(GameScreen.prototype,{
 		return this.quit_sg_;
 	}
 	,OnResume: function(_) {
-		//window.h5api.playInterstitialAd();
+		//
 		this.resume_sg_.emit(this);
 	}
 	,OnRestart: function(_) {
 		this.restart_sg_.emit(this);
 	}
 	,OnQuit: function(_) {
-		//window.h5api.playInterstitialAd();
+		//
 		this.quit_sg_.emit(this);
 	}
 	,InitLayout: function() {
@@ -114825,7 +114826,7 @@ battle_CombotantData.START_GOLD = 0;
 battle_CombotantData.START_MANA = 0;
 //// override the units here, 电脑的好像可以直接改battle_CombotantRace， 但是玩家的只能改数据库, 改了一堆这里
 battle_ArmyStat.GUARDS_T1_W = new battle_ArmyStat("卫兵",26,battle_CombotantRace.Westaria,9,2,3,15,0,0,50,40,100,1,"",1,battle_unit_CombatUnitType.Infantry,0.1,0,0,11,5);
-battle_ArmyStat.UNDYING_WARRIORS_T1_E = new battle_ArmyStat("不死战士",19,battle_CombotantRace.TheEmpire,9,2,5,15,0,0,50,40,100,1,"Undead",1,battle_unit_CombatUnitType.Infantry,0.1,0,0,11,5);
+battle_ArmyStat.UNDYING_WARRIORS_T1_E = new battle_ArmyStat("不死战士",19,battle_CombotantRace.TheEmpire,9,2,5,15,0,0,50,50,100,1,"Undead",1,battle_unit_CombatUnitType.Infantry,0.1,0,0,11,5);
 battle_ArmyStat.WARRIORS_T1_D = new battle_ArmyStat("战士",18,battle_CombotantRace.TheKhaganate,9,3,4,15,0,0,50,50,100,1,"",1,battle_unit_CombatUnitType.Infantry,0.1,0,0,11,5);
 battle_ArmyStat.REBELS_T1_B = new battle_ArmyStat("叛军",22,battle_CombotantRace.TheCult,9,1,5,16,0,0,50,50,100,1,"LongSpear 50",1,battle_unit_CombatUnitType.Infantry,0.1,0,0,11,5);
 battle_ArmyStat.SWORDSMEN_T2_W = new battle_ArmyStat("剑士",36,battle_CombotantRace.Westaria,9,3,4,15,0,0,50,50,100,1,"ShieldWall 15",2,battle_unit_CombatUnitType.Infantry,0.1,0,0,11,5);
