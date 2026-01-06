@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Level 8 Battle Map Visualizer</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+        
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+        
+        .canvas-container {
+            position: relative;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+        
+        canvas {
+            display: block;
+            cursor: crosshair;
+        }
+        
+        .info-panel {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .info-box {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid;
+        }
+        
+        .info-box.castle { border-color: #ff6b6b; }
+        .info-box.town { border-color: #4ecdc4; }
+        .info-box.tower { border-color: #ffe66d; }
+        .info-box.mouse { border-color: #a8dadc; }
+        
+        .info-box h3 {
+            margin: 0 0 10px 0;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .info-box .count {
+            font-size: 32px;
+            font-weight: bold;
+            margin: 0;
+        }
+        
+        .legend {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-top: 15px;
+        }
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 8px 15px;
+            border-radius: 20px;
+        }
+        
+        .legend-color {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            border: 2px solid white;
+        }
+        
+        .mouse-coords {
+            font-family: 'Courier New', monospace;
+            font-size: 18px;
+        }
+
+        .file-input-container {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        #fileInput {
+            display: none;
+        }
+
+        .file-label {
+            display: inline-block;
+            padding: 12px 24px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 2px solid white;
+        }
+
+        .file-label:hover {
+            background: rgba(255, 255, 255, 0.5);
+            transform: translateY(-2px);
+        }
+
+        .loading {
+            text-align: center;
+            padding: 20px;
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🏰 Level 8 Battle Map Visualizer 🏰</h1>
+        
+        <div class="file-input-container">
+            <input type="file" id="fileInput" accept=".json">
+            <label for="fileInput" class="file-label">
+                📁 Load battle-data_data.json
+            </label>
+        </div>
+
+        <div id="loading" class="loading" style="display: none;">
+            Loading and parsing data...
+        </div>
+        
+        <div class="canvas-container">
+            <canvas id="mapCanvas"></canvas>
+        </div>
+        
+        <div class="legend">
+            <div class="legend-item">
+                <div class="legend-color" style="background: #ff6b6b;"></div>
+                <span>Castle</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background: #4ecdc4;"></div>
+                <span>Town</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background: #ffe66d;"></div>
+                <span>Magic Tower</span>
+            </div>
+        </div>
+        
+        <div class="info-panel">
+            <div class="info-box castle">
+                <h3>Castles</h3>
+                <p class="count" id="castleCount">0</p>
+            </div>
+            <div class="info-box town">
+                <h3>Towns</h3>
+                <p class="count" id="townCount">0</p>
+            </div>
+            <div class="info-box tower">
+                <h3>Magic Towers</h3>
+                <p class="count" id="towerCount">0</p>
+            </div>
+            <div class="info-box mouse">
+                <h3>Mouse Position</h3>
+                <p class="mouse-coords" id="mousePos">X: 0, Y: 0</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('mapCanvas');
+        const ctx = canvas.getContext('2d');
+        const fileInput = document.getElementById('fileInput');
+        const loading = document.getElementById('loading');
+        
+        let nodes = {
+            castles: [],
+            towns: [],
+            towers: []
+        };
+
+        // Set canvas size
+        canvas.width = 900;
+        canvas.height = 600;
+
+        // Colors for different node types
+        const colors = {
+            castle: '#ff6b6b',
+            town: '#4ecdc4',
+            tower: '#ffe66d'
+        };
+
+        fileInput.addEventListener('change', async (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            loading.style.display = 'block';
+
+            const reader = new FileReader();
+            reader.onload = async (event) => {
+                try {
+                    const jsonData = JSON.parse(event.target.result);
+                    parseLevel8Data(jsonData);
+                    drawMap();
+                    loading.style.display = 'none';
+                } catch (error) {
+                    console.error('Error parsing JSON:', error);
+                    alert('Error parsing JSON file. Please check the console for details.');
+                    loading.style.display = 'none';
+                }
+            };
+            reader.readAsText(file);
+        });
+
+        function parseLevel8Data(data) {
+            // Find Level8GraphMarkersClass in the data
+            const root = data.root;
+            if (!root || !root.childs) {
+                console.error('Invalid data structure');
+                return;
+            }
+
+            let level8Data = null;
+            
+            // Search through the children to find Level8GraphMarkersClass
+            function findLevel8(obj) {
+                if (obj.name === 'Level8GraphMarkersClass') {
+                    return obj;
+                }
+                if (obj.childs && Array.isArray(obj.childs)) {
+                    for (let child of obj.childs) {
+                        const result = findLevel8(child);
+                        if (result) return result;
+                    }
+                }
+                return null;
+            }
+
+            level8Data = findLevel8(root);
+
+            if (!level8Data || !level8Data.childs) {
+                console.error('Level8GraphMarkersClass not found');
+                return;
+            }
+
+            // Reset nodes
+            nodes = {
+                castles: [],
+                towns: [],
+                towers: []
+            };
+
+            // Parse nodes
+            level8Data.childs.forEach(child => {
+                const className = child.class_name || '';
+                const x = child.matrix_tx || 0;
+                const y = child.matrix_ty || 0;
+                const name = child.name || '';
+
+                if (className.includes('NodeCastle')) {
+                    nodes.castles.push({ x, y, name, color: colors.castle });
+                } else if (className.includes('NodeTown')) {
+                    nodes.towns.push({ x, y, name, color: colors.town });
+                } else if (className.includes('NodeMageTower')) {
+                    nodes.towers.push({ x, y, name, color: colors.tower });
+                }
+            });
+
+            // Update counts
+            document.getElementById('castleCount').textContent = nodes.castles.length;
+            document.getElementById('townCount').textContent = nodes.towns.length;
+            document.getElementById('towerCount').textContent = nodes.towers.length;
+
+            console.log('Parsed nodes:', nodes);
+        }
+
+        function drawMap() {
+            // Clear canvas
+            ctx.fillStyle = '#f0f0f0';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            // Draw grid
+            ctx.strokeStyle = '#e0e0e0';
+            ctx.lineWidth = 1;
+            for (let x = 0; x < canvas.width; x += 50) {
+                ctx.beginPath();
+                ctx.moveTo(x, 0);
+                ctx.lineTo(x, canvas.height);
+                ctx.stroke();
+            }
+            for (let y = 0; y < canvas.height; y += 50) {
+                ctx.beginPath();
+                ctx.moveTo(0, y);
+                ctx.lineTo(canvas.width, y);
+                ctx.stroke();
+            }
+
+            // Helper function to draw a node
+            function drawNode(node, type) {
+                // Scale and center the coordinates
+                const scale = 1;
+                const offsetX = 50;
+                const offsetY = 50;
+                
+                const x = node.x * scale + offsetX;
+                const y = node.y * scale + offsetY;
+
+                // Skip if outside canvas
+                if (x < 0 || x > canvas.width || y < 0 || y > canvas.height) {
+                    return;
+                }
+
+                // Draw node circle
+                ctx.beginPath();
+                ctx.arc(x, y, 8, 0, Math.PI * 2);
+                ctx.fillStyle = node.color;
+                ctx.fill();
+                ctx.strokeStyle = 'white';
+                ctx.lineWidth = 2;
+                ctx.stroke();
+
+                // Draw label
+                ctx.font = 'bold 12px Arial';
+                ctx.fillStyle = '#333';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'bottom';
+                
+                // Draw text background
+                const text = type.toUpperCase();
+                const textWidth = ctx.measureText(text).width;
+                ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
+                ctx.fillRect(x - textWidth/2 - 4, y - 20, textWidth + 8, 16);
+                
+                ctx.fillStyle = '#333';
+                ctx.fillText(text, x, y - 6);
+
+                // Draw coordinates
+                ctx.font = '10px Arial';
+                ctx.fillStyle = 'rgba(0, 0, 0, 0.6)';
+                ctx.fillText(`(${node.x.toFixed(1)}, ${node.y.toFixed(1)})`, x, y + 20);
+            }
+
+            // Draw all nodes
+            nodes.castles.forEach(node => drawNode(node, '🏰 Castle'));
+            nodes.towns.forEach(node => drawNode(node, '🏘️ Town'));
+            nodes.towers.forEach(node => drawNode(node, '🗼 Tower'));
+        }
+
+        // Mouse move handler
+        canvas.addEventListener('mousemove', (e) => {
+            const rect = canvas.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            
+            // Convert back to original coordinates
+            const scale = 1;
+            const offsetX = 50;
+            const offsetY = 50;
+            const originalX = (x - offsetX) / scale;
+            const originalY = (y - offsetY) / scale;
+            
+            document.getElementById('mousePos').textContent = 
+                `X: ${originalX.toFixed(2)}, Y: ${originalY.toFixed(2)}`;
+
+            // Redraw map
+            drawMap();
+
+            // Draw crosshair
+            ctx.strokeStyle = 'rgba(255, 0, 0, 0.5)';
+            ctx.lineWidth = 1;
+            ctx.setLineDash([5, 5]);
+            
+            ctx.beginPath();
+            ctx.moveTo(x, 0);
+            ctx.lineTo(x, canvas.height);
+            ctx.stroke();
+            
+            ctx.beginPath();
+            ctx.moveTo(0, y);
+            ctx.lineTo(canvas.width, y);
+            ctx.stroke();
+            
+            ctx.setLineDash([]);
+
+            // Highlight nearby nodes
+            const threshold = 20;
+            const scale2 = 1;
+            const offsetX2 = 50;
+            const offsetY2 = 50;
+
+            function highlightNearby(nodesList, label) {
+                nodesList.forEach(node => {
+                    const nodeX = node.x * scale2 + offsetX2;
+                    const nodeY = node.y * scale2 + offsetY2;
+                    const distance = Math.sqrt((x - nodeX) ** 2 + (y - nodeY) ** 2);
+                    
+                    if (distance < threshold) {
+                        // Draw highlight ring
+                        ctx.beginPath();
+                        ctx.arc(nodeX, nodeY, 15, 0, Math.PI * 2);
+                        ctx.strokeStyle = node.color;
+                        ctx.lineWidth = 3;
+                        ctx.stroke();
+                        
+                        // Show node name
+                        ctx.font = 'bold 14px Arial';
+                        ctx.fillStyle = node.color;
+                        ctx.textAlign = 'center';
+                        ctx.fillText(node.name, nodeX, nodeY - 30);
+                    }
+                });
+            }
+
+            highlightNearby(nodes.castles, 'Castle');
+            highlightNearby(nodes.towns, 'Town');
+            highlightNearby(nodes.towers, 'Tower');
+        });
+
+        // Initial draw
+        drawMap();
+    </script>
+</body>
+</html>
