@@ -23127,7 +23127,7 @@ data_LevelInfo.prototype = {
 				bonusIcedale1.setBonus(35,1);
 				bonusIcedale1.setBonus(36,1);
 				bonusIcedale1.setBonus(39,5);
-				enemyPlayers.push(this.createCombotantByRace(battle_CombotantRace.TheCult,100,500,bonusIcedale1));
+				enemyPlayers.push(this.createCombotantByRace(battle_CombotantRace.TheCult,300,500,bonusIcedale1));
 				break;
 			case 9:
 				bonusWestaria1.setBonus(5,1);
@@ -23139,7 +23139,7 @@ data_LevelInfo.prototype = {
 				bonusWestaria1.setBonus(1,1);
 				bonusWestaria1.setBonus(4,1);
 				bonusWestaria1.setBonus(10,20);
-				enemyPlayers.push(this.createCombotantByRace(battle_CombotantRace.Westaria,100,500,bonusWestaria1));
+				enemyPlayers.push(this.createCombotantByRace(battle_CombotantRace.Westaria,100,5000,bonusWestaria1));
 				break;
 			}
 			break;
@@ -113210,19 +113210,7 @@ ui_EdictsScr.prototype = $extend(GameScreen.prototype,{
 		// if(this.ad_button_ != null) {
 		// 	this.ad_button_.set_enable(false);
 		// }
-		console.log("try playing ads");
-		window.h5api.playAd(function(obj) {
-			if(obj.code === 10000) {
-				console.log("广告开始播放");
-			} else if(obj.code === 10001) {
-				console.log("广告播放结束");
-				_g.OnAdReward();
-				_g.CheckAdAvailability();
-			} else {
-				console.log("广告异常: " + obj.message);
-				_g.CheckAdAvailability();
-			}
-		});
+		_g.OnAdReward();
 	}
 	,OnAdReward: function() {
 		var company = this.gm_ctx_.profile.selectedCompany();
@@ -114877,10 +114865,10 @@ battle_ArmyStat.UNDYING_HORSEMEN_T1_E = new battle_ArmyStat("不死骑兵",56,ba
 battle_ArmyStat.NOMADS_T1_D = new battle_ArmyStat("游牧骑兵",40,battle_CombotantRace.TheKhaganate,7,4,7,15,0,0,50,60,180,1,"Charge 2",1,battle_unit_CombatUnitType.Cavalry,0.01,0,0,15.5,5);
 battle_ArmyStat.LANCERS_T1_B = new battle_ArmyStat("枪骑兵",55,battle_CombotantRace.TheCult,5,4,10,17,0,0,50,60,180,1,"Charge 2",1,battle_unit_CombatUnitType.Cavalry,0.01,0,0,15.5,5);
 battle_ArmyStat.CHAMPIONS_T2_W = new battle_ArmyStat("冠军骑兵",72,battle_CombotantRace.Westaria,5,6,9,15,0,0,50,60,180,1,"Charge 2",2,battle_unit_CombatUnitType.Cavalry,0.01,0,0,15.5,5);
-battle_ArmyStat.DARK_KNIGHTS_T2_E = new battle_ArmyStat("地狱战骑",73,battle_CombotantRace.TheEmpire,5,7,12,17,0,0,50,60,180,1,"Charge 2;Undead",2,battle_unit_CombatUnitType.Cavalry,0.01,0,0,15.5,5);
+battle_ArmyStat.DARK_KNIGHTS_T2_E = new battle_ArmyStat("地狱战骑",72,battle_CombotantRace.TheEmpire,5,7,12,17,0,0,50,60,180,1,"Charge 2;Undead",2,battle_unit_CombatUnitType.Cavalry,0.01,0,0,15.5,5);
 battle_ArmyStat.RAIDERS_T2_D = new battle_ArmyStat("掠夺者骑兵",48,battle_CombotantRace.TheKhaganate,7,5,8,15,0,0,50,60,180,1,"Charge 2;Intimidiation 20",2,battle_unit_CombatUnitType.Cavalry,0.01,0,0,15.5,5);
 battle_ArmyStat.DRAGON_LANCERS_T2_B = new battle_ArmyStat("龙骑士",68,battle_CombotantRace.TheCult,5,6,11,17,0,0,50,60,180,1,"Charge 2",2,battle_unit_CombatUnitType.Cavalry,0.01,0,0,15.5,5);
-battle_ArmyStat.ANCIENT_RAIDERS_T3_D = new battle_ArmyStat("古代亡骑",77,battle_CombotantRace.TheKhaganate,5,8,13,15,0,0,50,60,180,1,"Charge 2;Intimidiation 20;Undead",3,battle_unit_CombatUnitType.Cavalry,0.001,0,0,15.5,5);
+battle_ArmyStat.ANCIENT_RAIDERS_T3_D = new battle_ArmyStat("古代亡骑",77,battle_CombotantRace.TheKhaganate,5,8,14,15,0,0,50,60,180,1,"Charge 2.3;Intimidiation 20;Undead",3,battle_unit_CombatUnitType.Cavalry,0.001,0,0,15.5,5);
 battle_ArmyStat.TREBUCHET_T1_W = new battle_ArmyStat("投石车",400,battle_CombotantRace.Westaria,1,15,25,50,200,100,50,20,200,2,"Mechanism;SplashDamage 25;SiegeWeapon 50",1,battle_unit_CombatUnitType.Siege,0.01,100,0,11,10);
 battle_ArmyStat.TREBUCHET_T1_D = new battle_ArmyStat("投石车",400,battle_CombotantRace.TheKhaganate,1,15,25,50,200,100,50,20,200,2,"Mechanism;SplashDamage 25;SiegeWeapon 50",1,battle_unit_CombatUnitType.Siege,0.01,100,0,11,10);
 battle_ArmyStat.TREBUCHET_T1_B = new battle_ArmyStat("投石车",400,battle_CombotantRace.TheCult,1,15,25,50,200,100,50,20,200,2,"Mechanism;SplashDamage 25;SiegeWeapon 50",1,battle_unit_CombatUnitType.Siege,0.01,100,0,11,10);
@@ -114890,13 +114878,13 @@ battle_ArmyStat.POISON_CATAPULT_T2_E = new battle_ArmyStat("毒性投石机",600
 battle_ArmyStat.TREBUCHET_T1_E = new battle_ArmyStat("投石车",400,battle_CombotantRace.TheEmpire,1,15,25,50,200,100,50,20,200,2,"Mechanism;SplashDamage 25;SiegeWeapon 50",1,battle_unit_CombatUnitType.Siege,0.01,100,0,11,10);
 battle_ArmyStat.MONKS_T1_W = new battle_ArmyStat("僧侣",65,battle_CombotantRace.Westaria,6,5,6,15,0,0,50,40,150,1,"DivinePresence 10",1,battle_unit_CombatUnitType.Magic,0.1,0,0,11,5);
 battle_ArmyStat.UNDYING_ASSASSINS_T1_E = new battle_ArmyStat("不死刺客",120,battle_CombotantRace.TheEmpire,3,6,12,15,0,0,50,40,150,1,"Undead;HorrificDash 8;Intimidiation 10",1,battle_unit_CombatUnitType.Magic,0.1,0,0,11,5);
-battle_ArmyStat.ASSASSINS_T1_D = new battle_ArmyStat("刺客",120,battle_CombotantRace.TheKhaganate,3,8,16,15,0,0,50,40,150,1,"HorrificDash 5;PoisonImmunity;Discipline",1,battle_unit_CombatUnitType.Magic,0.1,0,0,11,5);
+battle_ArmyStat.ASSASSINS_T1_D = new battle_ArmyStat("刺客",125,battle_CombotantRace.TheKhaganate,3,8,16,15,0,0,50,40,150,1,"HorrificDash 5;PoisonImmunity;Discipline",1,battle_unit_CombatUnitType.Magic,0.1,0,0,11,5);
 battle_ArmyStat.ACOLYTES_T1_B = new battle_ArmyStat("侍僧",55,battle_CombotantRace.TheCult,6,8,12,25,100,50,50,40,150,1,"FreezeArrow 50",1,battle_unit_CombatUnitType.Magic,0.1,44,0,11,5);
 battle_ArmyStat.ZEALOTS_T2_W = new battle_ArmyStat("狂热信徒",75,battle_CombotantRace.Westaria,6,6,9,15,50,0,50,40,150,1,"DivinePresence 10;MartialArtists",2,battle_unit_CombatUnitType.Magic,0.33,50,0,11,5);
 battle_ArmyStat.SHADES_T2_E = new battle_ArmyStat("阴魂",135,battle_CombotantRace.TheEmpire,3,12,18,15,0,0,50,40,150,1,"Undead;HorrificDash 4;Intimidiation 15",2,battle_unit_CombatUnitType.Magic,0.1,0,0,11,5);
 battle_ArmyStat.WIZARDS_T2_B = new battle_ArmyStat("冰巫师",65,battle_CombotantRace.TheCult,6,12,18,25,100,50,50,40,150,1,"FreezeBlast 40",2,battle_unit_CombatUnitType.Magic,0.1,55,0,11,5);
 battle_ArmyStat.OGRE_T1_N = new battle_ArmyStat("野人",400,battle_CombotantRace.Bandits,1,8,12,30,0,0,50,30,0,0,"SplashDamage 25",1,battle_unit_CombatUnitType.Magic,0.1,0,0,20,5);
-battle_ArmyStat.AVATAR_T3_W = new battle_ArmyStat("主的化身",1100,battle_CombotantRace.Westaria,1,12,17,25,0,0,50,30,0,0,"SplashDamage 25;Undead;SiegeWeapon 50",3,battle_unit_CombatUnitType.Magic,0.1,0,0,20,5);
+battle_ArmyStat.AVATAR_T3_W = new battle_ArmyStat("主的化身",1150,battle_CombotantRace.Westaria,1,14,18,23,0,0,50,30,0,0,"SplashDamage 25;Undead;SiegeWeapon 50",3,battle_unit_CombatUnitType.Magic,0.1,0,0,20,5);
 battle_ArmyStat.WOLVES_T1_N = new battle_ArmyStat("Wolves",40,battle_CombotantRace.Bandits,6,4,10,17,0,0,50,60,0,0,"Charge 2",1,battle_unit_CombatUnitType.Cavalry,0.01,0,0,11,5);
 battle_ArmyStat.BRIGAND_WARRIORS_T1_N = new battle_ArmyStat("Brigand Warriors",21,battle_CombotantRace.Bandits,9,1,5,16,0,0,50,50,0,0,"",1,battle_unit_CombatUnitType.Infantry,0.1,0,0,11,5);
 battle_ArmyStat.BRIGAND_ARCHERS_T1_N = new battle_ArmyStat("Brigand Archers",16,battle_CombotantRace.Bandits,9,4,8,30,100,50,50,40,0,0,"",1,battle_unit_CombatUnitType.Archers,0.1,0,0,11,5);
@@ -114939,7 +114927,7 @@ battle_spell_SpellInfo.LORDS_JUDGEMENT = new battle_spell_SpellInfo(0,1,"亡灵�
 battle_spell_SpellInfo.BANNER_OF_CONSECRATION = new battle_spell_SpellInfo(1,2,"魂祭之旗",battle_CombotantRace.Westaria,1,50,75,14,12,"以亡灵之力治愈不死大军");
 battle_spell_SpellInfo.BANNER_OF_HEROISM = new battle_spell_SpellInfo(2,3,"亡灵召唤",battle_CombotantRace.Westaria,0,225,75,2,12,"随机召唤1到2队亡灵军队在指定区域");
 battle_spell_SpellInfo.SIGN_OF_THE_ADVENT = new battle_spell_SpellInfo(3,4,"墓穴召唤",battle_CombotantRace.Westaria,2,1,0,0,0,"将 1 至 3 个随机活体敌军转化为对应的亡灵单位");
-battle_spell_SpellInfo.SUMMON_STONEWORMS = new battle_spell_SpellInfo(4,1,"召唤石虫",battle_CombotantRace.TheKhaganate,0,100,75,7,10,"石虫会对选定区域内的敌军造成伤害");
+battle_spell_SpellInfo.SUMMON_STONEWORMS = new battle_spell_SpellInfo(4,1,"召唤石虫",battle_CombotantRace.TheKhaganate,0,100,75,8,10,"石虫会对选定区域内的敌军造成伤害");
 battle_spell_SpellInfo.DISENTOMB = new battle_spell_SpellInfo(5,2,"破墓",battle_CombotantRace.TheKhaganate,0,150,75,3,0,"召唤一支不朽者小队");
 battle_spell_SpellInfo.BANNER_OF_BLOODLUST = new battle_spell_SpellInfo(6,3,"嗜血之旗",battle_CombotantRace.TheKhaganate,1,40,75,4,12,"提高己方部队造成的伤害");
 battle_spell_SpellInfo.CATACLYSM = new battle_spell_SpellInfo(7,4,"天灾浩劫",battle_CombotantRace.TheKhaganate,2,1,150,8,0,"流星雨对敌方所有小队和要塞造成巨大伤害，并对己方造成中等伤害");
