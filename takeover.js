@@ -101664,6 +101664,7 @@ openfl_filters_DropShadowFilter.prototype = $extend(openfl_filters_BitmapFilter.
 	,get_distance: function() {
 		return this.__distance;
 	}
+	
 	,set_distance: function(value) {
 		if(value != this.__distance) {
 			this.__distance = value;
